@@ -45,8 +45,9 @@ class ServiceFactory {
     return await this._menuAggregate.execute(aggregate);
   }
 
-  get generateFactory(): GenerateFactory {
-    return this._generateFactory;
+  async generate(type: string, aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
+    const generate = this._generateFactory.execute(type);
+    await generate.execute(aggregate, collectionAggregate);
   }
 }
 

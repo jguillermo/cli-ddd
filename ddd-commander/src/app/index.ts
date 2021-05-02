@@ -12,7 +12,7 @@ async function main() {
 
   const aggregateSelected = await factory.menuSelectAggregate(collectionAggregate);
   const menuSelected = await factory.menuAggregate(aggregateSelected);
-  await factory.generateFactory.execute(menuSelected).execute(aggregateSelected, collectionAggregate);
+  await factory.generate(menuSelected, aggregateSelected, collectionAggregate);
 }
 
 main().finally(() => {
