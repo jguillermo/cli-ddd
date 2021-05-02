@@ -25,4 +25,8 @@ export class CollectionPropertie {
     }
     return propertie;
   }
+
+  getPropertieNames(): string[] {
+    return this._properties.map((e) => e.name.fullName);
+  }
 }

@@ -3,6 +3,7 @@ import { GenerateInterface } from '../generate-Interface';
 import { QuestionCollection } from 'inquirer';
 import * as inquirer from 'inquirer';
 import { CreateCommandService } from '../../../render/services/create-command-service';
+import { storage } from '../../../in-memory-storage';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 
@@ -10,8 +11,13 @@ export class ServiceCommand implements GenerateInterface {
   constructor(private createCommandService: CreateCommandService) {}
 
   async execute(aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
+    const properties = storage.getProperties(collectionAggregate.getAggregate(aggregate).propertiesNames2);
+
     const answers = await inquirer.prompt(
-      this.questions(aggregate, collectionAggregate.getAggregate(aggregate).propertiesNames),
+      this.questions(
+        aggregate,
+        properties.map((e) => e.name.value),
+      ),
     );
 
     await this.createCommandService.execute(

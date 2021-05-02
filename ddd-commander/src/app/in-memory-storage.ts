@@ -29,12 +29,21 @@ class InMemoryStorage {
     this._storage[key] = value;
   }
 
+  getProperties(properties: string[]): Propertie[] {
+    return properties.map((e) => {
+      return this.getPropertie(e);
+    });
+  }
+
   getPropertie(fullName: string): Propertie {
     return this._properties[fullName];
   }
 
+  getAggregatePropertie(aggregate: string, name: string): Propertie {
+    return this._properties[`${aggregate}:${name}`];
+  }
+
   setPropertie(fullName: string, propertie: Propertie) {
-    console.log(fullName);
     this._properties[fullName] = propertie;
   }
 

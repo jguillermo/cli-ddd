@@ -4,6 +4,7 @@ import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
 import { Propertie } from '../../../modules/load-data/domain/propertie/propertie';
 import { Render } from '../render';
 import { LanguageInterface } from '../languages/language-interface';
+import { storage } from '../../in-memory-storage';
 
 export class CreateCommandService {
   async execute(
@@ -19,7 +20,7 @@ export class CreateCommandService {
     CreateCommandService.renderService(
       aggregate,
       service,
-      properties.map((p) => aggregate.getPropertie(p)),
+      properties.map((p) => storage.getAggregatePropertie(aggregateName, p)),
       templateRender,
       commandName,
     );
@@ -27,14 +28,14 @@ export class CreateCommandService {
     CreateCommandService.renderCommand(
       aggregate,
       service,
-      properties.map((p) => aggregate.getPropertie(p)),
+      properties.map((p) => storage.getAggregatePropertie(aggregateName, p)),
       commandName,
     );
 
     CreateCommandService.renderHandler(
       aggregate,
       service,
-      properties.map((p) => aggregate.getPropertie(p)),
+      properties.map((p) => storage.getAggregatePropertie(aggregateName, p)),
       commandName,
     );
   }

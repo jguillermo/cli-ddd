@@ -14,17 +14,20 @@ export class Aggregate {
     private _nameSpace: NameSpace,
     private _name: Name,
     private _aggregateCollectionProperty: CollectionPropertie,
+    private _propertiesNames: string[],
     private _message: Message[],
     private _event: Event,
     private _repository: Repository,
   ) {}
 
   static create(data: AggregateData): Aggregate {
+    const collectionPropertie = CollectionPropertie.create(data.properties, new Name(data.name));
     return new Aggregate(
       new Path(data.path),
       new NameSpace(data.nameSpace),
       new Name(data.name),
-      CollectionPropertie.create(data.properties, new Name(data.name)),
+      collectionPropertie,
+      collectionPropertie.getPropertieNames(),
       [],
       new Event(data.event),
       new Repository(),
@@ -43,14 +46,12 @@ export class Aggregate {
     return this._name;
   }
 
-  get properties(): Propertie[] {
-    return this._aggregateCollectionProperty.properties;
+  get propertiesNames2(): string[] {
+    return this._propertiesNames;
   }
 
-  get propertiesNames(): string[] {
-    return this._aggregateCollectionProperty.properties.map((p) => {
-      return p.name.value;
-    });
+  get properties(): Propertie[] {
+    return this._aggregateCollectionProperty.properties;
   }
 
   get message(): Message[] {
@@ -68,6 +69,7 @@ export class Aggregate {
   getPropertie(propertieNane: string): Propertie {
     return this._aggregateCollectionProperty.getPropertie(propertieNane);
   }
+
   getPropertieFullName(propertieNane: string): Propertie {
     return this._aggregateCollectionProperty.getPropertie(propertieNane, true);
   }
