@@ -3,20 +3,21 @@ import { ReadSkeletonDataService } from '../modules/load-data/application/read-s
 import { SelectAggregate } from './menu/select-aggregate';
 import { MenuAggregate } from './menu/menu-aggregate';
 import { GenerateFactory } from './menu/generate/generateFactory';
+import { CollectionAggregate } from '../modules/load-data/domain/CollectionAggregate';
 
 class ServiceFactory {
   private static instance: ServiceFactory;
 
   private readonly _ymlToJsonService: YmlToJsonService;
   private readonly _readSkeletonDataService: ReadSkeletonDataService;
-  private readonly _selectAggregate: SelectAggregate;
+  private readonly _menuSelectAggregate: SelectAggregate;
   private readonly _menuAggregate: MenuAggregate;
   private readonly _generateFactory: GenerateFactory;
 
   private constructor() {
     this._ymlToJsonService = new YmlToJsonService();
     this._readSkeletonDataService = new ReadSkeletonDataService();
-    this._selectAggregate = new SelectAggregate();
+    this._menuSelectAggregate = new SelectAggregate();
     this._menuAggregate = new MenuAggregate();
     this._generateFactory = new GenerateFactory();
   }
@@ -36,12 +37,12 @@ class ServiceFactory {
     return this._readSkeletonDataService;
   }
 
-  get selectAggregate(): SelectAggregate {
-    return this._selectAggregate;
+  async menuSelectAggregate(aggregates: CollectionAggregate): Promise<string> {
+    return await this._menuSelectAggregate.execute(aggregates);
   }
 
-  get menuAggregate(): MenuAggregate {
-    return this._menuAggregate;
+  async menuAggregate(aggregate: string): Promise<string> {
+    return await this._menuAggregate.execute(aggregate);
   }
 
   get generateFactory(): GenerateFactory {

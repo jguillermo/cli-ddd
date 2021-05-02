@@ -34,6 +34,7 @@ class InMemoryStorage {
   }
 
   setPropertie(fullName: string, propertie: Propertie) {
+    console.log(fullName);
     this._properties[fullName] = propertie;
   }
 

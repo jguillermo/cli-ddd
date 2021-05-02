@@ -10,9 +10,9 @@ async function main() {
   const collectionAggregate = factory.readSkeletonDataService.readData(jsonData);
   storage.setallPropertie(collectionAggregate);
 
-  const aggregate = await factory.selectAggregate.execute(collectionAggregate);
-  const generate = await factory.menuAggregate.execute(aggregate);
-  await factory.generateFactory.execute(generate).execute(aggregate, collectionAggregate);
+  const aggregateSelected = await factory.menuSelectAggregate(collectionAggregate);
+  const menuSelected = await factory.menuAggregate(aggregateSelected);
+  await factory.generateFactory.execute(menuSelected).execute(aggregateSelected, collectionAggregate);
 }
 
 main().finally(() => {
