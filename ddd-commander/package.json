@@ -17,7 +17,7 @@
   },
   "main": "./dist/app/index.js",
   "bin": {
-    "lcl": "./dist/app/index.js"
+    "agp": "./dist/app/index.js"
   },
   "publishConfig": {
     "access": "public"
