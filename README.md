@@ -2,6 +2,10 @@
 ### Development tool
 
 ----
+```
+npm i -g generate-code-ddd
+```
+----
 
 ## Example
 ```yaml
