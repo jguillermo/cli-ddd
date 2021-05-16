@@ -11,12 +11,12 @@ export class ServiceCommand implements GenerateInterface {
   constructor(private createCommandService: CreateCommandService) {}
 
   async execute(aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
-    const properties = storage.getProperties(collectionAggregate.getAggregate(aggregate).propertiesNames2);
+    const properties = storage.getProperties(collectionAggregate.getAggregate(aggregate).propertiesNames);
 
     const answers = await inquirer.prompt(
       this.questions(
         aggregate,
-        properties.map((e) => e.name.value),
+        properties.map((e) => e.name.fullName),
       ),
     );
 

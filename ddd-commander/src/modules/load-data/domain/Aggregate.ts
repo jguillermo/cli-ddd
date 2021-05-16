@@ -46,7 +46,7 @@ export class Aggregate {
     return this._name;
   }
 
-  get propertiesNames2(): string[] {
+  get propertiesNames(): string[] {
     return this._propertiesNames;
   }
 

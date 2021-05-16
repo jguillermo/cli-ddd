@@ -39,10 +39,6 @@ class InMemoryStorage {
     return this._properties[fullName];
   }
 
-  getAggregatePropertie(aggregate: string, name: string): Propertie {
-    return this._properties[`${aggregate}:${name}`];
-  }
-
   setPropertie(fullName: string, propertie: Propertie) {
     this._properties[fullName] = propertie;
   }

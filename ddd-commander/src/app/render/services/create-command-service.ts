@@ -20,24 +20,14 @@ export class CreateCommandService {
     CreateCommandService.renderService(
       aggregate,
       service,
-      properties.map((p) => storage.getAggregatePropertie(aggregateName, p)),
+      storage.getProperties(properties),
       templateRender,
       commandName,
     );
 
-    CreateCommandService.renderCommand(
-      aggregate,
-      service,
-      properties.map((p) => storage.getAggregatePropertie(aggregateName, p)),
-      commandName,
-    );
+    CreateCommandService.renderCommand(aggregate, service, storage.getProperties(properties), commandName);
 
-    CreateCommandService.renderHandler(
-      aggregate,
-      service,
-      properties.map((p) => storage.getAggregatePropertie(aggregateName, p)),
-      commandName,
-    );
+    CreateCommandService.renderHandler(aggregate, service, storage.getProperties(properties), commandName);
   }
 
   private static renderCommand(

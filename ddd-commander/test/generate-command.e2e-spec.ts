@@ -28,7 +28,7 @@ describe('command service User', () => {
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Service Command/);
       expect(result).toMatch(/COMMAND name create/);
-      expect(result).toMatch(/User properties id, name/);
+      expect(result).toMatch(/User properties User:id, User:name/);
       expect(result).toMatch(/use template/);
       expect(result).toMatch(/create/);
       expect(result).toMatch(/update/);
@@ -41,7 +41,7 @@ describe('command service User', () => {
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Service Command/);
       expect(result).toMatch(/COMMAND name create/);
-      expect(result).toMatch(/User properties id, name/);
+      expect(result).toMatch(/User properties User:id, User:name/);
       expect(result).toMatch(/use template none/);
       expect(result).toMatch(/\[created\] /);
     });
