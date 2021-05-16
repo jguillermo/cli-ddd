@@ -1,12 +1,31 @@
 {
   "name": "generate-code-ddd",
-  "version": "1.0.0",
+  "version": "0.0.1.-alpha.1",
   "description": "Generate DDD code",
   "keywords": [
-    "generate"
+    "generate",
+    "node CLI",
+    "DDD",
+    "devkit",
+    "DDD DevKit"
   ],
   "author": "Jose Guillermo",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": "jguillermo/cli-ddd",
+  "engines": {
+    "node": ">=10"
+  },
+  "main": "./dist/app/index.js",
+  "bin": {
+    "lcl": "./dist/app/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/",
+    "templates/"
+  ],
   "scripts": {
     "prebuild": "rimraf dist && rimraf render",
     "build": "tsc --project tsconfig.build.json",

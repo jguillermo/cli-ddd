@@ -1,9 +1,9 @@
 {
-  "name": "@cafeta/cli",
-  "version": "1.0.0-alpha.salay.15",
+  "name": "@ddd/cli",
+  "version": "1.0.0.-alpha.1",
   "description": "Software Development Kit for JAVA DDD",
   "license": "MIT",
-  "repository": "lacafetalab/lcl-cli",
+  "repository": "jguillermo/cli-ddd",
   "author": "Jose Guillermo",
   "engines": {
     "node": ">=10"
