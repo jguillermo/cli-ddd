@@ -2,31 +2,31 @@
 ## GENERAL ##
 
 install:
-	npm --prefix "ddd-commander" install
+	npm install
 
 run:
-	npm --prefix "ddd-commander" run console:dev
+	npm run console:dev
 
 run-prod:
-	npm --prefix "ddd-commander" run console
+	npm run console
 
 build:
-	npm --prefix "ddd-commander" run build --if-present
+	npm run build --if-present
 
 lint:
-	npm --prefix "ddd-commander" run lint
+	npm run lint
 
 format:
-	npm --prefix "ddd-commander" run format
+	npm run format
 
 format-check:
-	npm --prefix "ddd-commander" run format-check
+	npm run format-check
 
 test-unit:
-	npm --prefix "ddd-commander" run test
+	npm run test
 
 test-e2e:
-	npm --prefix "ddd-commander" run test:e2e
+	npm run test:e2e
 	@#docker run -it -w /app -v $(PWD)/ddd-commander:/app node:14.16.1-stretch npm run test:e2e
 
 .PHONY: test

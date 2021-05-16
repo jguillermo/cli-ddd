@@ -3,9 +3,6 @@
 
 ----
 
-Genera código fuente con DDD para node
-
-
 ## Example
 ```yaml
 path: src/user
