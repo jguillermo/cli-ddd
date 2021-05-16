@@ -8,9 +8,9 @@
   "engines": {
     "node": ">=10"
   },
-  "main": "./dist/index.js",
+  "main": "./dist/app/index.js",
   "bin": {
-    "lcl": "./dist/index.js"
+    "lcl": "./dist/app/index.js"
   },
   "publishConfig": {
     "access": "public"
