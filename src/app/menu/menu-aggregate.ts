@@ -14,6 +14,7 @@ export class MenuAggregate {
       GenerateType.CREATE_SERVICE_QUERY,
       GenerateType.CREATE_EVENT,
       GenerateType.GENERATE_CORE,
+      GenerateType.GENERATE_PROPERTIE,
     ];
     return [
       {

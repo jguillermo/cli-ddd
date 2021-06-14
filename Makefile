@@ -4,6 +4,9 @@
 install:
 	npm install
 
+install-production:
+	npm install --production
+
 run:
 	npm run console:dev
 
@@ -32,6 +35,7 @@ test-e2e:
 .PHONY: test
 test:
 	#npm --prefix "ddd-cli" run test:cov
+	@make format
 	@make format-check
 	@make test-unit
 	@make test-e2e

@@ -1,0 +1,17 @@
+import { EnumType } from "base-ddd";
+
+enum Enum<%= className %> {
+UP = 'UP',
+DOWN = 'DOWN',
+}
+
+export class <%= className %> extends EnumType<string> {
+    protected _enum = Enum<%= className %>;
+    get enum() {
+    return this._enum;
+    }
+
+    protected enumValues(): string[] {
+    return Object.keys(Enum<%= className %>);
+    }
+}

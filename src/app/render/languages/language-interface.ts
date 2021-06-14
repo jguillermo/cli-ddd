@@ -5,5 +5,7 @@ export interface LanguageInterface {
 
   classFile(names: string[]): string;
 
+  classFileWithOutType(names: string[]): string;
+
   folderPath(paths: string[]): string;
 }

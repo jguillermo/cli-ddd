@@ -53,6 +53,33 @@ describe('NodeLanguage', () => {
     });
   });
 
+  describe('classFileWithOutType', () => {
+    it('Camel case', () => {
+      const className = service.classFileWithOutType(['Create', 'User', 'service']);
+      expect(className).toEqual('create-user-service.ts');
+    });
+    it('minuscula case', () => {
+      const className = service.classFileWithOutType(['create', 'user', 'service']);
+      expect(className).toEqual('create-user-service.ts');
+    });
+    it('DoubleName case', () => {
+      const className = service.classFileWithOutType(['findById', 'user', 'service']);
+      expect(className).toEqual('find-by-id-user-service.ts');
+    });
+    it('guion separate  case', () => {
+      const className = service.classFileWithOutType(['find-by-id', 'user', 'service']);
+      expect(className).toEqual('find-by-id-user-service.ts');
+    });
+    it('guion separate  case', () => {
+      const className = service.classFileWithOutType(['find-By-Id', 'user', 'service']);
+      expect(className).toEqual('find-by-id-user-service.ts');
+    });
+    it('guion separate  case', () => {
+      const className = service.classFileWithOutType(['find_by_id', 'user', 'service']);
+      expect(className).toEqual('find-by-id-user-service.ts');
+    });
+  });
+
   describe('folderPath', () => {
     it('Camel case', () => {
       const className = service.folderPath(['src/user', 'application', 'Create']);

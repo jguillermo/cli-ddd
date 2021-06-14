@@ -35,6 +35,20 @@ export class NodeLanguage implements LanguageInterface {
     return `${name}.${type}.ts`;
   }
 
+  classFileWithOutType(names: string[]): string {
+    const namesMayus = names.map((n) => {
+      const dd = n.split(/(?=[A-Z])/);
+      return dd.join('-');
+    });
+
+    const name = namesMayus
+      .map((n) => {
+        return slugify(n);
+      })
+      .join('-');
+    return `${name}.ts`;
+  }
+
   folderPath(paths: string[]): string {
     const pathsSeparate = [];
     paths.forEach((value: string) => {
