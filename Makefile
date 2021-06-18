@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := test
 ## GENERAL ##
 
 install:
@@ -19,13 +19,16 @@ build:
 lint:
 	npm run lint
 
+lint-fix:
+	npm run lint-fix
+
 format:
 	npm run format
 
-format-check:
-	npm run format-check
+format-fix:
+	npm run format-fix
 
-test-unit:
+test-unit-cov:
 	npm run test
 
 test-e2e:
@@ -34,13 +37,15 @@ test-e2e:
 
 .PHONY: test
 test:
-	#npm --prefix "ddd-cli" run test:cov
+	@make tools
 	@make format
-	@make format-check
-	@make test-unit
-	@make test-e2e
 	@make lint
+	@make test-unit-cov
+	@make test-e2e
 
+tools:
+	@make format-fix
+	@make lint-fix
 
 help:
 	@printf "\033[31m%-16s %-59s %s\033[0m\n" "Target" "Help" "Usage"; \
