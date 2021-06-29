@@ -1,6 +1,6 @@
 import { QuestionCollection } from 'inquirer';
 import * as inquirer from 'inquirer';
-import { GenerateType } from './generate/generateType';
+import { GenerateType } from './generate/generate';
 
 export class MenuAggregate {
   async execute(aggregate: string): Promise<string> {

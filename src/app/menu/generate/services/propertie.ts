@@ -1,9 +1,9 @@
 import { CollectionAggregate } from '../../../../modules/load-data/domain/CollectionAggregate';
-import { GenerateInterface } from '../generate-Interface';
 import { QuestionCollection } from 'inquirer';
 import * as inquirer from 'inquirer';
 import { storage } from '../../../in-memory-storage';
 import { CreatePropertie } from '../../../render/services/create-propertie';
+import { GenerateInterface } from '../generate';
 
 export class Propertie implements GenerateInterface {
   constructor(private createPropertie: CreatePropertie) {}
