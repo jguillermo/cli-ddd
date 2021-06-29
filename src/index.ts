@@ -1,5 +1,5 @@
-import { factory } from './service-factory';
-import { storage } from './in-memory-storage';
+import { factory } from './app/service-factory';
+import { storage } from './app/in-memory-storage';
 
 async function main() {
   storage.set('pathConfigYaml', factory.ymlToJsonService.relativePath() + '/config-cli');
