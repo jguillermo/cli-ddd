@@ -11,6 +11,7 @@ async function main() {
   storage.setallPropertie(collectionAggregate);
 
   const aggregateSelected = await factory.menuSelectAggregate(collectionAggregate);
+
   const menuSelected = await factory.menuAggregate(aggregateSelected);
   await factory.generate(menuSelected, aggregateSelected, collectionAggregate);
 }

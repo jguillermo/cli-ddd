@@ -1,9 +1,8 @@
 import { CollectionAggregate } from '../../../modules/load-data/domain/CollectionAggregate';
-import { FactoryLanguage } from '../languages/factory-language';
+import { Language, LanguageInterface } from '../languages/language';
 import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
 import { Propertie } from '../../../modules/load-data/domain/propertie/propertie';
 import { Render } from '../render';
-import { LanguageInterface } from '../languages/language-interface';
 import { storage } from '../../in-memory-storage';
 
 export class CreateCommandService {
@@ -15,7 +14,7 @@ export class CreateCommandService {
     collectionAggregate: CollectionAggregate,
   ) {
     const aggregate = collectionAggregate.getAggregate(aggregateName);
-    const service = FactoryLanguage.plugin('node');
+    const service = Language.plugin('node');
 
     CreateCommandService.renderService(
       aggregate,

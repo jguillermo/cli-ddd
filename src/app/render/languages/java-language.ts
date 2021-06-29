@@ -1,6 +1,4 @@
-import { LanguageInterface } from './language-interface';
-import { LanguageList } from './language-list';
-
+import { LanguageInterface, LanguageList } from './language';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 
