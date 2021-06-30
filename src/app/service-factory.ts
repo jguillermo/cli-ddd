@@ -44,7 +44,8 @@ class ServiceFactory {
 
   async generate(serviceSelected: string, aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
     const service = MenuServices.loadListServices().find((value) => value.serviceName() === serviceSelected);
-    await service.execute(aggregate, collectionAggregate);
+    service.setCollectionAggregate(collectionAggregate);
+    await service.execute(aggregate);
   }
 }
 

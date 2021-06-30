@@ -11,7 +11,7 @@ const s = require('underscore.string');
 
 export class Service extends AbstractService {
   serviceName(): string {
-    return 'Create Command';
+    return 'Create Query';
   }
 
   async execute(aggregateName: string): Promise<void> {
@@ -27,25 +27,25 @@ export class Service extends AbstractService {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
     const propertiesSelected = storage.getProperties(answers.properties);
 
-    this.renderService(aggregate, propertiesSelected, answers.commandName, answers.templateRender);
+    this.renderService(aggregate, propertiesSelected, answers.queryName, answers.templateRender);
 
-    this.renderCommand(aggregate, propertiesSelected, answers.commandName);
+    this.renderQuery(aggregate, propertiesSelected, answers.queryName);
 
-    this.renderHandler(aggregate, propertiesSelected, answers.commandName);
+    this.renderHandler(aggregate, propertiesSelected, answers.queryName);
   }
 
   private questions(
     aggregate: string,
     properties: string[],
-  ): QuestionCollection<{ commandName: string; properties: string[]; templateRender: string }> {
+  ): QuestionCollection<{ queryName: string; properties: string[]; templateRender: string }> {
     return [
       {
         type: 'input',
-        name: 'commandName',
-        message: `COMMAND name`,
+        name: 'queryName',
+        message: `QUERY name`,
         validate(input: any): boolean | string | Promise<boolean | string> {
           if (s.trim(input).length < 3) {
-            return 'COMMAND name must be at least 3 letters.';
+            return 'QUERY name must be at least 3 letters.';
           }
           const regex = /^[a-zA-Z]{2,}$/g;
           if (!regex.test(input)) {
@@ -65,24 +65,24 @@ export class Service extends AbstractService {
         type: 'list',
         name: 'templateRender',
         message: `use template`,
-        choices: ['create', 'update', 'delete', 'none'],
+        choices: ['entity', 'list', 'none'],
         default: 'none',
       },
     ];
   }
 
   get templatePath(): string {
-    return `${this.language.language()}/application/command/`;
+    return `${this.language.language()}/application/query/`;
   }
 
-  private renderCommand(aggregate: Aggregate, properties: Propertie[], commandName: string) {
-    const classInput = this.language.className([aggregate.name.value, commandName, 'Input']);
-    const className = this.language.className([aggregate.name.value, commandName, 'Command']);
-    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'Command']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
+  private renderQuery(aggregate: Aggregate, properties: Propertie[], queryName: string) {
+    const classInput = this.language.className([aggregate.name.value, queryName, 'Input']);
+    const className = this.language.className([aggregate.name.value, queryName, 'Query']);
+    const generateFile = this.language.classFile([aggregate.name.value, queryName, 'Query']);
+    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', queryName]);
 
     Render.generate({
-      templateFile: `${this.templatePath}command.ejs`,
+      templateFile: `${this.templatePath}query.ejs`,
       templateData: {
         classInput,
         className,
@@ -93,10 +93,10 @@ export class Service extends AbstractService {
     });
   }
 
-  private renderService(aggregate: Aggregate, properties: Propertie[], commandName: string, templateRender: string) {
-    const className = this.language.className([aggregate.name.value, commandName, 'service']);
-    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'service']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
+  private renderService(aggregate: Aggregate, properties: Propertie[], queryName: string, templateRender: string) {
+    const className = this.language.className([aggregate.name.value, queryName, 'service']);
+    const generateFile = this.language.classFile([aggregate.name.value, queryName, 'service']);
+    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', queryName]);
 
     Render.generate({
       templateFile: `${this.templatePath}service.ejs`,
@@ -112,17 +112,17 @@ export class Service extends AbstractService {
     });
   }
 
-  private renderHandler(aggregate: Aggregate, properties: Propertie[], commandName: string) {
-    const classCommand = this.language.className([aggregate.name.value, commandName, 'command']);
-    const classService = this.language.className([aggregate.name.value, commandName, 'service']);
-    const className = this.language.className([aggregate.name.value, commandName, 'handler']);
-    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'handler']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
+  private renderHandler(aggregate: Aggregate, properties: Propertie[], queryName: string) {
+    const classQuery = this.language.className([aggregate.name.value, queryName, 'query']);
+    const classService = this.language.className([aggregate.name.value, queryName, 'service']);
+    const className = this.language.className([aggregate.name.value, queryName, 'handler']);
+    const generateFile = this.language.classFile([aggregate.name.value, queryName, 'handler']);
+    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', queryName]);
 
     Render.generate({
       templateFile: `${this.templatePath}handler.ejs`,
       templateData: {
-        classCommand,
+        classQuery,
         classService,
         className,
         properties,
