@@ -6,6 +6,9 @@ import { CreatePropertie } from '../../../render/services/create-propertie';
 import { GenerateInterface } from '../generate';
 
 export class Propertie implements GenerateInterface {
+  serviceName(): string {
+    return '';
+  }
   constructor(private createPropertie: CreatePropertie) {}
 
   async execute(aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {

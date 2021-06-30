@@ -13,6 +13,7 @@ export enum GenerateType {
 }
 
 export interface GenerateInterface {
+  serviceName(): string;
   execute(aggregate: string, collectionAggregate: CollectionAggregate): void | Promise<void>;
 }
 

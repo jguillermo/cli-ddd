@@ -8,6 +8,10 @@ import { GenerateInterface } from '../generate';
 const s = require('underscore.string');
 
 export class ServiceCommand implements GenerateInterface {
+  serviceName(): string {
+    return '';
+  }
+
   constructor(private createCommandService: CreateCommandService) {}
 
   async execute(aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {

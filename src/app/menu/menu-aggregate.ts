@@ -9,21 +9,24 @@ export class MenuAggregate {
   }
 
   private static questionMenuCreate(aggregate: string): QuestionCollection<{ menuSelected: string }> {
-    const listMenu = [
-      GenerateType.CREATE_SERVICE_COMMAND,
-      GenerateType.CREATE_SERVICE_QUERY,
-      GenerateType.CREATE_EVENT,
-      GenerateType.GENERATE_CORE,
-      GenerateType.GENERATE_PROPERTIE,
-    ];
     return [
       {
         type: 'rawlist',
         name: 'menuSelected',
         message: `What do you want to generate in ${aggregate}?`,
-        choices: listMenu,
+        choices: MenuAggregate.getListMenu(),
         //pageSize: listMenu.length + 2,
       },
+    ];
+  }
+
+  private static getListMenu(): string[] {
+    return [
+      GenerateType.CREATE_SERVICE_COMMAND,
+      GenerateType.CREATE_SERVICE_QUERY,
+      GenerateType.CREATE_EVENT,
+      GenerateType.GENERATE_CORE,
+      GenerateType.GENERATE_PROPERTIE,
     ];
   }
 }
