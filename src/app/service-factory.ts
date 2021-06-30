@@ -4,6 +4,7 @@ import { SelectAggregate } from './menu/select-aggregate';
 import { MenuAggregate } from './menu/menu-aggregate';
 import { Generate } from './menu/generate/generate';
 import { CollectionAggregate } from '../modules/load-data/domain/CollectionAggregate';
+import { storage } from './in-memory-storage';
 
 class ServiceFactory {
   private static instance: ServiceFactory;
@@ -45,8 +46,13 @@ class ServiceFactory {
     return await this._menuAggregate.execute(aggregate);
   }
 
-  async generate(type: string, aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
-    const generate = this._generateFactory.execute(type);
+  async generate(service: string, aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
+    let generate;
+    storage.get('services').forEach(function (item) {
+      if (item.serviceName() === service) {
+        generate = item;
+      }
+    });
     await generate.execute(aggregate, collectionAggregate);
   }
 }
