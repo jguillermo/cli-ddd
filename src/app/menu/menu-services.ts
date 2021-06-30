@@ -6,7 +6,9 @@ import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAg
 export interface GenerateInterface {
   serviceName(): string;
 
-  execute(aggregate: string, collectionAggregate: CollectionAggregate): void | Promise<void>;
+  execute(aggregate: string): void | Promise<void>;
+
+  setCollectionAggregate(collectionAggregate: CollectionAggregate);
 }
 
 export class MenuServices {

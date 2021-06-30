@@ -9,21 +9,36 @@ import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
 import { GenerateInterface } from '../menu/menu-services';
 
 export class Service implements GenerateInterface {
+  private templatePath: string;
+  private language: LanguageInterface;
+  private _collectionAggregate: CollectionAggregate;
+
+  constructor() {
+    this.language = Language.plugin('node');
+    this.templatePath = `${this.language.language()}/domain/types/`;
+  }
+
   serviceName(): string {
     return 'Generate Propertie';
   }
+  setCollectionAggregate(collectionAggregate: CollectionAggregate) {
+    this._collectionAggregate = collectionAggregate;
+  }
 
-  async execute(aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
-    const properties = storage.getProperties(collectionAggregate.getAggregate(aggregate).propertiesNames);
+  async execute(aggregateName: string): Promise<void> {
+    const properties = storage.getProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames);
 
     const answers = await inquirer.prompt(
       Service.questions(
-        aggregate,
+        aggregateName,
         properties.map((e) => e.name.fullName),
       ),
     );
 
-    await this.executeService(answers.properties, aggregate, collectionAggregate);
+    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
+    storage.getProperties(answers.properties).map((propertie) => {
+      this.renderPropertie(aggregate, propertie);
+    });
   }
 
   private static questions(aggregate: string, properties: string[]): QuestionCollection<{ properties: string[] }> {
@@ -38,22 +53,13 @@ export class Service implements GenerateInterface {
     ];
   }
 
-  async executeService(properties: string[], aggregateName: string, collectionAggregate: CollectionAggregate) {
-    const aggregate = collectionAggregate.getAggregate(aggregateName);
-    const service = Language.plugin('node');
-
-    storage.getProperties(properties).map((propertie) => {
-      Service.renderPropertie(aggregate, service, propertie);
-    });
-  }
-
-  private static renderPropertie(aggregate: Aggregate, service: LanguageInterface, propertie: Propertie) {
-    const className = service.className([propertie.className]);
-    const generateFile = service.classFileWithOutType([propertie.className]);
-    const generatefolder = service.folderPath([aggregate.path.value, 'domain']);
+  private renderPropertie(aggregate: Aggregate, propertie: Propertie) {
+    const className = this.language.className([propertie.className]);
+    const generateFile = this.language.classFileWithOutType([propertie.className]);
+    const generatefolder = this.language.folderPath([aggregate.path.value, 'domain']);
 
     Render.generate({
-      templateFile: `${service.language()}/domain/types/${propertie.type.value}-type.ejs`,
+      templateFile: `${this.templatePath}/${propertie.type.value}-type.ejs`,
       templateData: {
         className,
         aggregate,

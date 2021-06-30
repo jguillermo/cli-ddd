@@ -13,6 +13,7 @@ const s = require('underscore.string');
 export class Service implements GenerateInterface {
   private templatePath: string;
   private language: LanguageInterface;
+  private _collectionAggregate: CollectionAggregate;
 
   constructor() {
     this.language = Language.plugin('node');
@@ -23,23 +24,28 @@ export class Service implements GenerateInterface {
     return 'Create Command';
   }
 
-  async execute(aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
-    const properties = storage.getProperties(collectionAggregate.getAggregate(aggregate).propertiesNames);
+  setCollectionAggregate(collectionAggregate: CollectionAggregate) {
+    this._collectionAggregate = collectionAggregate;
+  }
+
+  async execute(aggregateName: string): Promise<void> {
+    const properties = storage.getProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames);
 
     const answers = await inquirer.prompt(
       this.questions(
-        aggregate,
+        aggregateName,
         properties.map((e) => e.name.fullName),
       ),
     );
 
-    await this.executeCreate(
-      answers.commandName,
-      answers.properties,
-      answers.templateRender,
-      aggregate,
-      collectionAggregate,
-    );
+    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
+    const propertiesSelected = storage.getProperties(answers.properties);
+
+    this.renderService(aggregate, propertiesSelected, answers.commandName, answers.templateRender);
+
+    this.renderCommand(aggregate, propertiesSelected, answers.commandName);
+
+    this.renderHandler(aggregate, propertiesSelected, answers.commandName);
   }
 
   private questions(
@@ -79,22 +85,6 @@ export class Service implements GenerateInterface {
     ];
   }
 
-  async executeCreate(
-    commandName: string,
-    properties: string[],
-    templateRender: string,
-    aggregateName: string,
-    collectionAggregate: CollectionAggregate,
-  ) {
-    const aggregate = collectionAggregate.getAggregate(aggregateName);
-
-    this.renderService(aggregate, storage.getProperties(properties), templateRender, commandName);
-
-    this.renderCommand(aggregate, storage.getProperties(properties), commandName);
-
-    this.renderHandler(aggregate, storage.getProperties(properties), commandName);
-  }
-
   private renderCommand(aggregate: Aggregate, properties: Propertie[], commandName: string) {
     const classInput = this.language.className([aggregate.name.value, commandName, 'Input']);
     const className = this.language.className([aggregate.name.value, commandName, 'Command']);
@@ -102,7 +92,7 @@ export class Service implements GenerateInterface {
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
 
     Render.generate({
-      templateFile: `${this.language.language()}/application/command/command.ejs`,
+      templateFile: `${this.templatePath}command.ejs`,
       templateData: {
         classInput,
         className,
@@ -113,13 +103,13 @@ export class Service implements GenerateInterface {
     });
   }
 
-  private renderService(aggregate: Aggregate, properties: Propertie[], templateRender: string, commandName: string) {
+  private renderService(aggregate: Aggregate, properties: Propertie[], commandName: string, templateRender: string) {
     const className = this.language.className([aggregate.name.value, commandName, 'service']);
     const generateFile = this.language.classFile([aggregate.name.value, commandName, 'service']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
 
     Render.generate({
-      templateFile: `${this.language.language()}/application/command/service.ejs`,
+      templateFile: `${this.templatePath}service.ejs`,
       templateData: {
         templateRender,
         className,
@@ -140,7 +130,7 @@ export class Service implements GenerateInterface {
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
 
     Render.generate({
-      templateFile: `${this.language.language()}/application/command/handler.ejs`,
+      templateFile: `${this.templatePath}handler.ejs`,
       templateData: {
         classCommand,
         classService,
