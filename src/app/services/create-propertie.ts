@@ -1,28 +1,14 @@
-import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
-import { Language, LanguageInterface } from '../languages/language';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
 import { Render } from '../render';
 import { storage } from '../in-memory-storage';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
-import { GenerateInterface } from '../menu/menu-services';
+import { AbstractService } from './abstract-service';
 
-export class Service implements GenerateInterface {
-  private templatePath: string;
-  private language: LanguageInterface;
-  private _collectionAggregate: CollectionAggregate;
-
-  constructor() {
-    this.language = Language.plugin('node');
-    this.templatePath = `${this.language.language()}/domain/types/`;
-  }
-
+export class Service extends AbstractService {
   serviceName(): string {
     return 'Generate Propertie';
-  }
-  setCollectionAggregate(collectionAggregate: CollectionAggregate) {
-    this._collectionAggregate = collectionAggregate;
   }
 
   async execute(aggregateName: string): Promise<void> {
@@ -59,7 +45,7 @@ export class Service implements GenerateInterface {
     const generatefolder = this.language.folderPath([aggregate.path.value, 'domain']);
 
     Render.generate({
-      templateFile: `${this.templatePath}/${propertie.type.value}-type.ejs`,
+      templateFile: `${this.language.language()}/domain/types/${propertie.type.value}-type.ejs`,
       templateData: {
         className,
         aggregate,

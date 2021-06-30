@@ -1,15 +1,7 @@
 import { QuestionCollection } from 'inquirer';
 import * as inquirer from 'inquirer';
 import { storage } from '../in-memory-storage';
-import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
-
-export interface GenerateInterface {
-  serviceName(): string;
-
-  execute(aggregate: string): void | Promise<void>;
-
-  setCollectionAggregate(collectionAggregate: CollectionAggregate);
-}
+import { AbstractService } from '../services/abstract-service';
 
 export class MenuServices {
   async execute(aggregate: string): Promise<string> {
@@ -29,7 +21,7 @@ export class MenuServices {
     ];
   }
 
-  public static loadListServices(): GenerateInterface[] {
+  public static loadListServices(): AbstractService[] {
     return storage.get('services');
   }
 }

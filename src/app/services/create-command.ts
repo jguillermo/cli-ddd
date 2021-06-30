@@ -1,31 +1,17 @@
-import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
-import { Language, LanguageInterface } from '../languages/language';
 import { storage } from '../in-memory-storage';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
 import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
 import { Render } from '../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
-import { GenerateInterface } from '../menu/menu-services';
+import { AbstractService } from './abstract-service';
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 
-export class Service implements GenerateInterface {
-  private templatePath: string;
-  private language: LanguageInterface;
-  private _collectionAggregate: CollectionAggregate;
-
-  constructor() {
-    this.language = Language.plugin('node');
-    this.templatePath = `${this.language.language()}/application/command/`;
-  }
-
+export class Service extends AbstractService {
   serviceName(): string {
     return 'Create Command';
-  }
-
-  setCollectionAggregate(collectionAggregate: CollectionAggregate) {
-    this._collectionAggregate = collectionAggregate;
   }
 
   async execute(aggregateName: string): Promise<void> {
@@ -83,6 +69,10 @@ export class Service implements GenerateInterface {
         default: 'none',
       },
     ];
+  }
+
+  get templatePath(): string {
+    return `${this.language.language()}/application/command/`;
   }
 
   private renderCommand(aggregate: Aggregate, properties: Propertie[], commandName: string) {
