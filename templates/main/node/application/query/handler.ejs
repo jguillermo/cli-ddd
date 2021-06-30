@@ -1,0 +1,14 @@
+import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+
+@QueryHandler(<%= classQuery %>)
+export class <%= className %> implements IQueryHandler<<%= classQuery %>> {
+  constructor(private service: <%= classService %>) {}
+
+  async execute(query: <%= classQuery %>): Promise<void> {
+  <%_ properties.forEach(function(propertie){ _%>
+    const <%= propertie.name.value %> = new <%= propertie.className %>(query.<%= propertie.name.value %>);
+  <%_ }); _%>
+
+    await this.service.execute(<%= strProperties %>);
+  }
+}
