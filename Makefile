@@ -11,7 +11,7 @@ run:
 	npm run console:dev
 
 run-prod:
-	npm run console
+	npm run console:prod
 
 build:
 	npm run build --if-present

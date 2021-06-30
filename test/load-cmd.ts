@@ -10,7 +10,7 @@ const concat = require('concat-stream');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const rimraf = require('rimraf');
 
-const cliPath = __dirname + '/../dist/app/index.js';
+const cliPath = __dirname + '/../dist/index.js';
 const renderPath = __dirname + '/../render';
 
 export function cleanRender() {

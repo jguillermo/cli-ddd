@@ -1,8 +1,7 @@
 import { YmlToJsonService } from '../modules/load-data/application/yml-to-json/yml-to-json.service';
 import { ReadSkeletonDataService } from '../modules/load-data/application/read-skeleton-data/read-skeleton-data.service';
 import { SelectAggregate } from './menu/select-aggregate';
-import { MenuAggregate } from './menu/menu-aggregate';
-import { GenerateFactory } from './menu/generate/generateFactory';
+import { MenuServices } from './menu/menu-services';
 import { CollectionAggregate } from '../modules/load-data/domain/CollectionAggregate';
 
 class ServiceFactory {
@@ -11,15 +10,13 @@ class ServiceFactory {
   private readonly _ymlToJsonService: YmlToJsonService;
   private readonly _readSkeletonDataService: ReadSkeletonDataService;
   private readonly _menuSelectAggregate: SelectAggregate;
-  private readonly _menuAggregate: MenuAggregate;
-  private readonly _generateFactory: GenerateFactory;
+  private readonly _menuAggregate: MenuServices;
 
   private constructor() {
     this._ymlToJsonService = new YmlToJsonService();
     this._readSkeletonDataService = new ReadSkeletonDataService();
     this._menuSelectAggregate = new SelectAggregate();
-    this._menuAggregate = new MenuAggregate();
-    this._generateFactory = new GenerateFactory();
+    this._menuAggregate = new MenuServices();
   }
 
   public static getInstance(): ServiceFactory {
@@ -45,9 +42,9 @@ class ServiceFactory {
     return await this._menuAggregate.execute(aggregate);
   }
 
-  async generate(type: string, aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
-    const generate = this._generateFactory.execute(type);
-    await generate.execute(aggregate, collectionAggregate);
+  async generate(serviceSelected: string, aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
+    const service = MenuServices.loadListServices().find((value) => value.serviceName() === serviceSelected);
+    await service.execute(aggregate, collectionAggregate);
   }
 }
 

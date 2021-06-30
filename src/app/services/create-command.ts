@@ -1,13 +1,77 @@
-import { CollectionAggregate } from '../../../modules/load-data/domain/CollectionAggregate';
-import { FactoryLanguage } from '../languages/factory-language';
-import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
-import { Propertie } from '../../../modules/load-data/domain/propertie/propertie';
+import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
+import { Language, LanguageInterface } from '../languages/language';
+import { storage } from '../in-memory-storage';
+import { Aggregate } from '../../modules/load-data/domain/Aggregate';
+import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
 import { Render } from '../render';
-import { LanguageInterface } from '../languages/language-interface';
-import { storage } from '../../in-memory-storage';
+import * as inquirer from 'inquirer';
+import { QuestionCollection } from 'inquirer';
+import { GenerateInterface } from '../menu/menu-services';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const s = require('underscore.string');
 
-export class CreateCommandService {
-  async execute(
+export class Service implements GenerateInterface {
+  serviceName(): string {
+    return 'Create Service Command';
+  }
+
+  async execute(aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
+    const properties = storage.getProperties(collectionAggregate.getAggregate(aggregate).propertiesNames);
+
+    const answers = await inquirer.prompt(
+      this.questions(
+        aggregate,
+        properties.map((e) => e.name.fullName),
+      ),
+    );
+
+    await this.executeCreate(
+      answers.commandName,
+      answers.properties,
+      answers.templateRender,
+      aggregate,
+      collectionAggregate,
+    );
+  }
+
+  private questions(
+    aggregate: string,
+    properties: string[],
+  ): QuestionCollection<{ commandName: string; properties: string[]; templateRender: string }> {
+    return [
+      {
+        type: 'input',
+        name: 'commandName',
+        message: `COMMAND name`,
+        validate(input: any): boolean | string | Promise<boolean | string> {
+          if (s.trim(input).length < 3) {
+            return 'COMMAND name must be at least 3 letters.';
+          }
+          const regex = /^[a-zA-Z]{2,}$/g;
+          if (!regex.test(input)) {
+            return 'only caracters de a la a-z A-Z';
+          }
+          return true;
+        },
+      },
+      {
+        type: 'checkbox',
+        name: 'properties',
+        message: `${aggregate} properties`,
+        choices: properties,
+        default: properties,
+      },
+      {
+        type: 'list',
+        name: 'templateRender',
+        message: `use template`,
+        choices: ['create', 'update', 'delete', 'none'],
+        default: 'none',
+      },
+    ];
+  }
+
+  async executeCreate(
     commandName: string,
     properties: string[],
     templateRender: string,
@@ -15,19 +79,13 @@ export class CreateCommandService {
     collectionAggregate: CollectionAggregate,
   ) {
     const aggregate = collectionAggregate.getAggregate(aggregateName);
-    const service = FactoryLanguage.plugin('node');
+    const service = Language.plugin('node');
 
-    CreateCommandService.renderService(
-      aggregate,
-      service,
-      storage.getProperties(properties),
-      templateRender,
-      commandName,
-    );
+    Service.renderService(aggregate, service, storage.getProperties(properties), templateRender, commandName);
 
-    CreateCommandService.renderCommand(aggregate, service, storage.getProperties(properties), commandName);
+    Service.renderCommand(aggregate, service, storage.getProperties(properties), commandName);
 
-    CreateCommandService.renderHandler(aggregate, service, storage.getProperties(properties), commandName);
+    Service.renderHandler(aggregate, service, storage.getProperties(properties), commandName);
   }
 
   private static renderCommand(

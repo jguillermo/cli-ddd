@@ -1,4 +1,4 @@
-import { storage } from '../in-memory-storage';
+import { storage } from './in-memory-storage';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const colors = require('colors');
 
