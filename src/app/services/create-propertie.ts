@@ -6,7 +6,7 @@ import { storage } from '../in-memory-storage';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
-import { GenerateInterface } from '../menu/menu-aggregate';
+import { GenerateInterface } from '../menu/menu-services';
 
 export class Service implements GenerateInterface {
   serviceName(): string {

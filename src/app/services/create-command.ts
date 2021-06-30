@@ -6,7 +6,7 @@ import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
 import { Render } from '../render/render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
-import { GenerateInterface } from '../menu/menu-aggregate';
+import { GenerateInterface } from '../menu/menu-services';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 

@@ -5,12 +5,13 @@ import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAg
 
 export interface GenerateInterface {
   serviceName(): string;
+
   execute(aggregate: string, collectionAggregate: CollectionAggregate): void | Promise<void>;
 }
 
-export class MenuAggregate {
+export class MenuServices {
   async execute(aggregate: string): Promise<string> {
-    const answerMenuCreate = await inquirer.prompt(MenuAggregate.questionMenuCreate(aggregate));
+    const answerMenuCreate = await inquirer.prompt(MenuServices.questionMenuCreate(aggregate));
     return answerMenuCreate.menuSelected;
   }
 
@@ -20,13 +21,13 @@ export class MenuAggregate {
         type: 'rawlist',
         name: 'menuSelected',
         message: `What do you want to generate in ${aggregate}?`,
-        choices: MenuAggregate.loadListServices().map((e) => e.serviceName()),
+        choices: MenuServices.loadListServices().map((e) => e.serviceName()),
         //pageSize: listMenu.length + 2,
       },
     ];
   }
 
-  private static loadListServices() {
+  public static loadListServices(): GenerateInterface[] {
     return storage.get('services');
   }
 }
