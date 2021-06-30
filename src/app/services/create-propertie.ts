@@ -3,10 +3,10 @@ import { Language, LanguageInterface } from '../render/languages/language';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
 import { Render } from '../render/render';
 import { storage } from '../in-memory-storage';
-import { GenerateInterface } from '../menu/generate/generate';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
+import { GenerateInterface } from '../menu/menu-aggregate';
 
 export class Service implements GenerateInterface {
   serviceName(): string {

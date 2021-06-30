@@ -1,6 +1,12 @@
 import { QuestionCollection } from 'inquirer';
 import * as inquirer from 'inquirer';
 import { storage } from '../in-memory-storage';
+import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
+
+export interface GenerateInterface {
+  serviceName(): string;
+  execute(aggregate: string, collectionAggregate: CollectionAggregate): void | Promise<void>;
+}
 
 export class MenuAggregate {
   async execute(aggregate: string): Promise<string> {
