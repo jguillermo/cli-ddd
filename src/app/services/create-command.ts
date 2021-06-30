@@ -11,8 +11,16 @@ import { GenerateInterface } from '../menu/menu-services';
 const s = require('underscore.string');
 
 export class Service implements GenerateInterface {
+  private templatePath: string;
+  private language: LanguageInterface;
+
+  constructor() {
+    this.language = Language.plugin('node');
+    this.templatePath = `${this.language.language()}/application/command/`;
+  }
+
   serviceName(): string {
-    return 'Create Service Command';
+    return 'Create Command';
   }
 
   async execute(aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
@@ -79,28 +87,22 @@ export class Service implements GenerateInterface {
     collectionAggregate: CollectionAggregate,
   ) {
     const aggregate = collectionAggregate.getAggregate(aggregateName);
-    const service = Language.plugin('node');
 
-    Service.renderService(aggregate, service, storage.getProperties(properties), templateRender, commandName);
+    this.renderService(aggregate, storage.getProperties(properties), templateRender, commandName);
 
-    Service.renderCommand(aggregate, service, storage.getProperties(properties), commandName);
+    this.renderCommand(aggregate, storage.getProperties(properties), commandName);
 
-    Service.renderHandler(aggregate, service, storage.getProperties(properties), commandName);
+    this.renderHandler(aggregate, storage.getProperties(properties), commandName);
   }
 
-  private static renderCommand(
-    aggregate: Aggregate,
-    service: LanguageInterface,
-    properties: Propertie[],
-    commandName: string,
-  ) {
-    const classInput = service.className([aggregate.name.value, commandName, 'Input']);
-    const className = service.className([aggregate.name.value, commandName, 'Command']);
-    const generateFile = service.classFile([aggregate.name.value, commandName, 'Command']);
-    const generatefolder = service.folderPath([aggregate.path.value, 'application', commandName]);
+  private renderCommand(aggregate: Aggregate, properties: Propertie[], commandName: string) {
+    const classInput = this.language.className([aggregate.name.value, commandName, 'Input']);
+    const className = this.language.className([aggregate.name.value, commandName, 'Command']);
+    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'Command']);
+    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
 
     Render.generate({
-      templateFile: `${service.language()}/application/command/command.ejs`,
+      templateFile: `${this.language.language()}/application/command/command.ejs`,
       templateData: {
         classInput,
         className,
@@ -111,19 +113,13 @@ export class Service implements GenerateInterface {
     });
   }
 
-  private static renderService(
-    aggregate: Aggregate,
-    service: LanguageInterface,
-    properties: Propertie[],
-    templateRender: string,
-    commandName: string,
-  ) {
-    const className = service.className([aggregate.name.value, commandName, 'service']);
-    const generateFile = service.classFile([aggregate.name.value, commandName, 'service']);
-    const generatefolder = service.folderPath([aggregate.path.value, 'application', commandName]);
+  private renderService(aggregate: Aggregate, properties: Propertie[], templateRender: string, commandName: string) {
+    const className = this.language.className([aggregate.name.value, commandName, 'service']);
+    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'service']);
+    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
 
     Render.generate({
-      templateFile: `${service.language()}/application/command/service.ejs`,
+      templateFile: `${this.language.language()}/application/command/service.ejs`,
       templateData: {
         templateRender,
         className,
@@ -136,20 +132,15 @@ export class Service implements GenerateInterface {
     });
   }
 
-  private static renderHandler(
-    aggregate: Aggregate,
-    service: LanguageInterface,
-    properties: Propertie[],
-    commandName: string,
-  ) {
-    const classCommand = service.className([aggregate.name.value, commandName, 'command']);
-    const classService = service.className([aggregate.name.value, commandName, 'service']);
-    const className = service.className([aggregate.name.value, commandName, 'handler']);
-    const generateFile = service.classFile([aggregate.name.value, commandName, 'handler']);
-    const generatefolder = service.folderPath([aggregate.path.value, 'application', commandName]);
+  private renderHandler(aggregate: Aggregate, properties: Propertie[], commandName: string) {
+    const classCommand = this.language.className([aggregate.name.value, commandName, 'command']);
+    const classService = this.language.className([aggregate.name.value, commandName, 'service']);
+    const className = this.language.className([aggregate.name.value, commandName, 'handler']);
+    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'handler']);
+    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
 
     Render.generate({
-      templateFile: `${service.language()}/application/command/handler.ejs`,
+      templateFile: `${this.language.language()}/application/command/handler.ejs`,
       templateData: {
         classCommand,
         classService,
