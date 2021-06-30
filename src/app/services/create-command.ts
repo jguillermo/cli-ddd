@@ -1,9 +1,9 @@
 import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
-import { Language, LanguageInterface } from '../render/languages/language';
+import { Language, LanguageInterface } from '../languages/language';
 import { storage } from '../in-memory-storage';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
 import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
-import { Render } from '../render/render';
+import { Render } from '../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 import { GenerateInterface } from '../menu/menu-services';

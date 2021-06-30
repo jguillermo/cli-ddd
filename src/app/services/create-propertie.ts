@@ -1,7 +1,7 @@
 import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
-import { Language, LanguageInterface } from '../render/languages/language';
+import { Language, LanguageInterface } from '../languages/language';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Render } from '../render/render';
+import { Render } from '../render';
 import { storage } from '../in-memory-storage';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';

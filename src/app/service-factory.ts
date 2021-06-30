@@ -1,9 +1,8 @@
 import { YmlToJsonService } from '../modules/load-data/application/yml-to-json/yml-to-json.service';
 import { ReadSkeletonDataService } from '../modules/load-data/application/read-skeleton-data/read-skeleton-data.service';
 import { SelectAggregate } from './menu/select-aggregate';
-import { GenerateInterface, MenuServices } from './menu/menu-services';
+import { MenuServices } from './menu/menu-services';
 import { CollectionAggregate } from '../modules/load-data/domain/CollectionAggregate';
-import { storage } from './in-memory-storage';
 
 class ServiceFactory {
   private static instance: ServiceFactory;
@@ -43,8 +42,8 @@ class ServiceFactory {
     return await this._menuAggregate.execute(aggregate);
   }
 
-  async generate(serviceName: string, aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
-    const service = MenuServices.loadListServices().find((value) => value.serviceName() === serviceName);
+  async generate(serviceSelected: string, aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
+    const service = MenuServices.loadListServices().find((value) => value.serviceName() === serviceSelected);
     await service.execute(aggregate, collectionAggregate);
   }
 }
