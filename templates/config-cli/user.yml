@@ -1,0 +1,6 @@
+path: render/src/user
+nameSpace: app.user
+name: User
+properties:
+  id: id
+  name: string

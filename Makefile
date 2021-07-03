@@ -31,6 +31,9 @@ format-fix:
 test-unit-cov:
 	npm run test
 
+commit:
+	npm run commit
+
 test-e2e:
 	npm run test:e2e
 	@#docker run -it -w /app -v $(PWD)/ddd-commander:/app node:14.16.1-stretch npm run test:e2e

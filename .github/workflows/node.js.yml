@@ -116,7 +116,7 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master-deploy' }}
+    if: ${{ github.ref == 'refs/heads/master' }}
     needs: [ test-unit-cov ]
     strategy:
       matrix:
