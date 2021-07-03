@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { factory } from './app/service-factory';
 import { storage } from './app/in-memory-storage';
 import { services } from './app/services';
