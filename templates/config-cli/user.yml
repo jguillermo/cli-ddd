@@ -1,4 +1,4 @@
-path: src/user
+path: render/src/user
 nameSpace: app.user
 name: User
 properties:

@@ -3,6 +3,7 @@
 /node_modules
 /render
 /lclcli
+/config-cli
 
 # Logs
 logs

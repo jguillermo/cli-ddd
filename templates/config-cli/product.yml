@@ -1,4 +1,4 @@
-path: src/product
+path: render/src/product
 nameSpace: app.product
 name: Product
 properties:
