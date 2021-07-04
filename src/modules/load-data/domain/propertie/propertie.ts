@@ -53,6 +53,10 @@ export class Propertie {
     };
   }
 
+  get aggregateName(): Name {
+    return this._aggregateName;
+  }
+
   get name(): PropertieName {
     return this._name;
   }
