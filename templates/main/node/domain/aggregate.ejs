@@ -1,0 +1,17 @@
+<%_ properties.forEach(function(propertie){ _%>
+import { <%= propertie.className %> } from './<%= propertie.aggregateName.propertie %>-<%= propertie.name.value %>';
+<%_ }); _%>
+
+export class <%= className %> {
+  constructor(<%= strVoUndescoreProperties %>) {}
+
+  static create(<%= strVoProperties %>) {
+    return new <%= className %>(<%= strProperties %>);
+  }
+  <%_ properties.forEach(function(propertie){ _%>
+
+  get <%= propertie.name.value %>(): <%= propertie.className %> {
+    return this._<%= propertie.name.value %>;
+  }
+  <%_ }); _%>
+}

@@ -173,3 +173,89 @@ repository:
 ```bash
 nest g s modules/load-data/application/ymlToJson
 ```
+
+## Iniciar un projecto con nest grapql
+
+```bash
+npm i -g @nestjs/cli
+nest new my-proyect
+npm install --save @nestjs/cqrs
+npm i @nestjs/graphql graphql-tools graphql apollo-server-express
+npm i --save class-validator class-transformer
+```
+
+create file src/app/user/user.type.ts
+```javascript
+import { Field, ObjectType } from '@nestjs/graphql';
+
+@ObjectType('User')
+export class UserType {
+  @Field()
+  id: string;
+
+  @Field()
+  name: string;
+}
+
+```
+create file src/app/user/user.resolver.ts
+```javascript
+import { Query, Resolver } from '@nestjs/graphql';
+import { UserType } from './user.type';
+
+@Resolver((of) => UserType)
+export class UserResolver {
+  @Query((returns) => UserType)
+  async user() {
+    return { id: '123', name: 'Guillermo' };
+  }
+}
+
+```
+
+replace app.module
+```javascript
+import { CqrsModule } from '@nestjs/cqrs';
+import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
+import { UserResolver } from './app/user/user.resolver';
+
+@Module({
+  imports: [
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
+      playground: true,
+      debug: true,
+    }),
+    CqrsModule,
+  ],
+  providers: [UserResolver],
+})
+export class AppModule {}
+
+```
+
+run server 
+```bash
+npm run start:dev
+```
+open link 
+http://localhost:3000/graphql
+
+##generate user module
+```bash
+nest g mo modules/user
+```
+install ddd-base library and cli tools
+```bash
+npm i --save base-ddd
+npm i -g generate-code-ddd
+```
+
+run cli
+```bash
+flab
+```
+change ./config-cli/user-yml path: src/modules/user for generate code in user module
+
+

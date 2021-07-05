@@ -1,0 +1,9 @@
+import { <%= aggregate.name.value %> } from '../domain/<%= aggregate.name.propertie %>';
+
+export class <%= className %> {
+  constructor(<%= strTypeProperties %>) {}
+
+  static fromAggregate(<%= aggregate.name.propertie %>: <%= aggregate.name.value %>) {
+    return new <%= className %>(<%= strValueProperties %>);
+  }
+}

@@ -1,0 +1,9 @@
+import { <%= aggregateResponse %> } from './<%= aggregate.name.propertie %>.response';
+
+export class <%= className %> {
+  public list: <%= aggregateResponse %>[];
+
+  constructor(list: <%= aggregateResponse %>[]) {
+    this.list = list;
+  }
+}
