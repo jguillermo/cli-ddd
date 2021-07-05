@@ -12,10 +12,10 @@ export class Service extends AbstractService {
   async execute(aggregateName: string): Promise<void> {
     const properties = storage.getProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames);
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
-    this.renderQuery(aggregate, properties);
+    this.renderAggregate(aggregate, properties);
   }
 
-  private renderQuery(aggregate: Aggregate, properties: Propertie[]) {
+  private renderAggregate(aggregate: Aggregate, properties: Propertie[]) {
     const className = this.language.className([aggregate.name.value]);
     const generateFile = this.language.classFileWithOutType([aggregate.name.value]);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'domain']);

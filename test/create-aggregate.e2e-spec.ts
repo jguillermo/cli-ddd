@@ -1,4 +1,4 @@
-import { cleanRender, DOWN, ENTER, readRender, run, UP } from './load-cmd';
+import { cleanRender, DOWN, ENTER, readRender, run } from './load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/domain/user.ts';
 describe('aggregate User', () => {

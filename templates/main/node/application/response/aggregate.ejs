@@ -1,9 +1,9 @@
-import { User } from '../domain/user';
+import { <%= aggregate.name.value %> } from '../domain/<%= aggregate.name.propertie %>';
 
-export class UserResponse {
-  constructor(public id: string, public name: string) {}
+export class <%= className %> {
+  constructor(<%= strTypeProperties %>) {}
 
-  static fromAggregate(user: User) {
-    return new UserResponse(user.id.value, user.name.value);
+  static fromAggregate(<%= aggregate.name.propertie %>: <%= aggregate.name.value %>) {
+    return new <%= className %>(<%= strValueProperties %>);
   }
 }

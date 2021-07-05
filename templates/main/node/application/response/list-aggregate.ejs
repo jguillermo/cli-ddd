@@ -1,9 +1,9 @@
-import { UserResponse } from './user.response';
+import { <%= aggregateResponse %> } from './<%= aggregate.name.propertie %>.response';
 
-export class ListUserResponse {
-  public list: UserResponse[];
+export class <%= className %> {
+  public list: <%= aggregateResponse %>[];
 
-  constructor(list: UserResponse[]) {
+  constructor(list: <%= aggregateResponse %>[]) {
     this.list = list;
   }
 }
