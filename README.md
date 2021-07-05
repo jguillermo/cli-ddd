@@ -258,4 +258,8 @@ flab
 ```
 change ./config-cli/user-yml path: src/modules/user for generate code in user module
 
+run cli to generate response and aggregate
+```bash
+flab
+```
 
