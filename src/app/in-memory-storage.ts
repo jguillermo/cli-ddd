@@ -67,12 +67,20 @@ class InMemoryStorage {
     this._storage[key] = value;
   }
 
+  /**
+   * change with getWProperties
+   * @deprecated
+   */
   getProperties(properties: string[]): Propertie[] {
     return properties.map((e) => {
       return this.getPropertie(e);
     });
   }
 
+  /**
+   * change with getWPropertie
+   * @deprecated
+   */
   getPropertie(fullName: string): Propertie {
     return this._properties[fullName];
   }
