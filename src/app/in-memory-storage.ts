@@ -9,10 +9,45 @@ interface StorageInterface {
   [index: string]: any;
 }
 
+class WPropertie {
+  constructor(private _propertie: Propertie, private _properties: StorageProperties = {}) {
+  }
+
+  get propertie(): Propertie {
+    return this._propertie;
+  }
+
+  get primitive(): string {
+    const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
+    return propertie.type.primitive;
+  }
+  get primitiveType(): string {
+    const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
+    return propertie.type.primitiveType;
+  }
+  get parentType(): string {
+    const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
+    return propertie.type.parentType;
+  }
+
+  private getPrimitivePropertie(fullName): Propertie {
+    const propertie: Propertie = this._properties[fullName];
+    if (!propertie) {
+      throw new Error(`propertie (${fullName}) not exit`);
+    }
+    if (propertie.type.isPrimitive) {
+      return propertie;
+    } else {
+      return this.getPrimitivePropertie(propertie.type.value);
+    }
+  }
+}
+
 class InMemoryStorage {
   private static instance: InMemoryStorage;
 
-  private constructor(private _storage: StorageInterface = {}, private _properties: StorageProperties = {}) {}
+  private constructor(private _storage: StorageInterface = {}, private _properties: StorageProperties = {}) {
+  }
 
   public static getInstance(): InMemoryStorage {
     if (!InMemoryStorage.instance) {
@@ -37,6 +72,16 @@ class InMemoryStorage {
 
   getPropertie(fullName: string): Propertie {
     return this._properties[fullName];
+  }
+
+  getWProperties(properties: string[]): WPropertie[] {
+    return properties.map((e) => {
+      return new WPropertie(this.getPropertie(e), this._properties);
+    });
+  }
+
+  getWPropertie(fullName: string): WPropertie {
+    return new WPropertie(this.getPropertie(fullName), this._properties);
   }
 
   setPropertie(fullName: string, propertie: Propertie) {
