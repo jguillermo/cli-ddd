@@ -29,72 +29,84 @@ describe('Propertie', () => {
   describe('isPrimitive', () => {
     it('primitive boolean', () => {
       type = new PropertieType('boolean');
-      expect(type.isPrimitive).toEqual(true);
+      expect(type.isPrimitiveType).toEqual(true);
     });
 
     it('primitive date', () => {
       type = new PropertieType('date');
-      expect(type.isPrimitive).toEqual(true);
+      expect(type.isPrimitiveType).toEqual(true);
     });
     it('primitive enum', () => {
       type = new PropertieType('enum');
-      expect(type.isPrimitive).toEqual(true);
+      expect(type.isPrimitiveType).toEqual(true);
     });
     it('primitive id', () => {
       type = new PropertieType('id');
-      expect(type.isPrimitive).toEqual(true);
+      expect(type.isPrimitiveType).toEqual(true);
     });
     it('primitive number', () => {
       type = new PropertieType('number');
-      expect(type.isPrimitive).toEqual(true);
+      expect(type.isPrimitiveType).toEqual(true);
     });
     it('primitive string', () => {
       type = new PropertieType('string');
-      expect(type.isPrimitive).toEqual(true);
+      expect(type.isPrimitiveType).toEqual(true);
     });
     it('primitive uuid', () => {
       type = new PropertieType('uuid');
-      expect(type.isPrimitive).toEqual(true);
+      expect(type.isPrimitiveType).toEqual(true);
     });
     it('object', () => {
       type = new PropertieType('User:Id');
-      expect(type.isPrimitive).toEqual(false);
+      expect(type.isPrimitiveType).toEqual(false);
     });
   });
 
-  describe('parentType', () => {
+  describe('parentTypeImp', () => {
     it('boolean', () => {
       type = new PropertieType('boolean');
-      expect(type.parentType).toEqual('BooleanTypeImp');
+      expect(type.parentTypeImp).toEqual('BooleanTypeImp');
       expect(type.value).toEqual('boolean');
     });
     it('id', () => {
       type = new PropertieType('id');
-      expect(type.parentType).toEqual('UUIDTypeImp');
+      expect(type.parentTypeImp).toEqual('UUIDTypeImp');
       expect(type.value).toEqual('id');
     });
     it('enum', () => {
       type = new PropertieType('enum');
-      expect(type.parentType).toEqual('StringTypeImp');
+      expect(type.parentTypeImp).toEqual('StringTypeImp');
       expect(type.value).toEqual('enum');
     });
     it('object', () => {
       type = new PropertieType('User:Id');
-      expect(type.parentType).toEqual(null);
+      expect(type.parentTypeImp).toEqual(null);
       expect(type.value).toEqual('User:Id');
     });
   });
 
-  describe('primitiveType', () => {
+  describe('primitiveTypeImp', () => {
     it('boolean', () => {
       type = new PropertieType('boolean');
-      expect(type.primitiveType).toEqual('BooleanTypeImp');
+      expect(type.primitiveTypeImp).toEqual('BooleanTypeImp');
       expect(type.value).toEqual('boolean');
     });
     it('uuid', () => {
       type = new PropertieType('uuid');
-      expect(type.primitiveType).toEqual('UUIDTypeImp');
+      expect(type.primitiveTypeImp).toEqual('UUIDTypeImp');
       expect(type.value).toEqual('uuid');
+    });
+    it('object', () => {
+      type = new PropertieType('User:Id');
+      expect(type.primitiveTypeImp).toEqual(null);
+      expect(type.value).toEqual('User:Id');
+    });
+  });
+  describe('primitiveType', () => {
+    it('boolean', () => {
+      type = new PropertieType('boolean');
+      expect(type.primitiveType).toEqual('boolean');
+      expect(type.value).toEqual('boolean');
     });
     it('object', () => {
       type = new PropertieType('User:Id');
@@ -102,11 +114,27 @@ describe('Propertie', () => {
       expect(type.value).toEqual('User:Id');
     });
   });
+
   describe('primitive', () => {
     it('boolean', () => {
       type = new PropertieType('boolean');
       expect(type.primitive).toEqual('boolean');
       expect(type.value).toEqual('boolean');
+    });
+    it('id', () => {
+      type = new PropertieType('id');
+      expect(type.primitive).toEqual('string');
+      expect(type.value).toEqual('id');
+    });
+    it('uuid', () => {
+      type = new PropertieType('uuid');
+      expect(type.primitive).toEqual('string');
+      expect(type.value).toEqual('uuid');
+    });
+    it('enum', () => {
+      type = new PropertieType('enum');
+      expect(type.primitive).toEqual('string');
+      expect(type.value).toEqual('enum');
     });
     it('object', () => {
       type = new PropertieType('User:Id');

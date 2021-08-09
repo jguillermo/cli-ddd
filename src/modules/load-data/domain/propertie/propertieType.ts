@@ -10,26 +10,26 @@ export class PropertieType {
     return `${this._type}`;
   }
 
-  get isPrimitive() {
+  get isPrimitiveType() {
     return PropertieType.isPrimitiveValue(this.value);
   }
 
-  get primitive(): string | null {
-    if (!this.isPrimitive) {
+  get primitiveType(): string | null {
+    if (!this.isPrimitiveType) {
       return null;
     }
-    return this._type;
+    return this.value;
   }
 
-  get primitiveType(): string | null {
-    if (!this.isPrimitive) {
+  get primitiveTypeImp(): string | null {
+    if (!this.isPrimitiveType) {
       return null;
     }
     return `${PropertieType.capitalizar(this.value)}TypeImp`;
   }
 
-  get parentType(): string | null {
-    if (!this.isPrimitive) {
+  get parentTypeImp(): string | null {
+    if (!this.isPrimitiveType) {
       return null;
     }
     let parentType = this.value;
@@ -59,15 +59,22 @@ export class PropertieType {
     return this.primitive === 'string';
   }
 
-  // get primitive(): string {
-  //   let primitive = '';
-  //   switch (this._type) {
-  //     case 'id:
-  //       primitive = 'string';
-  //       break;
-  //     default:
-  //       primitive = this._type;
-  //   }
-  //   return primitive;
-  // }
+  get primitive(): string | null {
+    if (!this.isPrimitiveType) {
+      return null;
+    }
+    let type = this.value;
+    switch (this.value) {
+      case 'id':
+        type = 'string';
+        break;
+      case 'uuid':
+        type = 'string';
+        break;
+      case 'enum':
+        type = 'string';
+        break;
+    }
+    return type;
+  }
 }
