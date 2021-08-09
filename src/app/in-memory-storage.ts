@@ -18,23 +18,19 @@ class WPropertie {
   }
 
   get primitive(): string {
-    const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
-    return propertie.type.primitive;
+    return this.getPrimitivePropertie(this._propertie.name.fullName).type.primitive;
   }
 
   get primitiveType(): string {
-    const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
-    return propertie.type.primitiveType;
+    return this.getPrimitivePropertie(this._propertie.name.fullName).type.primitiveType;
   }
 
   get primitiveTypeImp(): string {
-    const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
-    return propertie.type.primitiveTypeImp;
+    return this.getPrimitivePropertie(this._propertie.name.fullName).type.primitiveTypeImp;
   }
 
   get parentTypeImp(): string {
-    const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
-    return propertie.type.parentTypeImp;
+    return this.getPrimitivePropertie(this._propertie.name.fullName).type.parentTypeImp;
   }
 
   private getPrimitivePropertie(fullName): Propertie {
