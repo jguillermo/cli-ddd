@@ -10,20 +10,28 @@ interface StorageInterface {
 }
 
 class WPropertie {
-  constructor(private _propertie: Propertie, private _properties: StorageProperties = {}) {}
+  constructor(private _propertie: Propertie, private _properties: StorageProperties = {}) {
+  }
 
   get propertie(): Propertie {
     return this._propertie;
+  }
+
+  get primitive(): string {
+    const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
+    return propertie.type.primitive;
   }
 
   get primitiveType(): string {
     const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
     return propertie.type.primitiveType;
   }
+
   get primitiveTypeImp(): string {
     const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
     return propertie.type.primitiveTypeImp;
   }
+
   get parentTypeImp(): string {
     const propertie = this.getPrimitivePropertie(this._propertie.name.fullName);
     return propertie.type.parentTypeImp;
@@ -45,7 +53,8 @@ class WPropertie {
 class InMemoryStorage {
   private static instance: InMemoryStorage;
 
-  private constructor(private _storage: StorageInterface = {}, private _properties: StorageProperties = {}) {}
+  private constructor(private _storage: StorageInterface = {}, private _properties: StorageProperties = {}) {
+  }
 
   public static getInstance(): InMemoryStorage {
     if (!InMemoryStorage.instance) {
