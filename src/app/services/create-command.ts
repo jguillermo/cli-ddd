@@ -5,6 +5,8 @@ import { Render } from '../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 import { AbstractService } from './abstract-service';
+import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
+import { LanguageInterface } from '../languages/language';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
@@ -17,32 +19,47 @@ export class Service extends AbstractService {
   async execute(aggregateName: string): Promise<void> {
     const properties = storage.getProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames);
 
+    const answerTemplate = await inquirer.prompt(Service.questionTemplate());
+
     const answers = await inquirer.prompt(
       this.questions(
         aggregateName,
         properties.map((e) => e.name.fullName),
+        answerTemplate.templateRender,
       ),
     );
 
-    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
-    const propertiesSelected = storage.getProperties(answers.properties);
+    const render = new ServiceCreateCommand(this._collectionAggregate, this.language);
+    await render.execute(aggregateName, answers.properties, answers.commandName, answerTemplate.templateRender);
+  }
 
-    this.renderService(aggregate, propertiesSelected, answers.commandName, answers.templateRender);
-
-    this.renderCommand(aggregate, propertiesSelected, answers.commandName);
-
-    this.renderHandler(aggregate, propertiesSelected, answers.commandName);
+  private static questionTemplate(): QuestionCollection<{ templateRender: string }> {
+    return [
+      {
+        type: 'list',
+        name: 'templateRender',
+        message: `use template`,
+        choices: ['persist', 'delete', 'none'],
+        default: 'none',
+      },
+    ];
   }
 
   private questions(
     aggregate: string,
     properties: string[],
-  ): QuestionCollection<{ commandName: string; properties: string[]; templateRender: string }> {
+    templateRender: string,
+  ): QuestionCollection<{ properties: string[]; commandName: string }> {
+    let defaultProperties = [...properties];
+    if (templateRender === 'delete') {
+      defaultProperties = properties.filter((e) => e.search(/:[Ii]{1}d$/g) >= 0);
+    }
     return [
       {
         type: 'input',
         name: 'commandName',
         message: `COMMAND name`,
+        default: templateRender,
         validate(input: any): boolean | string | Promise<boolean | string> {
           if (s.trim(input).length < 3) {
             return 'COMMAND name must be at least 3 letters.';
@@ -59,16 +76,29 @@ export class Service extends AbstractService {
         name: 'properties',
         message: `${aggregate} properties`,
         choices: properties,
-        default: properties,
-      },
-      {
-        type: 'list',
-        name: 'templateRender',
-        message: `use template`,
-        choices: ['create', 'update', 'delete', 'none'],
-        default: 'none',
+        default: defaultProperties,
       },
     ];
+  }
+}
+
+export class ServiceCreateCommand {
+  constructor(private _collectionAggregate: CollectionAggregate, private language: LanguageInterface) {}
+
+  async execute(
+    aggregateName: string,
+    properties: string[],
+    commandName: string,
+    templateRender: string,
+  ): Promise<void> {
+    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
+    const propertiesSelected = storage.getProperties(properties);
+
+    this.renderService(aggregate, propertiesSelected, commandName, templateRender);
+
+    this.renderCommand(aggregate, propertiesSelected, commandName);
+
+    this.renderHandler(aggregate, propertiesSelected, commandName);
   }
 
   get templatePath(): string {
