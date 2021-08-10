@@ -48,9 +48,9 @@ describe('command service User', () => {
       const renderHandler = readRender(PATH_USER_APPLICATION + '/persist/user-persist.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/persist/user-persist.service.ts');
 
-      const snapDao = readSnapShot('command-persist/dao.txt');
-      const snapHandler = readSnapShot('command-persist/handler.txt');
-      const snapService = readSnapShot('command-persist/service.txt');
+      const snapDao = readSnapShot('user-command-persist/dao.txt');
+      const snapHandler = readSnapShot('user-command-persist/handler.txt');
+      const snapService = readSnapShot('user-command-persist/service.txt');
 
       expect(renderDao).toEqual(snapDao);
       expect(renderHandler).toEqual(snapHandler);
