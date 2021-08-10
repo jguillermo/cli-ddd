@@ -51,15 +51,19 @@ export class Service extends AbstractService {
     templateRender: string,
   ): QuestionCollection<{ properties: string[]; commandName: string }> {
     let defaultProperties = [...properties];
+    let defaultCommandName = templateRender;
     if (templateRender === 'delete') {
       defaultProperties = properties.filter((e) => e.search(/:[Ii]{1}d$/g) >= 0);
+    }
+    if (templateRender === 'none') {
+      defaultCommandName = null;
     }
     return [
       {
         type: 'input',
         name: 'commandName',
         message: `COMMAND name`,
-        default: templateRender,
+        default: defaultCommandName,
         validate(input: any): boolean | string | Promise<boolean | string> {
           if (s.trim(input).length < 3) {
             return 'COMMAND name must be at least 3 letters.';
