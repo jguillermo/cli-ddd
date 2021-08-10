@@ -1,16 +1,16 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserPersistDao } from './user-persist.dao';
+import { UserPersistDto } from './user-persist.dto';
 import { UserPersistService } from './user-persist.service';
 import { UserId } from '../../domain/user-id';
 import { UserName } from '../../domain/user-name';
 
-@CommandHandler(UserPersistDao)
-export class UserPersistHandler implements ICommandHandler<UserPersistDao> {
+@CommandHandler(UserPersistDto)
+export class UserPersistHandler implements ICommandHandler<UserPersistDto> {
   constructor(private service: UserPersistService) {}
 
-  async execute(dao: UserPersistDao): Promise<void> {
-    const id = new UserId(dao.id);
-    const name = new UserName(dao.name);
+  async execute(dto: UserPersistDto): Promise<void> {
+    const id = new UserId(dto.id);
+    const name = new UserName(dto.name);
 
     await this.service.execute(id, name);
   }
