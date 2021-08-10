@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserPersistDto } from './user-persist.dto';
 import { UserPersistService } from './user-persist.service';
+import { UserPersistDto } from './user-persist.dto';
 import { UserId } from '../../domain/user-id';
 import { UserName } from '../../domain/user-name';
 

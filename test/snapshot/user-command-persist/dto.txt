@@ -1,9 +1,9 @@
 import { Validate, IsOptional } from 'class-validator';
 import { ArgsType, Field } from '@nestjs/graphql';
-import { UserId } from '../../domain/user-id';
-import { UserName } from '../../domain/user-name';
 import { DomainValidator } from 'base-ddd';
 import { BaseDto } from '../../../share/application/base.dto';
+import { UserId } from '../../domain/user-id';
+import { UserName } from '../../domain/user-name';
 
 @ArgsType()
 export class UserPersistDto extends BaseDto {
