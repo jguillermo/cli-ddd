@@ -1,4 +1,4 @@
-import { cleanRender, DOWN, ENTER, readRender, run } from './load-cmd';
+import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run } from './load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/application';
 describe('command service User', () => {
@@ -41,30 +41,20 @@ describe('command service User', () => {
     });
   });
 
-  describe('render command create User', () => {
-    test('service -> select template create', async () => {
-      await run([DOWN, ENTER, ENTER, ENTER, 'create', ENTER, ENTER]);
-      const render = readRender(PATH_USER_APPLICATION + '/create/user-create.service.ts');
-      expect(render).toMatch(/export class UserCreateService/);
-      expect(render).toMatch(/private repository: UserRepository/);
-    });
+  describe('render', () => {
+    test('template persist', async () => {
+      await run([DOWN, ENTER, ENTER, DOWN, ENTER, ENTER, ENTER]);
+      const renderDao = readRender(PATH_USER_APPLICATION + '/persist/user-persist.dao.ts');
+      const renderHandler = readRender(PATH_USER_APPLICATION + '/persist/user-persist.handler.ts');
+      const renderService = readRender(PATH_USER_APPLICATION + '/persist/user-persist.service.ts');
 
-    test('command -> select template persist', async () => {
-      await run([DOWN, ENTER, ENTER, DOWN, ENTER, 'create', ENTER, ENTER]);
-      const render = readRender(PATH_USER_APPLICATION + '/create/user-create.command.ts');
-      expect(render).toMatch(/export class UserCreateCommand/);
-    });
+      const snapDao = readSnapShot('command-persist/dao.txt');
+      const snapHandler = readSnapShot('command-persist/handler.txt');
+      const snapService = readSnapShot('command-persist/service.txt');
 
-    test('handler -> select template create', async () => {
-      await run([DOWN, ENTER, ENTER, DOWN, ENTER, 'create', ENTER, ENTER]);
-      const render = readRender(PATH_USER_APPLICATION + '/create/user-create.handler.ts');
-      expect(render).toMatch(/CommandHandler\(UserCreateCommand\)/);
-      expect(render).toMatch(/export class UserCreateHandler/);
-      expect(render).toMatch(/implements ICommandHandler<UserCreateCommand>/);
-      expect(render).toMatch(/private service: UserCreateService/);
-      expect(render).toMatch(/async execute\(command: UserCreateCommand\)/);
-      expect(render).toMatch(/const id = new UserId\(command\.id\)/);
-      expect(render).toMatch(/const name = new UserName\(command\.name\)/);
+      expect(renderDao).toEqual(snapDao);
+      expect(renderHandler).toEqual(snapHandler);
+      expect(renderService).toEqual(snapService);
     });
   });
 });

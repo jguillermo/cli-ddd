@@ -12,6 +12,7 @@ const rimraf = require('rimraf');
 
 const cliPath = __dirname + '/../dist/index.js';
 const renderPath = __dirname + '/../render';
+const snapShotPath = __dirname + '/snapshot';
 
 export function cleanRender() {
   rimraf.sync(renderPath);
@@ -19,6 +20,10 @@ export function cleanRender() {
 
 export function readRender(pathRender: string): string {
   return fs.readFileSync(path.join(renderPath, pathRender), 'utf-8');
+}
+
+export function readSnapShot(pathSnap: string): string {
+  return fs.readFileSync(path.join(snapShotPath, pathSnap), 'utf-8');
 }
 
 export function run(combo, timeout = 200) {
