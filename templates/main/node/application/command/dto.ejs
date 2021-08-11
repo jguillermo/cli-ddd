@@ -1,4 +1,8 @@
+<%_ if (templateRender==='persist') { _%>
 import { Validate, IsOptional } from 'class-validator';
+<%_ }else{ _%>
+import { Validate } from 'class-validator';
+<%_ } _%>
 import { ArgsType, Field } from '@nestjs/graphql';
 import { DomainValidator } from 'base-ddd';
 import { BaseDto } from '../../../share/application/base.dto';

@@ -1,4 +1,4 @@
-import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run } from './load-cmd';
+import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, UP } from './load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/application';
 describe('command service User', () => {
@@ -51,6 +51,21 @@ describe('command service User', () => {
       const snapDto = readSnapShot('user-command-persist/dto.txt');
       const snapHandler = readSnapShot('user-command-persist/handler.txt');
       const snapService = readSnapShot('user-command-persist/service.txt');
+
+      expect(renderDto).toEqual(snapDto);
+      expect(renderHandler).toEqual(snapHandler);
+      expect(renderService).toEqual(snapService);
+    });
+
+    test('template delete', async () => {
+      await run([DOWN, ENTER, ENTER, UP, ENTER, ENTER, ENTER]);
+      const renderDto = readRender(PATH_USER_APPLICATION + '/delete/user-delete.dto.ts');
+      const renderHandler = readRender(PATH_USER_APPLICATION + '/delete/user-delete.handler.ts');
+      const renderService = readRender(PATH_USER_APPLICATION + '/delete/user-delete.service.ts');
+
+      const snapDto = readSnapShot('user-command-delete/dto.txt');
+      const snapHandler = readSnapShot('user-command-delete/handler.txt');
+      const snapService = readSnapShot('user-command-delete/service.txt');
 
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
