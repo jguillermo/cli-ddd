@@ -16,16 +16,16 @@ describe('query service User', () => {
     });
   });
 
-  describe.skip('generate query User Error', () => {
+  describe('generate query User Error', () => {
     test('input name error 1 cracrter', async () => {
-      const result = await run([DOWN, ENTER, DOWN, ENTER, 'c', ENTER]);
+      const result = await run([DOWN, ENTER, DOWN, ENTER, ENTER, 'c', ENTER]);
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Query/);
       expect(result).toMatch(/QUERY name must be at least 3 letters/);
     });
 
     test('input name error caracteres no permitidos', async () => {
-      const result = await run([DOWN, ENTER, DOWN, ENTER, 'Create-User', ENTER]);
+      const result = await run([DOWN, ENTER, DOWN, ENTER, ENTER, 'Create-User', ENTER]);
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Query/);
       expect(result).toMatch(/only caracters de a la a-z A-Z/);
