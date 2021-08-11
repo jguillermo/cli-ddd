@@ -92,8 +92,9 @@ export class ServiceCreateQuery {
       e.setLanguage(this.language);
       return e;
     });
+    const parentType = [...new Set(propertiesSelected.map((e) => e.parentTypeImp))].sort();
 
-    this.renderDto(aggregate, propertiesSelected, queryName);
+    this.renderDto(aggregate, propertiesSelected, queryName, templateRender, parentType);
 
     this.renderHandler(aggregate, propertiesSelected, queryName);
 
@@ -104,7 +105,7 @@ export class ServiceCreateQuery {
     return `${this.language.language()}/application/query/`;
   }
 
-  private renderDto(aggregate: Aggregate, properties: WPropertie[], queryName: string) {
+  private renderDto(aggregate: Aggregate, properties: WPropertie[], queryName: string, templateRender: string, parentType: string[]) {
     const className = this.language.className([aggregate.name.value, queryName, 'Dto']);
     const generateFile = this.language.classFile([aggregate.name.value, queryName, 'Dto']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', queryName]);
@@ -114,6 +115,8 @@ export class ServiceCreateQuery {
       templateData: {
         className,
         properties,
+        templateRender,
+        parentType,
       },
       generatefolder,
       generateFile,
