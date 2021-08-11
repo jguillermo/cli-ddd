@@ -44,15 +44,15 @@ describe('command service User', () => {
   describe('render', () => {
     test('template persist', async () => {
       await run([DOWN, ENTER, ENTER, DOWN, ENTER, ENTER, ENTER]);
-      const renderDao = readRender(PATH_USER_APPLICATION + '/persist/user-persist.dao.ts');
+      const renderDto = readRender(PATH_USER_APPLICATION + '/persist/user-persist.dto.ts');
       const renderHandler = readRender(PATH_USER_APPLICATION + '/persist/user-persist.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/persist/user-persist.service.ts');
 
-      const snapDao = readSnapShot('user-command-persist/dao.txt');
+      const snapDto = readSnapShot('user-command-persist/dto.txt');
       const snapHandler = readSnapShot('user-command-persist/handler.txt');
       const snapService = readSnapShot('user-command-persist/service.txt');
 
-      expect(renderDao).toEqual(snapDao);
+      expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
       expect(renderService).toEqual(snapService);
     });

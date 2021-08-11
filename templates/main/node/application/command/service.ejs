@@ -1,20 +1,23 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
+import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
+import { <%= aggregate.name.value %> } from '../../domain/<%= aggregate.name.propertie %>';
+<%_ properties.forEach(function(e){ _%>
+import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+<%_ }); _%>
 
 @Injectable()
 export class <%= className %> {
-  constructor(private repository: <%= aggregate.name.value %>Repository) {}
+  constructor(private repository: <%= classRepository %>, private eventBus: EventBus) {}
 
   public async execute(<%= strVoProperties %>): Promise<void> {
-    <%_ if (templateRender == "create") { _%>
-    const <%= aggregate.name.propertie %> = <%= aggregate.name.value %>.create(<%= strProperties %>);
-    await this.repository.persist(<%= aggregate.name.propertie %>);
-    <%_ } _%>
-    <%_ if (templateRender == "update") { _%>
-    const <%= aggregate.name.propertie %> = await this.repository.findById(id);
+    <%_ if (templateRender == "persist") { _%>
+    let <%= aggregate.name.propertie %> = await this.repository.findById(id);
     if (!<%= aggregate.name.propertie %>) {
-    throw new NotFoundException(`<%= aggregate.name.value %> with id ${id} not found`);
+      <%= aggregate.name.propertie %> = <%= aggregate.name.value %>.create(<%= strProperties %>);
+    } else {
+      <%= aggregate.name.propertie %>.change(<%= strPropertiesWitoutId %>);
     }
-    <%= aggregate.name.propertie %>.change(<%= strProperties %>);
     await this.repository.persist(<%= aggregate.name.propertie %>);
     <%_ } _%>
     <%_ if (templateRender == "delete") { _%>
@@ -24,6 +27,6 @@ export class <%= className %> {
     }
     repository.delete(<%= aggregate.name.propertie %>);
     <%_ } _%>
-    //eventBus.publish(<%= aggregate.name.propertie %>.pullDomainEvents());
+    this.eventBus.publishAll(<%= aggregate.name.propertie %>.pullDomainEvents());
   }
 }

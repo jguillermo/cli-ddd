@@ -1,6 +1,5 @@
-import { storage } from '../in-memory-storage';
+import { storage, WPropertie } from '../in-memory-storage';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
 import { Render } from '../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
@@ -45,11 +44,7 @@ export class Service extends AbstractService {
     ];
   }
 
-  private questions(
-    aggregate: string,
-    properties: string[],
-    templateRender: string,
-  ): QuestionCollection<{ properties: string[]; commandName: string }> {
+  private questions(aggregate: string, properties: string[], templateRender: string): QuestionCollection<{ properties: string[]; commandName: string }> {
     let defaultProperties = [...properties];
     let defaultCommandName = templateRender;
     if (templateRender === 'delete') {
@@ -89,66 +84,48 @@ export class Service extends AbstractService {
 export class ServiceCreateCommand {
   constructor(private _collectionAggregate: CollectionAggregate, private language: LanguageInterface) {}
 
-  async execute(
-    aggregateName: string,
-    properties: string[],
-    commandName: string,
-    templateRender: string,
-  ): Promise<void> {
-    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
-    const propertiesSelected = storage.getProperties(properties);
-
-    this.renderService(aggregate, propertiesSelected, commandName, templateRender);
-
-    this.renderCommand(aggregate, propertiesSelected, commandName);
-
-    this.renderHandler(aggregate, propertiesSelected, commandName);
-  }
-
   get templatePath(): string {
     return `${this.language.language()}/application/command/`;
   }
 
-  private renderCommand(aggregate: Aggregate, properties: Propertie[], commandName: string) {
-    const classInput = this.language.className([aggregate.name.value, commandName, 'Input']);
-    const className = this.language.className([aggregate.name.value, commandName, 'Command']);
-    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'Command']);
+  async execute(aggregateName: string, properties: string[], commandName: string, templateRender: string): Promise<void> {
+    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
+    const propertiesSelected = storage.getWProperties(properties).map((e) => {
+      e.setLanguage(this.language);
+      return e;
+    });
+
+    this.renderDto(aggregate, propertiesSelected, commandName, templateRender);
+
+    this.renderHandler(aggregate, propertiesSelected, commandName);
+
+    this.renderService(aggregate, propertiesSelected, commandName, templateRender);
+  }
+
+  private renderDto(aggregate: Aggregate, properties: WPropertie[], commandName: string, templateRender: string) {
+    const className = this.language.className([aggregate.name.value, commandName, 'Dto']);
+    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'Dto']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
 
     Render.generate({
-      templateFile: `${this.templatePath}command.ejs`,
+      templateFile: `${this.templatePath}dto.ejs`,
       templateData: {
-        classInput,
         className,
         properties,
-      },
-      generatefolder,
-      generateFile,
-    });
-  }
-
-  private renderService(aggregate: Aggregate, properties: Propertie[], commandName: string, templateRender: string) {
-    const className = this.language.className([aggregate.name.value, commandName, 'service']);
-    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'service']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
-
-    Render.generate({
-      templateFile: `${this.templatePath}service.ejs`,
-      templateData: {
         templateRender,
-        className,
-        aggregate,
-        strProperties: properties.map((e) => e.name.value).join(', '),
-        strVoProperties: properties.map((e) => `${e.name.value}: ${e.className}`).join(', '),
       },
       generatefolder,
       generateFile,
     });
   }
 
-  private renderHandler(aggregate: Aggregate, properties: Propertie[], commandName: string) {
-    const classCommand = this.language.className([aggregate.name.value, commandName, 'command']);
+  private renderHandler(aggregate: Aggregate, properties: WPropertie[], commandName: string) {
+    const classDto = this.language.className([aggregate.name.value, commandName, 'Dto']);
+    const fileDto = this.language.classFile([aggregate.name.value, commandName, 'Dto'], false);
+
     const classService = this.language.className([aggregate.name.value, commandName, 'service']);
+    const fileService = this.language.classFile([aggregate.name.value, commandName, 'service'], false);
+
     const className = this.language.className([aggregate.name.value, commandName, 'handler']);
     const generateFile = this.language.classFile([aggregate.name.value, commandName, 'handler']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
@@ -156,11 +133,41 @@ export class ServiceCreateCommand {
     Render.generate({
       templateFile: `${this.templatePath}handler.ejs`,
       templateData: {
-        classCommand,
+        classDto,
+        fileDto,
         classService,
+        fileService,
         className,
         properties,
-        strProperties: properties.map((e) => e.name.value).join(', '),
+        strProperties: properties.map((e) => e.propertie.name.value).join(', '),
+      },
+      generatefolder,
+      generateFile,
+    });
+  }
+
+  private renderService(aggregate: Aggregate, properties: WPropertie[], commandName: string, templateRender: string) {
+    const classRepository = this.language.className([aggregate.name.value, 'Repository']);
+    const fileRepository = this.language.classFile([aggregate.name.value, 'Repository'], false);
+
+    const className = this.language.className([aggregate.name.value, commandName, 'service']);
+    const generateFile = this.language.classFile([aggregate.name.value, commandName, 'service']);
+    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
+
+    const propertiesWithoutId = properties.filter((e) => e.propertie.name.value !== 'id');
+
+    Render.generate({
+      templateFile: `${this.templatePath}service.ejs`,
+      templateData: {
+        classRepository,
+        fileRepository,
+        templateRender,
+        className,
+        aggregate,
+        properties,
+        strProperties: properties.map((e) => e.propertie.name.value).join(', '),
+        strPropertiesWitoutId: propertiesWithoutId.map((e) => e.propertie.name.value).join(', '),
+        strVoProperties: properties.map((e) => `${e.propertie.name.value}: ${e.propertie.className}`).join(', '),
       },
       generatefolder,
       generateFile,

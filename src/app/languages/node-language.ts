@@ -19,7 +19,7 @@ export class NodeLanguage implements LanguageInterface {
       .join('');
   }
 
-  classFile(names: string[]): string {
+  classFile(names: string[], addType = true): string {
     const namesMayus = names.map((n) => {
       const dd = n.split(/(?=[A-Z])/);
       return dd.join('-');
@@ -31,10 +31,10 @@ export class NodeLanguage implements LanguageInterface {
         return slugify(n);
       })
       .join('-');
-    return `${name}.${type}.ts`;
+    return addType ? `${name}.${type}.ts` : `${name}.${type}`;
   }
 
-  classFileWithOutType(names: string[]): string {
+  classFileWithOutType(names: string[], addType = true): string {
     const namesMayus = names.map((n) => {
       const dd = n.split(/(?=[A-Z])/);
       return dd.join('-');
@@ -45,7 +45,7 @@ export class NodeLanguage implements LanguageInterface {
         return slugify(n);
       })
       .join('-');
-    return `${name}.ts`;
+    return addType ? `${name}.ts` : name;
   }
 
   folderPath(paths: string[]): string {

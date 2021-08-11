@@ -3,13 +3,6 @@ import { LanguageInterface, LanguageList } from './language';
 const s = require('underscore.string');
 
 export class JavaLanguage implements LanguageInterface {
-  classFileWithOutType(names: string[]): string {
-    return names
-      .map((n) => {
-        return s.capitalize(n);
-      })
-      .join('');
-  }
   language(): string {
     return LanguageList.JAVA;
   }
@@ -22,13 +15,20 @@ export class JavaLanguage implements LanguageInterface {
       .join('');
   }
 
-  classFile(names: string[]): string {
+  classFile(names: string[], addType = true): string {
     const name = names
       .map((n) => {
         return s.capitalize(n);
       })
       .join('');
-    return `${name}.java`;
+    return addType ? `${name}.java` : name;
+  }
+  classFileWithOutType(names: string[], addType = true): string {
+    return names
+      .map((n) => {
+        return s.capitalize(n);
+      })
+      .join('');
   }
 
   folderPath(paths: string[]): string {

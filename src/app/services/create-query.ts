@@ -34,10 +34,7 @@ export class Service extends AbstractService {
     this.renderHandler(aggregate, propertiesSelected, answers.queryName);
   }
 
-  private questions(
-    aggregate: string,
-    properties: string[],
-  ): QuestionCollection<{ queryName: string; properties: string[]; templateRender: string }> {
+  private questions(aggregate: string, properties: string[]): QuestionCollection<{ queryName: string; properties: string[]; templateRender: string }> {
     return [
       {
         type: 'input',

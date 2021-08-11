@@ -1,5 +1,6 @@
 import { Propertie } from '../modules/load-data/domain/propertie/propertie';
 import { CollectionAggregate } from '../modules/load-data/domain/CollectionAggregate';
+import { LanguageInterface } from './languages/language';
 
 interface StorageProperties {
   [index: string]: Propertie;
@@ -9,11 +10,24 @@ interface StorageInterface {
   [index: string]: any;
 }
 
-class WPropertie {
+export class WPropertie {
+  private _language: LanguageInterface;
+
   constructor(private _propertie: Propertie, private _properties: StorageProperties = {}) {}
+
+  setLanguage(value: LanguageInterface) {
+    this._language = value;
+  }
 
   get propertie(): Propertie {
     return this._propertie;
+  }
+
+  get file(): string {
+    if (!this._language) {
+      return '';
+    }
+    return this._language.classFileWithOutType([this._propertie.className], false);
   }
 
   get primitive(): string {
