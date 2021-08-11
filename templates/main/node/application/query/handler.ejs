@@ -1,14 +1,40 @@
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+<%_ if (templateRender === "findById") { _%>
+import { <%= classResponse %> } from '../<%= fileResponse %>';
+<%_ properties.forEach(function(e){ _%>
+import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+<%_ }); _%>
+<%_ }else{ _%>
+import { OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
+import { <%= classListResponse %> } from '../<%= fileListResponse %>';
+<%_ parentType.forEach(function(type){ _%>
+import { <%= type %> } from 'base-ddd/dist/ValueObject/Implement/<%= type %>';
+<%_ }); _%>
+<%_ } _%>
+import { <%= classDto %> } from './<%= fileDto %>';
+import { <%= classService %> } from './<%= fileService %>';
 
-@QueryHandler(<%= classQuery %>)
-export class <%= className %> implements IQueryHandler<<%= classQuery %>> {
+@QueryHandler(<%= classDto %>)
+export class <%= className %> implements IQueryHandler<<%= classDto %>> {
   constructor(private service: <%= classService %>) {}
 
-  async execute(query: <%= classQuery %>): Promise<void> {
-  <%_ properties.forEach(function(propertie){ _%>
-    const <%= propertie.name.value %> = new <%= propertie.className %>(query.<%= propertie.name.value %>);
-  <%_ }); _%>
+<%_ if (templateRender === "findById") { _%>
+  async execute(dto: <%= classDto %>): Promise<<%= classResponse %>> {
+    <%_ properties.forEach(function(e){ _%>
+    const <%= e.propertie.name.value %> = new <%= e.propertie.className %>(dto.<%= e.propertie.name.value %>);
+    <%_ }); _%>
 
-    await this.service.execute(<%= strProperties %>);
+    return await this.service.execute(<%= strProperties %>);
   }
+<%_ }else{ _%>
+  async execute(dto: <%= classDto %>): Promise<<%= classListResponse %>> {
+    <%_ properties.forEach(function(e){ _%>
+    const <%= e.propertie.name.value %> = new <%= e.parentTypeImp %>(dto.<%= e.propertie.name.value %>);
+    <%_ }); _%>
+    const paginator = PaginatorTypeImp.create(dto.paginator?.page, dto.paginator?.perPage);
+    const order = OrderTypeImp.create(dto.order?.field, dto.order?.direction);
+
+    return await this.service.execute(<%= strProperties %>, paginator, order);
+  }
+<%_ } _%>
 }

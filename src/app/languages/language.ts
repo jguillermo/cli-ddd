@@ -5,9 +5,13 @@ export interface LanguageInterface {
 
   className(names: string[]): string;
 
-  classFile(names: string[]): string;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  classFile(names: string[], addType: boolean = false): string;
 
-  classFileWithOutType(names: string[]): string;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  classFileWithOutType(names: string[], addType: boolean = false): string;
 
   folderPath(paths: string[]): string;
 }

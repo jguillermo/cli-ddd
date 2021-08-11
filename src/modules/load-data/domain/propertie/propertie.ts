@@ -14,23 +14,11 @@ interface PropertieValue {
 }
 
 export class Propertie {
-  constructor(
-    private _name: PropertieName,
-    private _type: PropertieType,
-    private _required: PropertieRequired,
-    private _defaultValue: PropertieDefault,
-    private _aggregateName: Name,
-  ) {}
+  constructor(private _name: PropertieName, private _type: PropertieType, private _required: PropertieRequired, private _defaultValue: PropertieDefault, private _aggregateName: Name) {}
 
   static create(propertieName: string, value: any, aggregateName: Name): Propertie {
     const { type, required, defaultValue } = this.processValue(value);
-    return new Propertie(
-      new PropertieName(propertieName, aggregateName.value),
-      new PropertieType(type),
-      new PropertieRequired(required),
-      new PropertieDefault(defaultValue),
-      aggregateName,
-    );
+    return new Propertie(new PropertieName(propertieName, aggregateName.value), new PropertieType(type), new PropertieRequired(required), new PropertieDefault(defaultValue), aggregateName);
   }
 
   private static processValue(value): PropertieValue {
