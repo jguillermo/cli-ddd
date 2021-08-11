@@ -1,0 +1,15 @@
+import { Injectable } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
+import { UserRepository } from '../../domain/user.repository';
+import { UserId } from '../../domain/user-id';
+import { UserName } from '../../domain/user-name';
+
+@Injectable()
+export class UserNoneService {
+  constructor(private repository: UserRepository, private eventBus: EventBus) {}
+
+  public async execute(id: UserId, name: UserName): Promise<void> {
+    const user = await this.repository.findById(id);
+    this.eventBus.publishAll(user.pullDomainEvents());
+  }
+}

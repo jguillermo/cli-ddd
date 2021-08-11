@@ -7,7 +7,7 @@ import { StringTypeImp } from 'base-ddd/dist/ValueObject/Implement/StringTypeImp
 import { UUIDTypeImp } from 'base-ddd/dist/ValueObject/Implement/UUIDTypeImp';
 
 @Injectable()
-export class UserListService {
+export class UserNoneService {
   constructor(private repository: UserRepository) {}
 
   public async execute(id: UUIDTypeImp, name: StringTypeImp, paginator: PaginatorTypeImp, order: OrderTypeImp): Promise<ListUserResponse> {

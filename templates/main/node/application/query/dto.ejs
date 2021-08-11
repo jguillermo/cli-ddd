@@ -32,7 +32,7 @@ export class <%= className %> extends BaseDto {
   <%= e.propertie.name.value %>?: <%= e.primitive %>;
   <%_ } _%>
   <%_ }); _%>
-  <%_ if (templateRender === "list") { _%>
+  <%_ if (templateRender !== "findById") { _%>
 
   @IsOptional()
   @Validate(DomainValidator, [PaginatorTypeImp])

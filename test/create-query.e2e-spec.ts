@@ -62,7 +62,23 @@ describe('query service User', () => {
 
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
-      //expect(renderService).toEqual(snapService);
+      expect(renderService).toEqual(snapService);
+    });
+
+    test('none', async () => {
+      await run([DOWN, ENTER, DOWN, ENTER, ENTER, 'none', ENTER, ENTER]);
+
+      const renderDto = readRender(PATH_USER_APPLICATION + '/none/user-none.dto.ts');
+      const renderHandler = readRender(PATH_USER_APPLICATION + '/none/user-none.handler.ts');
+      const renderService = readRender(PATH_USER_APPLICATION + '/none/user-none.service.ts');
+
+      const snapDto = readSnapShot('user-query-none/dto.txt');
+      const snapHandler = readSnapShot('user-query-none/handler.txt');
+      const snapService = readSnapShot('user-query-none/service.txt');
+
+      expect(renderDto).toEqual(snapDto);
+      expect(renderHandler).toEqual(snapHandler);
+      expect(renderService).toEqual(snapService);
     });
   });
 });

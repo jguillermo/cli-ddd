@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../../domain/user.repository';
-import { UserId } from '../../domain/user-id';
 import { UserResponse } from '../user.response';
+import { UserId } from '../../domain/user-id';
 
 @Injectable()
 export class UserFindByIdService {

@@ -98,7 +98,7 @@ export class ServiceCreateQuery {
 
     this.renderHandler(aggregate, propertiesSelected, queryName, templateRender, parentType);
 
-    this.renderService(aggregate, propertiesSelected, queryName, templateRender);
+    this.renderService(aggregate, propertiesSelected, queryName, templateRender, parentType);
   }
 
   get templatePath(): string {
@@ -163,12 +163,15 @@ export class ServiceCreateQuery {
     });
   }
 
-  private renderService(aggregate: Aggregate, properties: WPropertie[], queryName: string, templateRender: string) {
+  private renderService(aggregate: Aggregate, properties: WPropertie[], queryName: string, templateRender: string, parentType: string[]) {
     const classRepository = this.language.className([aggregate.name.value, 'repository']);
     const fileRepository = this.language.classFile([aggregate.name.value, 'repository'], false);
 
     const classResponse = this.language.className([aggregate.name.value, 'response']);
     const fileResponse = this.language.classFile([aggregate.name.value, 'response'], false);
+
+    const classListResponse = this.language.className(['list', aggregate.name.value, 'response']);
+    const fileListResponse = this.language.classFile(['list', aggregate.name.value, 'response'], false);
 
     const className = this.language.className([aggregate.name.value, queryName, 'service']);
     const generateFile = this.language.classFile([aggregate.name.value, queryName, 'service']);
@@ -181,12 +184,16 @@ export class ServiceCreateQuery {
         fileRepository,
         classResponse,
         fileResponse,
+        classListResponse,
+        fileListResponse,
         templateRender,
         className,
         aggregate,
         properties,
+        parentType,
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
         strVoProperties: properties.map((e) => `${e.propertie.name.value}: ${e.propertie.className}`).join(', '),
+        strVoParentProperties: properties.map((e) => `${e.propertie.name.value}: ${e.parentTypeImp}`).join(', '),
       },
       generatefolder,
       generateFile,

@@ -71,5 +71,20 @@ describe('command service User', () => {
       expect(renderHandler).toEqual(snapHandler);
       expect(renderService).toEqual(snapService);
     });
+
+    test('template none', async () => {
+      await run([DOWN, ENTER, ENTER, ENTER, 'none', ENTER, ENTER]);
+      const renderDto = readRender(PATH_USER_APPLICATION + '/none/user-none.dto.ts');
+      const renderHandler = readRender(PATH_USER_APPLICATION + '/none/user-none.handler.ts');
+      const renderService = readRender(PATH_USER_APPLICATION + '/none/user-none.service.ts');
+
+      const snapDto = readSnapShot('user-command-none/dto.txt');
+      const snapHandler = readSnapShot('user-command-none/handler.txt');
+      const snapService = readSnapShot('user-command-none/service.txt');
+
+      expect(renderDto).toEqual(snapDto);
+      expect(renderHandler).toEqual(snapHandler);
+      expect(renderService).toEqual(snapService);
+    });
   });
 });
