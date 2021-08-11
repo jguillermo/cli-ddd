@@ -23,9 +23,13 @@ export class JavaLanguage implements LanguageInterface {
       .join('');
     return addType ? `${name}.java` : name;
   }
+
   classFileWithOutType(names: string[], addType = true): string {
     return names
       .map((n) => {
+        if (addType) {
+          return '';
+        }
         return s.capitalize(n);
       })
       .join('');

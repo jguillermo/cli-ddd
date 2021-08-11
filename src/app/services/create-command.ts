@@ -150,6 +150,8 @@ export class ServiceCreateCommand {
     const classRepository = this.language.className([aggregate.name.value, 'Repository']);
     const fileRepository = this.language.classFile([aggregate.name.value, 'Repository'], false);
 
+    const fileAggregate = this.language.classFileWithOutType([aggregate.name.value], false);
+
     const className = this.language.className([aggregate.name.value, commandName, 'service']);
     const generateFile = this.language.classFile([aggregate.name.value, commandName, 'service']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
@@ -164,6 +166,7 @@ export class ServiceCreateCommand {
         templateRender,
         className,
         aggregate,
+        fileAggregate,
         properties,
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
         strPropertiesWitoutId: propertiesWithoutId.map((e) => e.propertie.name.value).join(', '),

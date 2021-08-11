@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
-import { <%= aggregate.name.value %> } from '../../domain/<%= aggregate.name.propertie %>';
+import { <%= aggregate.name.value %> } from '../../domain/<%= fileAggregate %>';
 <%_ properties.forEach(function(e){ _%>
 import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
 <%_ }); _%>
