@@ -1,6 +1,5 @@
 import { storage, WPropertie } from '../in-memory-storage';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Propertie } from '../../modules/load-data/domain/propertie/propertie';
 import { Render } from '../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
