@@ -1,4 +1,4 @@
-import { cleanRender, DOWN, ENTER, readRender, run, UP } from './load-cmd';
+import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, UP } from './load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/application';
 describe('query service User', () => {
@@ -32,31 +32,36 @@ describe('query service User', () => {
     });
   });
 
-  describe.skip('render query list User', () => {
-    test('service -> select template list', async () => {
-      await run([DOWN, ENTER, DOWN, ENTER, 'list', ENTER, ENTER, UP, ENTER]);
-      const render = readRender(PATH_USER_APPLICATION + '/list/user-list.service.ts');
-      expect(render).toMatch(/export class UserListService/);
-      expect(render).toMatch(/private repository: UserRepository/);
-      expect(render).toMatch(/const listUser = await this.repository.find\(\)/);
-    });
+  describe('render template', () => {
+    test('findById', async () => {
+      await run([DOWN, ENTER, DOWN, ENTER, DOWN, ENTER, ENTER, ENTER]);
 
-    test('query -> select template list', async () => {
-      await run([DOWN, ENTER, DOWN, ENTER, 'list', ENTER, ENTER, UP, ENTER]);
-      const render = readRender(PATH_USER_APPLICATION + '/list/user-list.query.ts');
-      expect(render).toMatch(/export class UserListQuery/);
-    });
+      const renderDto = readRender(PATH_USER_APPLICATION + '/find-by-id/user-find-by-id.dto.ts');
+      const renderHandler = readRender(PATH_USER_APPLICATION + '/find-by-id/user-find-by-id.handler.ts');
+      const renderService = readRender(PATH_USER_APPLICATION + '/find-by-id/user-find-by-id.service.ts');
 
-    test('handler -> select template list', async () => {
-      await run([DOWN, ENTER, DOWN, ENTER, 'list', ENTER, ENTER, UP, ENTER]);
-      const render = readRender(PATH_USER_APPLICATION + '/list/user-list.handler.ts');
-      expect(render).toMatch(/QueryHandler\(UserListQuery\)/);
-      expect(render).toMatch(/export class UserListHandler/);
-      expect(render).toMatch(/implements IQueryHandler<UserListQuery>/);
-      expect(render).toMatch(/private service: UserListService/);
-      expect(render).toMatch(/async execute\(query: UserListQuery\)/);
-      expect(render).toMatch(/const id = new UserId\(query\.id\)/);
-      expect(render).toMatch(/const name = new UserName\(query\.name\)/);
+      const snapDto = readSnapShot('user-query-find-by-id/dto.txt');
+      const snapHandler = readSnapShot('user-query-find-by-id/handler.txt');
+      const snapService = readSnapShot('user-query-find-by-id/service.txt');
+
+      expect(renderDto).toEqual(snapDto);
+      expect(renderHandler).toEqual(snapHandler);
+      expect(renderService).toEqual(snapService);
+    });
+    test.skip('list', async () => {
+      await run([DOWN, ENTER, DOWN, ENTER, UP, ENTER, ENTER, ENTER]);
+
+      const renderDto = readRender(PATH_USER_APPLICATION + '/list/user-list.dto.ts');
+      const renderHandler = readRender(PATH_USER_APPLICATION + '/list/user-list.handler.ts');
+      const renderService = readRender(PATH_USER_APPLICATION + '/list/user-list.service.ts');
+
+      const snapDto = readSnapShot('user-query-list/dto.txt');
+      const snapHandler = readSnapShot('user-query-list/handler.txt');
+      const snapService = readSnapShot('user-query-list/service.txt');
+
+      expect(renderDto).toEqual(snapDto);
+      expect(renderHandler).toEqual(snapHandler);
+      expect(renderService).toEqual(snapService);
     });
   });
 });

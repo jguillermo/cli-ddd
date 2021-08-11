@@ -6,9 +6,8 @@ import { BaseDto } from '../../../share/application/base.dto';
 
 @ArgsType()
 export class UserFindByIdDto extends BaseDto {
-  constructor(id: string) {
+  constructor() {
     super();
-    this.id = id;
   }
 
   @Validate(DomainValidator, [UserId])

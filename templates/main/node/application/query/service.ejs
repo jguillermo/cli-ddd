@@ -1,21 +1,25 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
+<%_ properties.forEach(function(e){ _%>
+import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+<%_ }); _%>
+import { <%= classResponse %> } from '../<%= fileResponse %>';
 
 @Injectable()
 export class <%= className %> {
-  constructor(private repository: <%= aggregate.name.value %>Repository) {}
+  constructor(private repository: <%= classRepository %>) {}
 
-  public async execute(<%= strVoProperties %>): Promise<void> {
-    <%_ if (templateRender == "entity") { _%>
+  public async execute(<%= strVoProperties %>): Promise<<%= classResponse %> | null> {
+    <%_ if (templateRender == "findById") { _%>
     const <%= aggregate.name.propertie %> = await this.repository.findById(id);
     if (!<%= aggregate.name.propertie %>) {
-    throw new NotFoundException(`<%= aggregate.name.value %> with id ${id} not found`);
+      return null;
     }
-    return <%= aggregate.name.propertie %>;
+    return <%= classResponse %>.fromAggregate(<%= aggregate.name.propertie %>);
     <%_ } _%>
     <%_ if (templateRender == "list") { _%>
     const list<%= aggregate.name.value %> = await this.repository.find();
     return list<%= aggregate.name.value %>;
     <%_ } _%>
-    //eventBus.publish(<%= aggregate.name.propertie %>.pullDomainEvents());
   }
 }
