@@ -61,7 +61,7 @@ describe('query service User', () => {
       const snapService = readSnapShot('user-query-list/service.txt');
 
       expect(renderDto).toEqual(snapDto);
-      //expect(renderHandler).toEqual(snapHandler);
+      expect(renderHandler).toEqual(snapHandler);
       //expect(renderService).toEqual(snapService);
     });
   });

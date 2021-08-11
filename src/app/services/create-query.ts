@@ -96,7 +96,7 @@ export class ServiceCreateQuery {
 
     this.renderDto(aggregate, propertiesSelected, queryName, templateRender, parentType);
 
-    this.renderHandler(aggregate, propertiesSelected, queryName);
+    this.renderHandler(aggregate, propertiesSelected, queryName, templateRender, parentType);
 
     this.renderService(aggregate, propertiesSelected, queryName, templateRender);
   }
@@ -123,7 +123,7 @@ export class ServiceCreateQuery {
     });
   }
 
-  private renderHandler(aggregate: Aggregate, properties: WPropertie[], queryName: string) {
+  private renderHandler(aggregate: Aggregate, properties: WPropertie[], queryName: string, templateRender: string, parentType: string[]) {
     const classDto = this.language.className([aggregate.name.value, queryName, 'Dto']);
     const fileDto = this.language.classFile([aggregate.name.value, queryName, 'Dto'], false);
 
@@ -132,6 +132,9 @@ export class ServiceCreateQuery {
 
     const classResponse = this.language.className([aggregate.name.value, 'response']);
     const fileResponse = this.language.classFile([aggregate.name.value, 'response'], false);
+
+    const classListResponse = this.language.className(['list', aggregate.name.value, 'response']);
+    const fileListResponse = this.language.classFile(['list', aggregate.name.value, 'response'], false);
 
     const className = this.language.className([aggregate.name.value, queryName, 'handler']);
     const generateFile = this.language.classFile([aggregate.name.value, queryName, 'handler']);
@@ -146,9 +149,13 @@ export class ServiceCreateQuery {
         fileService,
         classResponse,
         fileResponse,
+        classListResponse,
+        fileListResponse,
         className,
         properties,
         aggregate,
+        templateRender,
+        parentType,
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
       },
       generatefolder,
