@@ -1,25 +1,15 @@
-<%_ if (templateRender == "list") { _%>
-import { IsOptional, Validate } from 'class-validator';
-<%_ }else{ _%>
-import { Validate } from 'class-validator';
-<%_ } _%>
 import { ArgsType, Field } from '@nestjs/graphql';
-<%_ if (templateRender == "list") { _%>
-import { DomainValidator, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
-<%_ }else{ _%>
+<%_ if (templateRender === "findById") { _%>
+import { Validate } from 'class-validator';
 import { DomainValidator } from 'base-ddd';
-<%_ } _%>
-<%_ if (templateRender == "findById") { _%>
+import { BaseDto } from '../../../share/application/base.dto';
 <%_ properties.forEach(function(e){ _%>
 import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
 <%_ }); _%>
-<%_ } _%>
-<%_ if (templateRender == "list") { _%>
-import { BaseDto, OrderDto, PaginatorDto } from '../../../share/application/base.dto';
 <%_ }else{ _%>
-import { BaseDto } from '../../../share/application/base.dto';
-<%_ } _%>
-<%_ if (templateRender == "list") { _%>
+import { IsOptional, Validate } from 'class-validator';
+import { DomainValidator, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
+import { BaseDto, OrderDto, PaginatorDto } from '../../../share/application/base.dto';
 <%_ parentType.forEach(function(type){ _%>
 import { <%= type %> } from 'base-ddd/dist/ValueObject/Implement/<%= type %>';
 <%_ }); _%>
@@ -30,9 +20,9 @@ export class <%= className %> extends BaseDto {
   constructor() {
     super();
   }
-
   <%_ properties.forEach(function(e){ _%>
-  <%_ if (templateRender == "findById") { _%>
+
+  <%_ if (templateRender === "findById") { _%>
   @Validate(DomainValidator, [<%= e.propertie.className %>])
   @Field()
   <%= e.propertie.name.value %>: <%= e.primitive %>;
@@ -40,10 +30,10 @@ export class <%= className %> extends BaseDto {
   @Validate(DomainValidator, [<%= e.parentTypeImp %>])
   @Field({ nullable: true })
   <%= e.propertie.name.value %>?: <%= e.primitive %>;
-
   <%_ } _%>
   <%_ }); _%>
-  <%_ if (templateRender == "list") { _%>
+  <%_ if (templateRender === "list") { _%>
+
   @IsOptional()
   @Validate(DomainValidator, [PaginatorTypeImp])
   @Field(() => PaginatorDto, { nullable: true })
