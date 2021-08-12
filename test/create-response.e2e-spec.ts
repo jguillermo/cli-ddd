@@ -1,4 +1,4 @@
-import { cleanRender, DOWN, ENTER, readRender, run } from './load-cmd';
+import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run } from './load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/application/';
 describe('response User', () => {
@@ -6,22 +6,17 @@ describe('response User', () => {
     cleanRender();
   });
   describe('generate response User', () => {
-    test('aggregate', async () => {
+    test('aggregate and list', async () => {
       await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER]);
-      const render = readRender(PATH_USER_APPLICATION + 'user.response.ts');
-      expect(render).toMatch(/import { User } from/);
-      expect(render).toMatch(/export class UserResponse/);
-      expect(render).toMatch(/constructor\(public id: string, public name: string\)/);
-      expect(render).toMatch(/static fromAggregate\(user: User\)/);
-      expect(render).toMatch(/return new UserResponse\(user\.id\.value, user\.name\.value\)/);
-    });
-    test('list aggregate', async () => {
-      await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER]);
-      const render = readRender(PATH_USER_APPLICATION + 'list-user.response.ts');
-      expect(render).toMatch(/import { UserResponse } from/);
-      expect(render).toMatch(/export class ListUserResponse/);
-      expect(render).toMatch(/public list: UserResponse\[]/);
-      expect(render).toMatch(/constructor\(list: UserResponse\[]\)/);
+
+      const renderAggregate = readRender(PATH_USER_APPLICATION + '/user.response.ts');
+      const renderListAggregate = readRender(PATH_USER_APPLICATION + '/list-user.response.ts');
+
+      const snapAggregate = readSnapShot('user-response/aggregate.txt');
+      const snapListAggregate = readSnapShot('user-response/list-aggregate.txt');
+
+      expect(renderAggregate).toEqual(snapAggregate);
+      expect(renderListAggregate).toEqual(snapListAggregate);
     });
   });
 });
