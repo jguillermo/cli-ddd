@@ -7,7 +7,7 @@ describe('response User', () => {
   });
   describe('generate response User', () => {
     test('aggregate', async () => {
-      await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, ENTER]);
+      await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER]);
       const render = readRender(PATH_USER_APPLICATION + 'user.response.ts');
       expect(render).toMatch(/import { User } from/);
       expect(render).toMatch(/export class UserResponse/);
@@ -16,7 +16,7 @@ describe('response User', () => {
       expect(render).toMatch(/return new UserResponse\(user\.id\.value, user\.name\.value\)/);
     });
     test('list aggregate', async () => {
-      await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, ENTER]);
+      await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER]);
       const render = readRender(PATH_USER_APPLICATION + 'list-user.response.ts');
       expect(render).toMatch(/import { UserResponse } from/);
       expect(render).toMatch(/export class ListUserResponse/);

@@ -7,7 +7,7 @@ describe('aggregate User', () => {
   });
   describe('generate aggregate User', () => {
     test('generate', async () => {
-      await run([DOWN, ENTER, DOWN, DOWN, DOWN, ENTER]);
+      await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER]);
       const render = readRender(PATH_USER_APPLICATION);
       expect(render).toMatch(/import { UserId } from/);
       expect(render).toMatch(/import { UserName } from/);

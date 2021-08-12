@@ -2,7 +2,7 @@ import { cleanRender, DOWN, ENTER, readRender, run } from './load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/domain';
 
-const KEY_PRESS = [DOWN, ENTER, DOWN, DOWN, ENTER, ENTER];
+const KEY_PRESS = [DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER, ENTER];
 
 describe('command service User', () => {
   beforeEach(() => {
