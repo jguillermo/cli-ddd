@@ -16,7 +16,7 @@ export class MenuServices {
         name: 'menuSelected',
         message: `What do you want to generate in ${aggregate}?`,
         choices: MenuServices.loadListServices().map((e) => e.serviceName()),
-        //pageSize: listMenu.length + 2,
+        pageSize: MenuServices.loadListServices().length + 2,
       },
     ];
   }

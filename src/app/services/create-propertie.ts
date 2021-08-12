@@ -8,7 +8,7 @@ import { AbstractService } from './abstract-service';
 
 export class Service extends AbstractService {
   serviceName(): string {
-    return 'Generate Propertie';
+    return 'Generate Properties';
   }
 
   async execute(aggregateName: string): Promise<void> {
