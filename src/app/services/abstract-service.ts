@@ -17,3 +17,11 @@ export abstract class AbstractService {
     this._collectionAggregate = collectionAggregate;
   }
 }
+
+export abstract class AbstractServiceResponse {
+  constructor(protected _collectionAggregate: CollectionAggregate, protected language: LanguageInterface) {}
+
+  abstract get templatePath(): string;
+
+  abstract execute(aggregateName: string, options: any): void | Promise<void>;
+}
