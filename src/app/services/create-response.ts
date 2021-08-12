@@ -1,9 +1,7 @@
 import { storage, WPropertie } from '../in-memory-storage';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
 import { Render } from '../render';
-import { AbstractService } from './abstract-service';
-import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
-import { LanguageInterface } from '../languages/language';
+import { AbstractService, AbstractServiceResponse } from './abstract-service';
 
 export class Service extends AbstractService {
   serviceName(): string {
@@ -16,9 +14,7 @@ export class Service extends AbstractService {
   }
 }
 
-export class ServiceRender {
-  constructor(private _collectionAggregate: CollectionAggregate, private language: LanguageInterface) {}
-
+export class ServiceRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/application/response`;
   }

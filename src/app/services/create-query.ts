@@ -3,9 +3,7 @@ import { Aggregate } from '../../modules/load-data/domain/Aggregate';
 import { Render } from '../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
-import { AbstractService } from './abstract-service';
-import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
-import { LanguageInterface } from '../languages/language';
+import { AbstractService, AbstractServiceResponse } from './abstract-service';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
@@ -28,8 +26,8 @@ export class Service extends AbstractService {
       ),
     );
 
-    const render = new ServiceCreateQuery(this._collectionAggregate, this.language);
-    await render.execute(aggregateName, answers.properties, answers.queryName, answerTemplate.templateRender);
+    const render = new ServiceRender(this._collectionAggregate, this.language);
+    await render.execute(aggregateName, { properties: answers.properties, queryName: answers.queryName, templateRender: answerTemplate.templateRender });
   }
 
   private static questionTemplate(): QuestionCollection<{ templateRender: string }> {
@@ -81,23 +79,21 @@ export class Service extends AbstractService {
   }
 }
 
-export class ServiceCreateQuery {
-  constructor(private _collectionAggregate: CollectionAggregate, private language: LanguageInterface) {}
-
-  async execute(aggregateName: string, properties: string[], queryName: string, templateRender: string): Promise<void> {
+export class ServiceRender extends AbstractServiceResponse {
+  async execute(aggregateName: string, options: { properties: string[]; queryName: string; templateRender: string }): Promise<void> {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
 
-    const propertiesSelected = storage.getWProperties(properties).map((e) => {
+    const propertiesSelected = storage.getWProperties(options.properties).map((e) => {
       e.setLanguage(this.language);
       return e;
     });
     const parentType = [...new Set(propertiesSelected.map((e) => e.parentTypeImp))].sort();
 
-    this.renderDto(aggregate, propertiesSelected, queryName, templateRender, parentType);
+    this.renderDto(aggregate, propertiesSelected, options.queryName, options.templateRender, parentType);
 
-    this.renderHandler(aggregate, propertiesSelected, queryName, templateRender, parentType);
+    this.renderHandler(aggregate, propertiesSelected, options.queryName, options.templateRender, parentType);
 
-    this.renderService(aggregate, propertiesSelected, queryName, templateRender, parentType);
+    this.renderService(aggregate, propertiesSelected, options.queryName, options.templateRender, parentType);
   }
 
   get templatePath(): string {

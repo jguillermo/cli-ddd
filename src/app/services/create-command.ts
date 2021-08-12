@@ -3,9 +3,7 @@ import { Aggregate } from '../../modules/load-data/domain/Aggregate';
 import { Render } from '../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
-import { AbstractService } from './abstract-service';
-import { CollectionAggregate } from '../../modules/load-data/domain/CollectionAggregate';
-import { LanguageInterface } from '../languages/language';
+import { AbstractService, AbstractServiceResponse } from './abstract-service';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
@@ -28,8 +26,8 @@ export class Service extends AbstractService {
       ),
     );
 
-    const render = new ServiceCreateCommand(this._collectionAggregate, this.language);
-    await render.execute(aggregateName, answers.properties, answers.commandName, answerTemplate.templateRender);
+    const render = new ServiceRender(this._collectionAggregate, this.language);
+    await render.execute(aggregateName, { properties: answers.properties, commandName: answers.commandName, templateRender: answerTemplate.templateRender });
   }
 
   private static questionTemplate(): QuestionCollection<{ templateRender: string }> {
@@ -81,25 +79,23 @@ export class Service extends AbstractService {
   }
 }
 
-export class ServiceCreateCommand {
-  constructor(private _collectionAggregate: CollectionAggregate, private language: LanguageInterface) {}
-
+export class ServiceRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/application/command/`;
   }
 
-  async execute(aggregateName: string, properties: string[], commandName: string, templateRender: string): Promise<void> {
+  async execute(aggregateName: string, options: { properties: string[]; commandName: string; templateRender: string }): Promise<void> {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
-    const propertiesSelected = storage.getWProperties(properties).map((e) => {
+    const propertiesSelected = storage.getWProperties(options.properties).map((e) => {
       e.setLanguage(this.language);
       return e;
     });
 
-    this.renderDto(aggregate, propertiesSelected, commandName, templateRender);
+    this.renderDto(aggregate, propertiesSelected, options.commandName, options.templateRender);
 
-    this.renderHandler(aggregate, propertiesSelected, commandName);
+    this.renderHandler(aggregate, propertiesSelected, options.commandName);
 
-    this.renderService(aggregate, propertiesSelected, commandName, templateRender);
+    this.renderService(aggregate, propertiesSelected, options.commandName, options.templateRender);
   }
 
   private renderDto(aggregate: Aggregate, properties: WPropertie[], commandName: string, templateRender: string) {
