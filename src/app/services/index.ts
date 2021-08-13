@@ -1,7 +1,7 @@
 import { Service as CommandService } from './create-command';
 import { Service as PropertieService } from './create-propertie';
 import { Service as QueryService } from './create-query';
-import { Service as AggregateService } from './create-aggegate';
+import { Service as AggregateService } from './create-aggregate';
 import { Service as ResponseService } from './create-response';
 import { Service as AppGraphQl } from './create-app-graphql';
 import { Service as AppEvent } from './create-app-event';

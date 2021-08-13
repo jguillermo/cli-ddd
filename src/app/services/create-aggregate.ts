@@ -1,7 +1,7 @@
 import { storage, WPropertie } from '../in-memory-storage';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
 import { Render } from '../render';
-import { AbstractService } from './abstract-service';
+import { AbstractService, AbstractServiceResponse } from './abstract-service';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 
@@ -18,18 +18,8 @@ export class Service extends AbstractService {
 
   async execute(aggregateName: string): Promise<void> {
     const answers = await inquirer.prompt(Service.questions(aggregateName));
-
-    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
-    const properties = storage.getWProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames).map((e) => {
-      e.setLanguage(this.language);
-      return e;
-    });
-
-    this.renderAggregate(aggregate, properties, {
-      create: answers.events.includes(EventsEnum.CREATE),
-      update: answers.events.includes(EventsEnum.UPDATE),
-      delete: answers.events.includes(EventsEnum.DELETE),
-    });
+    const render = new ServiceRender(this._collectionAggregate, this.language);
+    await render.execute(aggregateName, answers.events);
   }
 
   private static questions(aggregate: string): QuestionCollection<{ events: string[] }> {
@@ -42,6 +32,26 @@ export class Service extends AbstractService {
         default: [EventsEnum.CREATE],
       },
     ];
+  }
+}
+
+export class ServiceRender extends AbstractServiceResponse {
+  async execute(aggregateName: string, options: string[]): Promise<void> {
+    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
+    const properties = storage.getWProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames).map((e) => {
+      e.setLanguage(this.language);
+      return e;
+    });
+
+    this.renderAggregate(aggregate, properties, {
+      create: options.includes(EventsEnum.CREATE),
+      update: options.includes(EventsEnum.UPDATE),
+      delete: options.includes(EventsEnum.DELETE),
+    });
+  }
+
+  get templatePath(): string {
+    return `${this.language.language()}/domain`;
   }
 
   private renderAggregate(aggregate: Aggregate, properties: WPropertie[], events: { create: boolean; update: boolean; delete: boolean }) {
@@ -61,7 +71,7 @@ export class Service extends AbstractService {
     const propertiesWithOutId = properties.filter((e) => e.propertie.name.value !== 'id');
 
     Render.generate({
-      templateFile: `${this.language.language()}/domain/aggregate.ejs`,
+      templateFile: `${this.templatePath}/aggregate.ejs`,
       templateData: {
         classEventCreated,
         fileEventCreated,
