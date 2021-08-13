@@ -1,17 +1,48 @@
-<%_ properties.forEach(function(propertie){ _%>
-import { <%= propertie.className %> } from './<%= propertie.aggregateName.propertie %>-<%= propertie.name.value %>';
+import { AggregateRoot } from 'base-ddd';
+<%_ properties.forEach(function(e){ _%>
+import { <%= e.propertie.className %> } from './<%= e.file %>';
 <%_ }); _%>
+<%_ if (events.create) { _%>
+import { <%= classEventCreated %> } from './<%= fileEventCreated %>';
+<%_ } _%>
+<%_ if (events.update) { _%>
+import { <%= classEventUpdated %> } from './<%= fileEventUpdated %>';
+<%_ } _%>
+<%_ if (events.delete) { _%>
+import { <%= classEventDeleted %> } from './<%= fileEventDeleted %>';
+<%_ } _%>
 
-export class <%= className %> {
-  constructor(<%= strVoUndescoreProperties %>) {}
-
-  static create(<%= strVoProperties %>) {
-    return new <%= className %>(<%= strProperties %>);
+export class <%= className %> extends AggregateRoot {
+  constructor(<%= strVoUndescoreProperties %>) {
+    super();
   }
-  <%_ properties.forEach(function(propertie){ _%>
+  <%_ if (events.create) { _%>
 
-  get <%= propertie.name.value %>(): <%= propertie.className %> {
-    return this._<%= propertie.name.value %>;
+  static create(<%= strVoProperties %>): <%= className %> {
+    const <%= aggregate.name.propertie %> = new <%= className %>(<%= strProperties %>);
+    <%= aggregate.name.propertie %>.record(new <%= classEventCreated %>(<%= eventCreateProperties %>));
+    return <%= aggregate.name.propertie %>;
+  }
+  <%_ } _%>
+  <%_ properties.forEach(function(e){ _%>
+
+  get <%= e.propertie.name.value %>(): <%= e.propertie.className %> {
+    return this._<%= e.propertie.name.value %>;
   }
   <%_ }); _%>
+  <%_ if (events.update) { _%>
+
+  update(<%= eventUpdateProperties %>): void {
+    <%_ propertiesWithOutId.forEach(function(e){ _%>
+    this._<%= e.propertie.name.value %> = <%= e.propertie.name.value %>;
+    <%_ }); _%>
+    this.record(new <%= classEventUpdated %>(<%= eventProperties %>));
+  }
+  <%_ } _%>
+  <%_ if (events.delete) { _%>
+
+  delete(): void {
+    this.record(new <%= classEventDeleted %>(<%= eventProperties %>));
+  }
+  <%_ } _%>
 }
