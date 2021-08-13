@@ -1,0 +1,23 @@
+import { AggregateRoot } from 'base-ddd';
+import { UserId } from './user-id';
+import { UserName } from './user-name';
+import { UserUpdatedEvent } from './user-updated.event';
+
+export class User extends AggregateRoot {
+  constructor(private _id: UserId, private _name: UserName) {
+    super();
+  }
+
+  get id(): UserId {
+    return this._id;
+  }
+
+  get name(): UserName {
+    return this._name;
+  }
+
+  update(name: UserName): void {
+    this._name = name;
+    this.record(new UserUpdatedEvent(this.id.value, this.name.value));
+  }
+}

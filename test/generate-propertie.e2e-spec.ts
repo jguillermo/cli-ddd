@@ -7,7 +7,7 @@ describe('command service User', () => {
     cleanRender();
   });
   describe('render propertie User', () => {
-    test('Id Name', async () => {
+    test('empty', async () => {
       await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER, ENTER]);
       const renderId = readRender(PATH_USER_DOMAIN + '/user-id.ts');
       const renderName = readRender(PATH_USER_DOMAIN + '/user-name.ts');
