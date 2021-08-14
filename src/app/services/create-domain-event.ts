@@ -24,7 +24,7 @@ export class Service extends AbstractService {
       ),
     );
 
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceRenderDomainEvent(this._collectionAggregate, this.language);
     await render.execute(aggregateName, { eventName: answerEvent.eventAction, eventType: answerText.eventType, properties: answerText.properties });
   }
 
@@ -77,7 +77,7 @@ export class Service extends AbstractService {
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceRenderDomainEvent extends AbstractServiceResponse {
   async execute(aggregateName: string, options: { eventName: string; eventType: string; properties: string[] }): Promise<void> {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
     const properties = storage.getWProperties(options.properties).map((e) => {

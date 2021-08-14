@@ -9,14 +9,14 @@ describe('event User', () => {
     test('empty', async () => {
       await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, ENTER, 'created', ENTER, ENTER, SPACE, DOWN, SPACE, ENTER]);
       const renderEvent = readRender(PATH_USER_DOMAIN + '/user-created.event.ts');
-      const snapEvent = readSnapShot('user-domain-event/empty.txt');
+      const snapEvent = readSnapShot('user-domain-event/created-empty.txt');
       expect(renderEvent).toEqual(snapEvent);
     });
 
     test('all propertie', async () => {
       await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, ENTER, 'created', ENTER, ENTER, ENTER]);
       const renderEvent = readRender(PATH_USER_DOMAIN + '/user-created.event.ts');
-      const snapEvent = readSnapShot('user-domain-event/all.txt');
+      const snapEvent = readSnapShot('user-domain-event/created.txt');
       expect(renderEvent).toEqual(snapEvent);
     });
   });
