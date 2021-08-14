@@ -4,6 +4,7 @@ import { Render } from '../render';
 import { AbstractService, AbstractServiceResponse } from './abstract-service';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
+import { ServiceRenderDomainEvent } from './create-domain-event';
 
 enum EventsEnum {
   CREATE = 'create',
@@ -17,9 +18,26 @@ export class Service extends AbstractService {
   }
 
   async execute(aggregateName: string): Promise<void> {
+    const properties = storage.getWProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames).map((e) => e.propertie.name.fullName);
+    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
+
     const answers = await inquirer.prompt(Service.questions(aggregateName));
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceRenderAggregate(this._collectionAggregate, this.language);
     await render.execute(aggregateName, answers.events);
+
+    const renderEvent = new ServiceRenderDomainEvent(this._collectionAggregate, this.language);
+
+    for await (const eventName of answers.events) {
+      if (eventName === EventsEnum.CREATE) {
+        await renderEvent.execute(aggregateName, { eventName: 'created', eventType: `${aggregate.name.propertie}.created`, properties });
+      }
+      if (eventName === EventsEnum.UPDATE) {
+        await renderEvent.execute(aggregateName, { eventName: 'updated', eventType: `${aggregate.name.propertie}.updated`, properties });
+      }
+      if (eventName === EventsEnum.DELETE) {
+        await renderEvent.execute(aggregateName, { eventName: 'deleted', eventType: `${aggregate.name.propertie}.deleted`, properties });
+      }
+    }
   }
 
   private static questions(aggregate: string): QuestionCollection<{ events: string[] }> {
@@ -35,7 +53,7 @@ export class Service extends AbstractService {
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceRenderAggregate extends AbstractServiceResponse {
   async execute(aggregateName: string, options: string[]): Promise<void> {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
     const properties = storage.getWProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames).map((e) => {
