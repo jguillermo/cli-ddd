@@ -1,0 +1,17 @@
+import { EventBase } from 'base-ddd';
+
+export class <%= className %> extends EventBase {
+  constructor(<%= strVoUndescoreProperties %>) {
+    super();
+  }
+  <%_ properties.forEach(function(e){ _%>
+
+  get <%= e.propertie.name.value %>(): <%= e.primitive %> {
+    return this._<%= e.propertie.name.value %>;
+  }
+  <%_ }); _%>
+
+  eventName(): string {
+    return '<%= eventType %>';
+  }
+}
