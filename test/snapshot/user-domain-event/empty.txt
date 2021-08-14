@@ -1,0 +1,11 @@
+import { EventBase } from 'base-ddd';
+
+export class UserCreatedEvent extends EventBase {
+  constructor() {
+    super();
+  }
+
+  eventName(): string {
+    return 'user.created';
+  }
+}
