@@ -1,38 +1,38 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ResultUserPersist, UserType } from './user.type';
+import { <%= classResultPersist %>, <%= classType %> } from './<%= fileType %>';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { UserFindByIdDto } from '../../modules/user/application/find-by-id/user-find-by-id.dto';
-import { ListUserResponse } from '../../modules/user/application/list-user.response';
-import { UserResponse } from '../../modules/user/application/user.response';
-import { UserListDto } from '../../modules/user/application/list/user-list.dto';
-import { UserPersistDto } from '../../modules/user/application/persist/user-persist.dto';
-import { UserDeleteDto } from '../../modules/user/application/delete/user-delete.dto';
-import { ResponseStatus } from '../../modules/share/application/applicationResponse';
-import { StatusType } from '../../modules/share/app/status.type';
+import { ResponseStatus } from '../../../share/application/applicationResponse';
+import { StatusType } from '../../../share/app/status.type';
+import { <%= classFindByIdDto %> } from '../../application/<%= fileFindByIdDto %>';
+import { <%= classPersistDto %> } from '../../application/<%= filePersistDto %>';
+import { <%= classDeleteDto %> } from '../../application/<%= fileDeleteDto %>';
+import { <%= classListDto %> } from '../../application/<%= fileListDto %>';
+import { <%= classAggregateResponse %> } from '../../application/<%= fileAggregateResponse %>';
+import { <%= classListAggregateResponse %> } from '../../application/<%= fileListAggregateResponse %>';
 
-@Resolver(() => UserType)
-export class UserResolver {
+@Resolver(() => <%= classType %>)
+export class <%= className %> {
   constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
-  @Query(() => [UserType], { name: 'userList' })
-  async list(@Args() args: UserListDto): Promise<UserResponse[]> {
-    const data: ListUserResponse = await this.queryBus.execute(args);
+  @Query(() => [<%= classType %>], { name: '<%= aggregate.name.propertie %>List' })
+  async list(@Args() args: <%= classListDto %>): Promise<<%= classAggregateResponse %>[]> {
+    const data: <%= classListAggregateResponse %> = await this.queryBus.execute(args);
     return data.list;
   }
 
-  @Query(() => UserType, { name: 'user', nullable: true })
-  async aggregate(@Args() args: UserFindByIdDto): Promise<UserResponse | null> {
+  @Query(() => <%= classType %>, { name: '<%= aggregate.name.propertie %>', nullable: true })
+  async aggregate(@Args() args: <%= classFindByIdDto %>): Promise<<%= classAggregateResponse %> | null> {
     return await this.queryBus.execute(args);
   }
 
-  @Mutation(() => ResultUserPersist, { name: 'userPersist' })
-  async persist(@Args() args: UserPersistDto) {
+  @Mutation(() => <%= classResultPersist %>, { name: '<%= aggregate.name.propertie %>Persist' })
+  async persist(@Args() args: <%= classPersistDto %>) {
     await this.commandBus.execute(args);
-    return args.showEntity ? await this.queryBus.execute(new UserFindByIdDto(args.id)) : ResponseStatus.ok();
+    return args.showEntity ? await this.queryBus.execute(new <%= classFindByIdDto %>(args.id)) : ResponseStatus.ok();
   }
 
-  @Mutation(() => StatusType, { name: 'userDelete' })
-  async delete(@Args() args: UserDeleteDto): Promise<ResponseStatus> {
+  @Mutation(() => StatusType, { name: '<%= aggregate.name.propertie %>Delete' })
+  async delete(@Args() args: <%= classDeleteDto %>): Promise<ResponseStatus> {
     await this.commandBus.execute(args);
     return ResponseStatus.ok();
   }
