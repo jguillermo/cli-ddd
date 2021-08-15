@@ -1,0 +1,13 @@
+import { FilterItem, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
+import { <%= aggregate.name.value %> } from './<%= aggregate.name.propertie %>';
+import { <%= propertieId.propertie.className %> } from './<%= propertieId.file %>';
+
+export abstract class <%= className %> {
+  abstract persist(<%= aggregate.name.propertie %>: <%= aggregate.name.value %>): Promise<void>;
+
+  abstract findById(id: <%= propertieId.propertie.className %>): Promise<<%= aggregate.name.value %> | null>;
+
+  abstract findAll(filters?: Array<FilterItem>, paginator?: PaginatorTypeImp, order?: OrderTypeImp): Promise<<%= aggregate.name.value %>[]>;
+
+  abstract deleteById(id: <%= propertieId.propertie.className %>): Promise<void>;
+}
