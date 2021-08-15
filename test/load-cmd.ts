@@ -22,6 +22,18 @@ export function readRender(pathRender: string): string {
   return fs.readFileSync(path.join(renderPath, pathRender), 'utf-8');
 }
 
+export function removeRender(pathRender: string): void {
+  const pathFile = path.join(renderPath, pathRender);
+  if (fs.existsSync(pathFile)) {
+    try {
+      fs.unlinkSync(pathFile);
+      //file removed
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
 export function readSnapShot(pathSnap: string): string {
   return fs.readFileSync(path.join(snapShotPath, pathSnap), 'utf-8');
 }
