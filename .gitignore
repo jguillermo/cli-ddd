@@ -35,3 +35,8 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules

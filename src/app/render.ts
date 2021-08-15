@@ -20,14 +20,24 @@ export class Render {
     Render.generateFile(data.generatefolder, data.generateFile, render);
   }
 
+  static copy(data: RenderData) {
+    const render = fs.readFileSync(`${storage.get('pathTemplate')}/main/${data.templateFile}`, 'utf-8');
+    Render.generateFile(data.generatefolder, data.generateFile, render);
+  }
+
   private static generateRender(templateFile: string, templateData: any): string {
     //console.log(templateData);
     return ejs.render(fs.readFileSync(`${storage.get('pathTemplate')}/main/${templateFile}`, 'utf-8'), templateData);
   }
 
   private static generateFile(generatefolder: string, generateFile: string, render: string): void {
-    const fileGenerate = `${storage.get('pathRender')}/${generatefolder}/${generateFile}`;
-    const folderGenerate = `${storage.get('pathRender')}/${generatefolder}`;
+    let fileGenerate = `${storage.get('pathRender')}/${generatefolder}/${generateFile}`;
+    let folderGenerate = `${storage.get('pathRender')}/${generatefolder}`;
+    if (generatefolder === '') {
+      fileGenerate = `${storage.get('pathRender')}/${generateFile}`;
+      folderGenerate = `${storage.get('pathRender')}`;
+    }
+
     let exist = true;
     if (!fs.existsSync(fileGenerate)) {
       fs.mkdirSync(folderGenerate, { recursive: true });
