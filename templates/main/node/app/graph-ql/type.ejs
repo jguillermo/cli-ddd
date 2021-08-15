@@ -1,0 +1,22 @@
+import { createUnionType, Field, ObjectType } from '@nestjs/graphql';
+import { StatusType } from '../../modules/share/app/status.type';
+
+@ObjectType('<%= aggregate.name.value %>')
+export class <%= className %> {
+  <%_ properties.forEach(function(e){ _%>
+
+  @Field()
+  <%= e.propertie.name.value %>: <%= e.primitive %>;
+  <%_ }); _%>
+}
+
+export const <%= classResultPersist %> = createUnionType({
+  name: '<%= classResultPersist %>',
+  types: () => [<%= className %>, StatusType],
+  resolveType(value) {
+    if (value.status) {
+      return StatusType;
+    }
+    return <%= className %>;
+  },
+});
