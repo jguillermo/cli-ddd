@@ -31,7 +31,11 @@ export class NodeLanguage implements LanguageInterface {
         return slugify(n);
       })
       .join('-');
-    return addType ? `${name}.${type}.ts` : `${name}.${type}`;
+    if (name === '') {
+      return addType ? `${type}.ts` : `${type}`;
+    } else {
+      return addType ? `${name}.${type}.ts` : `${name}.${type}`;
+    }
   }
 
   classFileWithOutType(names: string[], addType = true): string {

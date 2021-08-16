@@ -1,0 +1,13 @@
+import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
+import { Logger } from '@nestjs/common';
+import { <%= eventSelected %> } from '../../domain/<%= eventFile %>';
+
+@EventsHandler(<%= eventSelected %>)
+export class <%= className %> implements IEventHandler<<%= eventSelected %>> {
+  //constructor(private commandBus: CommandBus) {}
+
+  handle(event: <%= eventSelected %>) {
+    // logic
+    Logger.log(event.eventName());
+  }
+}
