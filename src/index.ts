@@ -38,5 +38,5 @@ async function main() {
 }
 
 main().finally(() => {
-  console.log('see you!');
+  console.log('');
 });

@@ -6,6 +6,8 @@ const colors = require('colors');
 const fs = require('fs');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const ejs = require('ejs');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
 
 export interface RenderData {
   templateFile: string;
@@ -18,6 +20,23 @@ export class Render {
   static generate(data: RenderData) {
     const render = Render.generateRender(data.templateFile, data.templateData);
     Render.generateFile(data.generatefolder, data.generateFile, render);
+  }
+
+  static fromDir(startPath, filter, callback) {
+    if (!fs.existsSync(startPath)) {
+      console.log('no dir ', startPath);
+      return;
+    }
+
+    const files = fs.readdirSync(startPath);
+    for (let i = 0; i < files.length; i++) {
+      const filename = path.join(startPath, files[i]);
+      const stat = fs.lstatSync(filename);
+      if (stat.isDirectory()) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        Render.fromDir(filename, filter, callback); //recurse
+      } else if (filter.test(filename)) callback(filename);
+    }
   }
 
   static copy(data: RenderData) {
