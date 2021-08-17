@@ -22,6 +22,14 @@ export function readRender(pathRender: string): string {
   return fs.readFileSync(path.join(renderPath, pathRender), 'utf-8');
 }
 
+export function copyfromSnapToRender(pathSnap: string, pathRender: string): void {
+  const pathAbsSnap = path.join(snapShotPath, pathSnap);
+  const pathAbsRender = path.join(renderPath, pathRender);
+  const folderGenerate = path.dirname(pathAbsRender);
+  fs.mkdirSync(folderGenerate, { recursive: true });
+  fs.copyFileSync(pathAbsSnap, pathAbsRender);
+}
+
 export function removeRender(pathRender: string): void {
   const pathFile = path.join(renderPath, pathRender);
   if (fs.existsSync(pathFile)) {

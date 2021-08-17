@@ -28,7 +28,6 @@ export class Service extends AbstractService {
 
     const render = new ServiceRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName, { properties: answers.properties, commandName: answers.commandName, templateRender: answerTemplate.templateRender });
-
   }
 
   private static questionTemplate(): QuestionCollection<{ templateRender: string }> {
