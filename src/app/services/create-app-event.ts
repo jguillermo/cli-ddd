@@ -1,4 +1,4 @@
-import { storage, WPropertie } from '../in-memory-storage';
+import { storage } from '../in-memory-storage';
 import { Aggregate } from '../../modules/load-data/domain/Aggregate';
 import { Render } from '../render';
 import * as inquirer from 'inquirer';
@@ -86,7 +86,7 @@ export class ServiceRender extends AbstractServiceResponse {
   private renderDto(aggregate: Aggregate, eventSelected: string, eventName: string) {
     const tempEventSelected = `${eventSelected}`.replace('Event', '');
 
-    const eventFile = this.language.classFile([tempEventSelected, 'event']);
+    const eventFile = this.language.classFile([tempEventSelected, 'event'], false);
 
     const className = this.language.className([eventName, 'on', tempEventSelected]);
     const generateFile = this.language.classFileWithOutType([eventName, 'on', tempEventSelected]);
