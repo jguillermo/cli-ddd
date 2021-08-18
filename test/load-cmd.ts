@@ -73,3 +73,80 @@ export const DOWN = '\x1B\x5B\x42';
 export const UP = '\x1B\x5B\x41';
 export const ENTER = '\x0D';
 export const SPACE = '\x20';
+
+//propertires user
+export enum MenuPropertie {
+  USER = 'user',
+  PRODUCT = 'product',
+}
+
+export enum DDD {
+  APPLICATION_COMMAND = 'application_command',
+  APPLICATION_QUERY = 'application_query',
+  APPLICATION_RESPONSE = 'application_response',
+  DOMAIN_AGGREGATE = 'domain_aggregate',
+  DOMAIN_EVENT = 'domain_event',
+  DOMAIN_PROPERTIE = 'domain_propertie',
+  INFRASTRUCTURE_EVENT = 'infrastructure_event',
+  INFRASTRUCTURE_GRAPH_QL = 'infrastructure_graph_ql',
+  INFRASTRUCTURE_REPOSITORY = 'infrastructure_repository',
+}
+
+export function menuAggregate(aggregate: MenuPropertie): string[] {
+  let menu = [];
+  switch (aggregate) {
+    case MenuPropertie.USER: {
+      menu = [DOWN, ENTER];
+      break;
+    }
+    case MenuPropertie.PRODUCT: {
+      menu = [ENTER];
+      break;
+    }
+  }
+  return menu;
+}
+
+export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
+  let menu = menuAggregate(aggregate);
+  switch (menuDdd) {
+    case DDD.APPLICATION_COMMAND: {
+      menu = [...menu, ENTER];
+      break;
+    }
+    case DDD.APPLICATION_QUERY: {
+      menu = [...menu, DOWN, ENTER];
+      break;
+    }
+    case DDD.APPLICATION_RESPONSE: {
+      menu = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.DOMAIN_AGGREGATE: {
+      menu = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.DOMAIN_EVENT: {
+      menu = [...menu, DOWN, DOWN, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.DOMAIN_PROPERTIE: {
+      menu = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.INFRASTRUCTURE_EVENT: {
+      menu = [...menu, DOWN, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.INFRASTRUCTURE_GRAPH_QL: {
+      menu = [...menu, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.INFRASTRUCTURE_REPOSITORY: {
+      menu = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+      break;
+    }
+  }
+
+  return menu;
+}

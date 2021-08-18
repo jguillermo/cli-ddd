@@ -1,14 +1,15 @@
-import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run } from '../load-cmd';
+import { cleanRender, DDD, menu, MenuPropertie, readRender, readSnapShot, run } from '../load-cmd';
 
 const PATH_USER = 'src/user';
 const SNAP_PATH_USER_INFRASTRUCTURE = '/user/infrastructure';
 const SNAP_PATH_USER_DOMAIN = '/user/domain';
+const MENU = menu(MenuPropertie.USER, DDD.INFRASTRUCTURE_REPOSITORY);
 describe('User infrastructure Repository', () => {
   beforeEach(() => {
     cleanRender();
   });
   test('domain and firestore repository', async () => {
-    await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER]);
+    await run([...MENU]);
 
     const renderDomainRepository = readRender(PATH_USER + '/domain/user.repository.ts');
     const renderRepositoryDao = readRender(PATH_USER + '/infrastructure/persistence/user.dao.ts');
