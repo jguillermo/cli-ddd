@@ -26,7 +26,13 @@ export class <%= className %> {
     return <%= classResponse %>.fromAggregate(<%= aggregate.name.propertie %>);
   }
   <%_ }else{ _%>
-  public async execute(<%= strVoParentProperties %>, paginator: PaginatorTypeImp, order: OrderTypeImp): Promise<<%= classListResponse %>> {
+  public async execute(
+    <%_ properties.forEach(function(e){ _%>
+    <%= e.propertie.name.value %>: <%= e.parentTypeImp %>,
+    <%_ }); _%>
+    paginator: PaginatorTypeImp,
+    order: OrderTypeImp,
+  ): Promise<<%= classListResponse %>> {
     const list<%= aggregate.name.value %> = await this.repository.findAll(
       [
         <%_ properties.forEach(function(e){ _%>
