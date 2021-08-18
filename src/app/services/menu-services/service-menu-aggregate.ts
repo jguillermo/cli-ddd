@@ -1,10 +1,10 @@
-import { storage, WPropertie } from '../in-memory-storage';
-import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Render } from '../render';
-import { AbstractService, AbstractServiceResponse } from './abstract-service';
+import { storage, WPropertie } from '../../in-memory-storage';
+import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
+import { Render } from '../../render';
+import { AbstractService, AbstractServiceResponse } from '../abstract-service';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
-import { ServiceRenderDomainEvent } from './create-domain-event';
+import { ServiceRenderDomainEvent } from '../service-menu-domain-event';
 
 enum EventsEnum {
   CREATE = 'create',
@@ -12,7 +12,7 @@ enum EventsEnum {
   DELETE = 'delete',
 }
 
-export class Service extends AbstractService {
+export class ServiceMenuAggregate extends AbstractService {
   serviceName(): string {
     return 'Create Aggregate';
   }
@@ -21,7 +21,7 @@ export class Service extends AbstractService {
     const properties = storage.getWProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames).map((e) => e.propertie.name.fullName);
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
 
-    const answers = await inquirer.prompt(Service.questions(aggregateName));
+    const answers = await inquirer.prompt(ServiceMenuAggregate.questions(aggregateName));
     const render = new ServiceRenderAggregate(this._collectionAggregate, this.language);
     await render.execute(aggregateName, answers.events);
 

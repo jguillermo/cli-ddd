@@ -9,9 +9,9 @@ const s = require('underscore.string');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
-export class Service extends AbstractService {
+export class ServiceMenuInfrastructureEvent extends AbstractService {
   serviceName(): string {
-    return 'Create App Event';
+    return 'Create Infrastructure Event';
   }
 
   async execute(aggregateName: string): Promise<void> {
@@ -21,9 +21,9 @@ export class Service extends AbstractService {
       return;
     }
 
-    const answerEventList = await inquirer.prompt(Service.questionEventList(listEvents));
+    const answerEventList = await inquirer.prompt(ServiceMenuInfrastructureEvent.questionEventList(listEvents));
 
-    const answerEventName = await inquirer.prompt(Service.questionName());
+    const answerEventName = await inquirer.prompt(ServiceMenuInfrastructureEvent.questionName());
 
     const render = new ServiceRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName, { eventSelected: answerEventList.eventSelected, eventName: answerEventName.eventName });

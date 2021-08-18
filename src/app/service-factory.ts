@@ -3,6 +3,7 @@ import { ReadSkeletonDataService } from '../modules/load-data/application/read-s
 import { SelectAggregate } from './menu/select-aggregate';
 import { MenuServices } from './menu/menu-services';
 import { CollectionAggregate } from '../modules/load-data/domain/CollectionAggregate';
+import { AbstractService } from './services/abstract-service';
 
 class ServiceFactory {
   private static instance: ServiceFactory;
@@ -38,12 +39,12 @@ class ServiceFactory {
     return await this._menuSelectAggregate.execute(aggregates);
   }
 
-  async menuAggregate(aggregate: string): Promise<string> {
-    return await this._menuAggregate.execute(aggregate);
+  async menuAggregate(aggregate: string, services: AbstractService[]): Promise<string> {
+    return await this._menuAggregate.execute(aggregate, services);
   }
 
-  async generate(serviceSelected: string, aggregate: string, collectionAggregate: CollectionAggregate): Promise<void> {
-    const service = MenuServices.loadListServices().find((value) => value.serviceName() === serviceSelected);
+  async generate(serviceSelected: string, aggregate: string, collectionAggregate: CollectionAggregate, services: AbstractService[]): Promise<void> {
+    const service = services.find((value) => value.serviceName() === serviceSelected);
     service.setCollectionAggregate(collectionAggregate);
     await service.execute(aggregate);
   }

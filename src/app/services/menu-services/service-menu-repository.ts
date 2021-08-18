@@ -1,11 +1,11 @@
-import { AbstractService, AbstractServiceResponse } from './abstract-service';
-import { storage, WPropertie } from '../in-memory-storage';
-import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Render } from '../render';
+import { AbstractService, AbstractServiceResponse } from '../abstract-service';
+import { storage, WPropertie } from '../../in-memory-storage';
+import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
+import { Render } from '../../render';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pluralize = require('pluralize');
 
-export class Service extends AbstractService {
+export class ServiceMenuRepository extends AbstractService {
   serviceName(): string {
     return 'Create Repository';
   }

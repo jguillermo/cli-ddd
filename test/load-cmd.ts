@@ -90,6 +90,7 @@ export enum DDD {
   INFRASTRUCTURE_EVENT = 'infrastructure_event',
   INFRASTRUCTURE_GRAPH_QL = 'infrastructure_graph_ql',
   INFRASTRUCTURE_REPOSITORY = 'infrastructure_repository',
+  APP_FIRESTORE = 'app_firestore',
 }
 
 export function menuAggregate(aggregate: MenuPropertie): string[] {
@@ -109,6 +110,7 @@ export function menuAggregate(aggregate: MenuPropertie): string[] {
 
 export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
   let menu = menuAggregate(aggregate);
+  const menuSelect = [...menu, DOWN, DOWN, DOWN, DOWN, ENTER];
   switch (menuDdd) {
     case DDD.APPLICATION_COMMAND: {
       menu = [...menu, ENTER];
@@ -119,31 +121,35 @@ export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
       break;
     }
     case DDD.APPLICATION_RESPONSE: {
-      menu = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+      menu = [...menuSelect, DOWN, DOWN, DOWN, DOWN, ENTER];
       break;
     }
     case DDD.DOMAIN_AGGREGATE: {
-      menu = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+      menu = [...menuSelect, DOWN, DOWN, DOWN, ENTER];
       break;
     }
     case DDD.DOMAIN_EVENT: {
-      menu = [...menu, DOWN, DOWN, DOWN, DOWN, ENTER];
-      break;
-    }
-    case DDD.DOMAIN_PROPERTIE: {
-      menu = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
-      break;
-    }
-    case DDD.INFRASTRUCTURE_EVENT: {
       menu = [...menu, DOWN, DOWN, DOWN, ENTER];
       break;
     }
-    case DDD.INFRASTRUCTURE_GRAPH_QL: {
+    case DDD.DOMAIN_PROPERTIE: {
+      menu = [...menuSelect, DOWN, ENTER];
+      break;
+    }
+    case DDD.INFRASTRUCTURE_EVENT: {
       menu = [...menu, DOWN, DOWN, ENTER];
       break;
     }
+    case DDD.INFRASTRUCTURE_GRAPH_QL: {
+      menu = [...menuSelect, ENTER];
+      break;
+    }
     case DDD.INFRASTRUCTURE_REPOSITORY: {
-      menu = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+      menu = [...menuSelect, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.APP_FIRESTORE: {
+      menu = [...menuSelect, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
       break;
     }
   }

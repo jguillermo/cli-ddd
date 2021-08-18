@@ -1,7 +1,7 @@
-import { AbstractService, AbstractServiceResponse } from './abstract-service';
-import { Render } from '../render';
+import { AbstractService, AbstractServiceResponse } from '../abstract-service';
+import { Render } from '../../render';
 
-export class Service extends AbstractService {
+export class ServiceMenuFirestore extends AbstractService {
   serviceName(): string {
     return 'Create Firestore';
   }

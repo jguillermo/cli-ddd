@@ -1,9 +1,9 @@
-import { AbstractService, AbstractServiceResponse } from './abstract-service';
-import { storage, WPropertie } from '../in-memory-storage';
-import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Render } from '../render';
+import { AbstractService, AbstractServiceResponse } from '../abstract-service';
+import { storage, WPropertie } from '../../in-memory-storage';
+import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
+import { Render } from '../../render';
 
-export class Service extends AbstractService {
+export class ServiceMenuGraphQl extends AbstractService {
   serviceName(): string {
     return 'Create App GraphQl';
   }
