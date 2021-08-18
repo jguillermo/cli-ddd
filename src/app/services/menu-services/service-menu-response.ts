@@ -9,12 +9,12 @@ export class ServiceMenuResponse extends AbstractService {
   }
 
   async execute(aggregateName: string): Promise<void> {
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceMenuResponseRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName);
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceMenuResponseRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/application/response`;
   }

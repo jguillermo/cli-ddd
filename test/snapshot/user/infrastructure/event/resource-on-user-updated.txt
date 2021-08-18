@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 import { UserUpdatedEvent } from '../../domain/user-updated.event';
 
 @EventsHandler(UserUpdatedEvent)
-export class UserUpdated implements IEventHandler<UserUpdatedEvent> {
+export class ResourceOnUserUpdated implements IEventHandler<UserUpdatedEvent> {
   //constructor(private commandBus: CommandBus) {}
 
   handle(event: UserUpdatedEvent) {

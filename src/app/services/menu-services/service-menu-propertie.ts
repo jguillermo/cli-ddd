@@ -18,7 +18,7 @@ export class ServiceMenuPropertie extends AbstractService {
         properties.map((e) => e.name.fullName),
       ),
     );
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceMenuPropertieRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName, { properties: answers.properties });
   }
 
@@ -35,7 +35,7 @@ export class ServiceMenuPropertie extends AbstractService {
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceMenuPropertieRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/domain/types`;
   }

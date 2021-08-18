@@ -91,6 +91,7 @@ export enum DDD {
   INFRASTRUCTURE_GRAPH_QL = 'infrastructure_graph_ql',
   INFRASTRUCTURE_REPOSITORY = 'infrastructure_repository',
   APP_FIRESTORE = 'app_firestore',
+  APP_CRUD = 'app_crud',
 }
 
 export function menuAggregate(aggregate: MenuPropertie): string[] {
@@ -110,7 +111,7 @@ export function menuAggregate(aggregate: MenuPropertie): string[] {
 
 export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
   let menu = menuAggregate(aggregate);
-  const menuSelect = [...menu, DOWN, DOWN, DOWN, DOWN, ENTER];
+  const menuSelect = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
   switch (menuDdd) {
     case DDD.APPLICATION_COMMAND: {
       menu = [...menu, ENTER];
@@ -150,6 +151,10 @@ export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
     }
     case DDD.APP_FIRESTORE: {
       menu = [...menuSelect, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.APP_CRUD: {
+      menu = [...menu, DOWN, DOWN, DOWN, DOWN, ENTER];
       break;
     }
   }
