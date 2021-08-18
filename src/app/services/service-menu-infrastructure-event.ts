@@ -25,7 +25,7 @@ export class ServiceMenuInfrastructureEvent extends AbstractService {
 
     const answerEventName = await inquirer.prompt(ServiceMenuInfrastructureEvent.questionName());
 
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceMenuInfrastructureEventRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName, { eventSelected: answerEventList.eventSelected, eventName: answerEventName.eventName });
   }
 
@@ -72,7 +72,7 @@ export class ServiceMenuInfrastructureEvent extends AbstractService {
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceMenuInfrastructureEventRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/infrastructure/event`;
   }

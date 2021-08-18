@@ -9,12 +9,12 @@ export class ServiceMenuGraphQl extends AbstractService {
   }
 
   async execute(aggregateName: string): Promise<void> {
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceMenuGraphQlRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName);
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/app/graph-ql`;
   }

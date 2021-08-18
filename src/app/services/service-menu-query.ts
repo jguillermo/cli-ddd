@@ -26,7 +26,7 @@ export class ServiceMenuQuery extends AbstractService {
       ),
     );
 
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceMenuQueryRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName, { properties: answers.properties, queryName: answers.queryName, templateRender: answerTemplate.templateRender });
   }
 
@@ -79,7 +79,7 @@ export class ServiceMenuQuery extends AbstractService {
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceMenuQueryRender extends AbstractServiceResponse {
   async execute(aggregateName: string, options: { properties: string[]; queryName: string; templateRender: string }): Promise<void> {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
 

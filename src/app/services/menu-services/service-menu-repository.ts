@@ -11,12 +11,12 @@ export class ServiceMenuRepository extends AbstractService {
   }
 
   async execute(aggregateName: string): Promise<void> {
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceMenuRepositoryRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName);
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceMenuRepositoryRender extends AbstractServiceResponse {
   get templatePath(): string {
     return this.language.language();
   }

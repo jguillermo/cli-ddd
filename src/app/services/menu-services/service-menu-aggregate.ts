@@ -6,7 +6,7 @@ import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 import { ServiceRenderDomainEvent } from '../service-menu-domain-event';
 
-enum EventsEnum {
+export enum EventsEnum {
   CREATE = 'create',
   UPDATE = 'update',
   DELETE = 'delete',
@@ -22,7 +22,7 @@ export class ServiceMenuAggregate extends AbstractService {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
 
     const answers = await inquirer.prompt(ServiceMenuAggregate.questions(aggregateName));
-    const render = new ServiceRenderAggregate(this._collectionAggregate, this.language);
+    const render = new ServiceMenuAggregateRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName, answers.events);
 
     const renderEvent = new ServiceRenderDomainEvent(this._collectionAggregate, this.language);
@@ -53,7 +53,7 @@ export class ServiceMenuAggregate extends AbstractService {
   }
 }
 
-export class ServiceRenderAggregate extends AbstractServiceResponse {
+export class ServiceMenuAggregateRender extends AbstractServiceResponse {
   async execute(aggregateName: string, options: string[]): Promise<void> {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
     const properties = storage.getWProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames).map((e) => {

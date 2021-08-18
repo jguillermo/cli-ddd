@@ -26,7 +26,7 @@ export class ServiceMenuCommand extends AbstractService {
       ),
     );
 
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceMenuCommandRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName, { properties: answers.properties, commandName: answers.commandName, templateRender: answerTemplate.templateRender });
   }
 
@@ -79,7 +79,7 @@ export class ServiceMenuCommand extends AbstractService {
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceMenuCommandRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/application/command/`;
   }

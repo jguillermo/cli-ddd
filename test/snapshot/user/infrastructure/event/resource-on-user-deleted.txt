@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 import { UserDeletedEvent } from '../../domain/user-deleted.event';
 
 @EventsHandler(UserDeletedEvent)
-export class UserDeleted implements IEventHandler<UserDeletedEvent> {
+export class ResourceOnUserDeleted implements IEventHandler<UserDeletedEvent> {
   //constructor(private commandBus: CommandBus) {}
 
   handle(event: UserDeletedEvent) {
