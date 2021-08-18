@@ -3,7 +3,6 @@ import { StatusType } from '../../../share/app/status.type';
 
 @ObjectType('User')
 export class UserType {
-
   @Field()
   id: string;
 
