@@ -16,7 +16,7 @@ export class ServiceMenuGraphQl extends AbstractService {
 
 export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   get templatePath(): string {
-    return `${this.language.language()}/app/graph-ql`;
+    return `${this.language.language()}/infrastructure/graph-ql`;
   }
 
   async execute(aggregateName: string): Promise<void> {
@@ -30,6 +30,10 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const className = this.language.className([aggregate.name.value, 'type']);
     const generateFile = this.language.classFile([aggregate.name.value, 'type']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'graphQl']);
+    let firstPropertie = '';
+    if (properties.length > 0) {
+      firstPropertie = properties[0].propertie.name.value;
+    }
 
     Render.generate({
       templateFile: `${this.templatePath}/type.ejs`,
@@ -37,6 +41,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
         aggregate,
         className,
         properties,
+        firstPropertie,
         classResultPersist: `Result${aggregate.name.value}Persist`,
       },
       generatefolder,
