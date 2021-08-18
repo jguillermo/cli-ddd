@@ -1,7 +1,8 @@
-import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, UP } from './load-cmd';
+import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, UP } from '../load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/application';
-describe('query service User', () => {
+const PATH_USER_QUERY = 'user/application/query';
+describe('User application Query', () => {
   beforeEach(() => {
     cleanRender();
   });
@@ -40,9 +41,9 @@ describe('query service User', () => {
       const renderHandler = readRender(PATH_USER_APPLICATION + '/find-by-id/user-find-by-id.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/find-by-id/user-find-by-id.service.ts');
 
-      const snapDto = readSnapShot('user-query-find-by-id/dto.txt');
-      const snapHandler = readSnapShot('user-query-find-by-id/handler.txt');
-      const snapService = readSnapShot('user-query-find-by-id/service.txt');
+      const snapDto = readSnapShot(PATH_USER_QUERY + '/find-by-id/dto.txt');
+      const snapHandler = readSnapShot(PATH_USER_QUERY + '/find-by-id/handler.txt');
+      const snapService = readSnapShot(PATH_USER_QUERY + '/find-by-id/service.txt');
 
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
@@ -56,9 +57,9 @@ describe('query service User', () => {
       const renderHandler = readRender(PATH_USER_APPLICATION + '/list/user-list.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/list/user-list.service.ts');
 
-      const snapDto = readSnapShot('user-query-list/dto.txt');
-      const snapHandler = readSnapShot('user-query-list/handler.txt');
-      const snapService = readSnapShot('user-query-list/service.txt');
+      const snapDto = readSnapShot(PATH_USER_QUERY + '/list/dto.txt');
+      const snapHandler = readSnapShot(PATH_USER_QUERY + '/list/handler.txt');
+      const snapService = readSnapShot(PATH_USER_QUERY + '/list/service.txt');
 
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
@@ -72,9 +73,9 @@ describe('query service User', () => {
       const renderHandler = readRender(PATH_USER_APPLICATION + '/none/user-none.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/none/user-none.service.ts');
 
-      const snapDto = readSnapShot('user-query-none/dto.txt');
-      const snapHandler = readSnapShot('user-query-none/handler.txt');
-      const snapService = readSnapShot('user-query-none/service.txt');
+      const snapDto = readSnapShot(PATH_USER_QUERY + '/none/dto.txt');
+      const snapHandler = readSnapShot(PATH_USER_QUERY + '/none/handler.txt');
+      const snapService = readSnapShot(PATH_USER_QUERY + '/none/service.txt');
 
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);

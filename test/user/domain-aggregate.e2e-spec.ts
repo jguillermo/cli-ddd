@@ -1,7 +1,8 @@
-import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, SPACE } from './load-cmd';
+import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, SPACE } from '../load-cmd';
 
 const PATH_USER_DOMAIN = 'src/user/domain';
-describe('aggregate User', () => {
+const SNAP_PATH_USER_DOMAIN = '/user/domain';
+describe('User domain Aggregate', () => {
   beforeEach(() => {
     cleanRender();
   });
@@ -9,7 +10,7 @@ describe('aggregate User', () => {
     test('empty', async () => {
       await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER, SPACE, ENTER]);
       const renderAggregate = readRender(PATH_USER_DOMAIN + '/user.ts');
-      const snapAggregate = readSnapShot('user-aggregate/empty.txt');
+      const snapAggregate = readSnapShot(SNAP_PATH_USER_DOMAIN + '/aggregate/empty.txt');
       expect(renderAggregate).toEqual(snapAggregate);
     });
 
@@ -18,8 +19,8 @@ describe('aggregate User', () => {
       const renderAggregate = readRender(PATH_USER_DOMAIN + '/user.ts');
       const renderEvent = readRender(PATH_USER_DOMAIN + '/user-created.event.ts');
 
-      const snapAggregate = readSnapShot('user-aggregate/create.txt');
-      const snapEvent = readSnapShot('user-domain-event/created.txt');
+      const snapAggregate = readSnapShot(SNAP_PATH_USER_DOMAIN + '/aggregate/create.txt');
+      const snapEvent = readSnapShot(SNAP_PATH_USER_DOMAIN + '/event/created.txt');
 
       expect(renderAggregate).toEqual(snapAggregate);
       expect(renderEvent).toEqual(snapEvent);
@@ -30,8 +31,8 @@ describe('aggregate User', () => {
       const renderAggregate = readRender(PATH_USER_DOMAIN + '/user.ts');
       const renderEvent = readRender(PATH_USER_DOMAIN + '/user-updated.event.ts');
 
-      const snapAggregate = readSnapShot('user-aggregate/update.txt');
-      const snapEvent = readSnapShot('user-domain-event/updated.txt');
+      const snapAggregate = readSnapShot(SNAP_PATH_USER_DOMAIN + '/aggregate/update.txt');
+      const snapEvent = readSnapShot(SNAP_PATH_USER_DOMAIN + '/event/updated.txt');
 
       expect(renderAggregate).toEqual(snapAggregate);
       expect(renderEvent).toEqual(snapEvent);
@@ -42,8 +43,8 @@ describe('aggregate User', () => {
       const renderAggregate = readRender(PATH_USER_DOMAIN + '/user.ts');
       const renderEvent = readRender(PATH_USER_DOMAIN + '/user-deleted.event.ts');
 
-      const snapAggregate = readSnapShot('user-aggregate/delete.txt');
-      const snapEvent = readSnapShot('user-domain-event/deleted.txt');
+      const snapAggregate = readSnapShot(SNAP_PATH_USER_DOMAIN + '/aggregate/delete.txt');
+      const snapEvent = readSnapShot(SNAP_PATH_USER_DOMAIN + '/event/deleted.txt');
 
       expect(renderAggregate).toEqual(snapAggregate);
       expect(renderEvent).toEqual(snapEvent);
@@ -55,10 +56,10 @@ describe('aggregate User', () => {
       const renderEventUpdated = readRender(PATH_USER_DOMAIN + '/user-updated.event.ts');
       const renderEventDeleted = readRender(PATH_USER_DOMAIN + '/user-deleted.event.ts');
 
-      const snapAggregate = readSnapShot('user-aggregate/complete.txt');
-      const snapEventCreated = readSnapShot('user-domain-event/created.txt');
-      const snapEventUpdated = readSnapShot('user-domain-event/updated.txt');
-      const snapEventDeleted = readSnapShot('user-domain-event/deleted.txt');
+      const snapAggregate = readSnapShot(SNAP_PATH_USER_DOMAIN + '/aggregate/complete.txt');
+      const snapEventCreated = readSnapShot(SNAP_PATH_USER_DOMAIN + '/event/created.txt');
+      const snapEventUpdated = readSnapShot(SNAP_PATH_USER_DOMAIN + '/event/updated.txt');
+      const snapEventDeleted = readSnapShot(SNAP_PATH_USER_DOMAIN + '/event/deleted.txt');
 
       expect(renderAggregate).toEqual(snapAggregate);
       expect(renderEventCreated).toEqual(snapEventCreated);

@@ -1,7 +1,8 @@
-import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, UP } from './load-cmd';
+import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, UP } from '../load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/application';
-describe('command service User', () => {
+const PATH_USER_COMMAND = 'user/application/command';
+describe('User application Command', () => {
   beforeEach(() => {
     cleanRender();
   });
@@ -48,9 +49,9 @@ describe('command service User', () => {
       const renderHandler = readRender(PATH_USER_APPLICATION + '/persist/user-persist.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/persist/user-persist.service.ts');
 
-      const snapDto = readSnapShot('user-command-persist/dto.txt');
-      const snapHandler = readSnapShot('user-command-persist/handler.txt');
-      const snapService = readSnapShot('user-command-persist/service.txt');
+      const snapDto = readSnapShot(PATH_USER_COMMAND + '/persist/dto.txt');
+      const snapHandler = readSnapShot(PATH_USER_COMMAND + '/persist/handler.txt');
+      const snapService = readSnapShot(PATH_USER_COMMAND + '/persist/service.txt');
 
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
@@ -63,9 +64,9 @@ describe('command service User', () => {
       const renderHandler = readRender(PATH_USER_APPLICATION + '/delete/user-delete.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/delete/user-delete.service.ts');
 
-      const snapDto = readSnapShot('user-command-delete/dto.txt');
-      const snapHandler = readSnapShot('user-command-delete/handler.txt');
-      const snapService = readSnapShot('user-command-delete/service.txt');
+      const snapDto = readSnapShot(PATH_USER_COMMAND + '/delete/dto.txt');
+      const snapHandler = readSnapShot(PATH_USER_COMMAND + '/delete/handler.txt');
+      const snapService = readSnapShot(PATH_USER_COMMAND + '/delete/service.txt');
 
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
@@ -78,9 +79,9 @@ describe('command service User', () => {
       const renderHandler = readRender(PATH_USER_APPLICATION + '/none/user-none.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/none/user-none.service.ts');
 
-      const snapDto = readSnapShot('user-command-none/dto.txt');
-      const snapHandler = readSnapShot('user-command-none/handler.txt');
-      const snapService = readSnapShot('user-command-none/service.txt');
+      const snapDto = readSnapShot(PATH_USER_COMMAND + '/none/dto.txt');
+      const snapHandler = readSnapShot(PATH_USER_COMMAND + '/none/handler.txt');
+      const snapService = readSnapShot(PATH_USER_COMMAND + '/none/service.txt');
 
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
