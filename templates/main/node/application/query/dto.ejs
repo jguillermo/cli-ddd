@@ -17,9 +17,16 @@ import { <%= type %> } from 'base-ddd/dist/ValueObject/Implement/<%= type %>';
 
 @ArgsType()
 export class <%= className %> extends BaseDto {
+<%_ if (templateRender === "findById") { _%>
+  constructor(id: string) {
+    super();
+    this.id = id;
+  }
+<%_ }else{ _%>
   constructor() {
     super();
   }
+<%_ } _%>
   <%_ properties.forEach(function(e){ _%>
 
   <%_ if (templateRender === "findById") { _%>
