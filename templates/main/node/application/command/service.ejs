@@ -18,7 +18,7 @@ export class <%= className %> {
     if (!<%= aggregate.name.propertie %>) {
       <%= aggregate.name.propertie %> = <%= aggregate.name.value %>.create(<%= strProperties %>);
     } else {
-      <%= aggregate.name.propertie %>.change(<%= strPropertiesWitoutId %>);
+      <%= aggregate.name.propertie %>.update(<%= strPropertiesWitoutId %>);
     }
     await this.repository.persist(<%= aggregate.name.propertie %>);
     this.eventBus.publishAll(<%= aggregate.name.propertie %>.pullDomainEvents());
