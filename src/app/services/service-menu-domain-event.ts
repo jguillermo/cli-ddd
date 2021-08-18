@@ -7,7 +7,7 @@ import { QuestionCollection } from 'inquirer';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 
-export class Service extends AbstractService {
+export class ServiceMenuDomainEvent extends AbstractService {
   serviceName(): string {
     return 'Create Domain Event';
   }
@@ -15,9 +15,9 @@ export class Service extends AbstractService {
   async execute(aggregateName: string): Promise<void> {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
     const properties = storage.getProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames);
-    const answerEvent = await inquirer.prompt(Service.questionsEvent(aggregateName));
+    const answerEvent = await inquirer.prompt(ServiceMenuDomainEvent.questionsEvent(aggregateName));
     const answerText = await inquirer.prompt(
-      Service.questionsText(
+      ServiceMenuDomainEvent.questionsText(
         aggregate.name.propertie,
         answerEvent.eventAction,
         properties.map((e) => e.name.fullName),

@@ -1,27 +1,22 @@
 import { QuestionCollection } from 'inquirer';
 import * as inquirer from 'inquirer';
-import { storage } from '../in-memory-storage';
 import { AbstractService } from '../services/abstract-service';
 
 export class MenuServices {
-  async execute(aggregate: string): Promise<string> {
-    const answerMenuCreate = await inquirer.prompt(MenuServices.questionMenuCreate(aggregate));
+  async execute(aggregate: string, services: AbstractService[]): Promise<string> {
+    const answerMenuCreate = await inquirer.prompt(MenuServices.questionMenuCreate(aggregate, services));
     return answerMenuCreate.menuSelected;
   }
 
-  private static questionMenuCreate(aggregate: string): QuestionCollection<{ menuSelected: string }> {
+  private static questionMenuCreate(aggregate: string, services: AbstractService[]): QuestionCollection<{ menuSelected: string }> {
     return [
       {
         type: 'rawlist',
         name: 'menuSelected',
         message: `What do you want to generate in ${aggregate}?`,
-        choices: MenuServices.loadListServices().map((e) => e.serviceName()),
-        pageSize: MenuServices.loadListServices().length + 2,
+        choices: services.map((e) => e.serviceName()),
+        pageSize: services.length + 2,
       },
     ];
-  }
-
-  public static loadListServices(): AbstractService[] {
-    return storage.get('services');
   }
 }

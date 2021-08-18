@@ -1,11 +1,11 @@
-import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Render } from '../render';
-import { storage, WPropertie } from '../in-memory-storage';
+import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
+import { Render } from '../../render';
+import { storage, WPropertie } from '../../in-memory-storage';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
-import { AbstractService, AbstractServiceResponse } from './abstract-service';
+import { AbstractService, AbstractServiceResponse } from '../abstract-service';
 
-export class Service extends AbstractService {
+export class ServiceMenuPropertie extends AbstractService {
   serviceName(): string {
     return 'Generate Properties';
   }
@@ -13,7 +13,7 @@ export class Service extends AbstractService {
   async execute(aggregateName: string): Promise<void> {
     const properties = storage.getProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames);
     const answers = await inquirer.prompt(
-      Service.questions(
+      ServiceMenuPropertie.questions(
         aggregateName,
         properties.map((e) => e.name.fullName),
       ),

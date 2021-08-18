@@ -8,7 +8,7 @@ import { AbstractService, AbstractServiceResponse } from './abstract-service';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 
-export class Service extends AbstractService {
+export class ServiceMenuCommand extends AbstractService {
   serviceName(): string {
     return 'Create Command';
   }
@@ -16,7 +16,7 @@ export class Service extends AbstractService {
   async execute(aggregateName: string): Promise<void> {
     const properties = storage.getProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames);
 
-    const answerTemplate = await inquirer.prompt(Service.questionTemplate());
+    const answerTemplate = await inquirer.prompt(ServiceMenuCommand.questionTemplate());
 
     const answers = await inquirer.prompt(
       this.questions(

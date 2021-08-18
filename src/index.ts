@@ -2,9 +2,9 @@
 
 import { factory } from './app/service-factory';
 import { storage } from './app/in-memory-storage';
-import { services } from './app/services';
 import * as path from 'path';
 import * as fs from 'fs';
+import { services } from './app/services';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const copydir = require('copy-dir');
@@ -29,12 +29,11 @@ async function main() {
   const jsonData = factory.ymlToJsonService.getData(storage.get('pathConfigYaml'));
   const collectionAggregate = factory.readSkeletonDataService.readData(jsonData);
   storage.setallPropertie(collectionAggregate);
-  storage.set('services', services);
 
   const aggregateSelected = await factory.menuSelectAggregate(collectionAggregate);
 
-  const serviceSelected = await factory.menuAggregate(aggregateSelected);
-  await factory.generate(serviceSelected, aggregateSelected, collectionAggregate);
+  const serviceSelected = await factory.menuAggregate(aggregateSelected, services);
+  await factory.generate(serviceSelected, aggregateSelected, collectionAggregate, services);
 }
 
 main().finally(() => {
