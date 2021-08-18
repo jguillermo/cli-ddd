@@ -1,7 +1,9 @@
-import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run } from './load-cmd';
+import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run } from '../load-cmd';
 
 const PATH_USER = 'src/user';
-describe('Repository User', () => {
+const SNAP_PATH_USER_INFRASTRUCTURE = '/user/infrastructure';
+const SNAP_PATH_USER_DOMAIN = '/user/domain';
+describe('User infrastructure Repository', () => {
   beforeEach(() => {
     cleanRender();
   });
@@ -12,9 +14,9 @@ describe('Repository User', () => {
     const renderRepositoryDao = readRender(PATH_USER + '/infrastructure/persistence/user.dao.ts');
     const renderRepositoryFirestore = readRender(PATH_USER + '/infrastructure/persistence/user-firestore.repository.ts');
 
-    const snapDomainRepository = readSnapShot('user-repository/repository.txt');
-    const snapRepositoryDao = readSnapShot('user-repository/firestore-dao.txt');
-    const snapRepositoryFirestore = readSnapShot('user-repository/firestore.txt');
+    const snapDomainRepository = readSnapShot(SNAP_PATH_USER_DOMAIN + '/repository/repository.txt');
+    const snapRepositoryDao = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/repository/firestore-dao.txt');
+    const snapRepositoryFirestore = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/repository/firestore.txt');
 
     expect(renderDomainRepository).toEqual(snapDomainRepository);
     expect(renderRepositoryDao).toEqual(snapRepositoryDao);
