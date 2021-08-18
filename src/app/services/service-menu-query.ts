@@ -188,7 +188,6 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
         parentType,
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
         strVoProperties: properties.map((e) => `${e.propertie.name.value}: ${e.propertie.className}`).join(', '),
-        strVoParentProperties: properties.map((e) => `${e.propertie.name.value}: ${e.parentTypeImp}`).join(', '),
       },
       generatefolder,
       generateFile,

@@ -10,7 +10,12 @@ import { UUIDTypeImp } from 'base-ddd/dist/ValueObject/Implement/UUIDTypeImp';
 export class UserListService {
   constructor(private repository: UserRepository) {}
 
-  public async execute(id: UUIDTypeImp, name: StringTypeImp, paginator: PaginatorTypeImp, order: OrderTypeImp): Promise<ListUserResponse> {
+  public async execute(
+    id: UUIDTypeImp,
+    name: StringTypeImp,
+    paginator: PaginatorTypeImp,
+    order: OrderTypeImp,
+  ): Promise<ListUserResponse> {
     const listUser = await this.repository.findAll(
       [
         {
