@@ -6,8 +6,9 @@ import { UserId } from '../../domain/user-id';
 
 @ArgsType()
 export class UserFindByIdDto extends BaseDto {
-  constructor() {
+  constructor(id: string) {
     super();
+    this.id = id;
   }
 
   @Validate(DomainValidator, [UserId])
