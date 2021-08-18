@@ -14,7 +14,7 @@ export class UserPersistService {
     if (!user) {
       user = User.create(id, name);
     } else {
-      user.change(name);
+      user.update(name);
     }
     await this.repository.persist(user);
     this.eventBus.publishAll(user.pullDomainEvents());
