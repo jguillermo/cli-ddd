@@ -1,6 +1,7 @@
-import { DOWN, ENTER, readRender, readSnapShot, removeRender, run, UP } from './load-cmd';
+import { ENTER, menuAggregate, MenuPropertie, readRender, readSnapShot, removeRender, run, UP } from './load-cmd';
 
 const PATH_ROOT = '../';
+const MENU_USER = menuAggregate(MenuPropertie.USER);
 describe('firebase firestore', () => {
   beforeEach(() => {
     removeRender(PATH_ROOT + '/.firebaserc');
@@ -9,7 +10,7 @@ describe('firebase firestore', () => {
     removeRender(PATH_ROOT + '/firestore.rules');
   });
   test('copy 4 files firestore', async () => {
-    await run([DOWN, ENTER, UP, ENTER]);
+    await run([...MENU_USER, UP, ENTER]);
 
     const renderFirebaserc = readRender(PATH_ROOT + '/.firebaserc');
     const renderFirebaseJson = readRender(PATH_ROOT + '/firebase.json');

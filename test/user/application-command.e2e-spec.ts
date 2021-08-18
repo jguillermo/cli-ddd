@@ -1,21 +1,22 @@
-import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, UP } from '../load-cmd';
+import { cleanRender, DDD, DOWN, ENTER, menu, MenuPropertie, readRender, readSnapShot, run, UP } from '../load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/application';
 const PATH_USER_COMMAND = 'user/application/command';
+const MENU = menu(MenuPropertie.USER, DDD.APPLICATION_COMMAND);
 describe('User application Command', () => {
   beforeEach(() => {
     cleanRender();
   });
   describe('generate command User', () => {
     test('select 1) Create Command', async () => {
-      const result = await run([DOWN, ENTER, ENTER]);
+      const result = await run(MENU);
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Command/);
       expect(result).toMatch(/use template/);
     });
 
     test('input command name correct list properties', async () => {
-      const result = await run([DOWN, ENTER, ENTER, DOWN, ENTER, ENTER]);
+      const result = await run([...MENU, DOWN, ENTER, ENTER]);
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Command/);
       expect(result).toMatch(/use template persist/);
@@ -28,14 +29,14 @@ describe('User application Command', () => {
 
   describe('generate command User Error', () => {
     test('input name error 1 cracrter', async () => {
-      const result = await run([DOWN, ENTER, ENTER, ENTER, 'c', ENTER]);
+      const result = await run([...MENU, ENTER, 'c', ENTER]);
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Command/);
       expect(result).toMatch(/COMMAND name must be at least 3 letters/);
     });
 
     test('input name error caracteres no permitidos', async () => {
-      const result = await run([DOWN, ENTER, ENTER, ENTER, 'Create-User', ENTER]);
+      const result = await run([...MENU, ENTER, 'Create-User', ENTER]);
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Command/);
       expect(result).toMatch(/only caracters de a la a-z A-Z/);
@@ -44,7 +45,7 @@ describe('User application Command', () => {
 
   describe('render', () => {
     test('template persist', async () => {
-      await run([DOWN, ENTER, ENTER, DOWN, ENTER, ENTER, ENTER]);
+      await run([...MENU, DOWN, ENTER, ENTER, ENTER]);
       const renderDto = readRender(PATH_USER_APPLICATION + '/persist/user-persist.dto.ts');
       const renderHandler = readRender(PATH_USER_APPLICATION + '/persist/user-persist.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/persist/user-persist.service.ts');
@@ -59,7 +60,7 @@ describe('User application Command', () => {
     });
 
     test('template delete', async () => {
-      await run([DOWN, ENTER, ENTER, UP, ENTER, ENTER, ENTER]);
+      await run([...MENU, UP, ENTER, ENTER, ENTER]);
       const renderDto = readRender(PATH_USER_APPLICATION + '/delete/user-delete.dto.ts');
       const renderHandler = readRender(PATH_USER_APPLICATION + '/delete/user-delete.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/delete/user-delete.service.ts');
@@ -74,7 +75,7 @@ describe('User application Command', () => {
     });
 
     test('template none', async () => {
-      await run([DOWN, ENTER, ENTER, ENTER, 'none', ENTER, ENTER]);
+      await run([...MENU, ENTER, 'none', ENTER, ENTER]);
       const renderDto = readRender(PATH_USER_APPLICATION + '/none/user-none.dto.ts');
       const renderHandler = readRender(PATH_USER_APPLICATION + '/none/user-none.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/none/user-none.service.ts');

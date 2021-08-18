@@ -1,14 +1,15 @@
-import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run } from '../load-cmd';
+import { cleanRender, DDD, ENTER, menu, MenuPropertie, readRender, readSnapShot, run } from '../load-cmd';
 
 const PATH_USER_DOMAIN = 'src/user/domain';
 const SNAP_PATH_USER_DOMAIN = '/user/domain';
+const MENU = menu(MenuPropertie.USER, DDD.DOMAIN_PROPERTIE);
 describe('User domain Properties', () => {
   beforeEach(() => {
     cleanRender();
   });
   describe('render propertie User', () => {
     test('empty', async () => {
-      await run([DOWN, ENTER, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER, ENTER]);
+      await run([...MENU, ENTER]);
       const renderId = readRender(PATH_USER_DOMAIN + '/user-id.ts');
       const renderName = readRender(PATH_USER_DOMAIN + '/user-name.ts');
 

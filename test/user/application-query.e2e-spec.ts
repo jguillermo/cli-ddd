@@ -1,14 +1,15 @@
-import { cleanRender, DOWN, ENTER, readRender, readSnapShot, run, UP } from '../load-cmd';
+import { cleanRender, DDD, DOWN, ENTER, menu, MenuPropertie, readRender, readSnapShot, run, UP } from '../load-cmd';
 
 const PATH_USER_APPLICATION = 'src/user/application';
 const PATH_USER_QUERY = 'user/application/query';
+const MENU = menu(MenuPropertie.USER, DDD.APPLICATION_QUERY);
 describe('User application Query', () => {
   beforeEach(() => {
     cleanRender();
   });
   describe('generate query User', () => {
     test('select 1) Create Query', async () => {
-      const result = await run([DOWN, ENTER, DOWN, ENTER, ENTER, 'testQuery', ENTER]);
+      const result = await run([...MENU, ENTER, 'testQuery', ENTER]);
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Query/);
       expect(result).toMatch(/use template none/);
@@ -19,14 +20,14 @@ describe('User application Query', () => {
 
   describe('generate query User Error', () => {
     test('input name error 1 cracrter', async () => {
-      const result = await run([DOWN, ENTER, DOWN, ENTER, ENTER, 'c', ENTER]);
+      const result = await run([...MENU, ENTER, 'c', ENTER]);
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Query/);
       expect(result).toMatch(/QUERY name must be at least 3 letters/);
     });
 
     test('input name error caracteres no permitidos', async () => {
-      const result = await run([DOWN, ENTER, DOWN, ENTER, ENTER, 'Create-User', ENTER]);
+      const result = await run([...MENU, ENTER, 'Create-User', ENTER]);
       expect(result).toMatch(/Select aggregate User/);
       expect(result).toMatch(/What do you want to generate in User\? Create Query/);
       expect(result).toMatch(/only caracters de a la a-z A-Z/);
@@ -35,7 +36,7 @@ describe('User application Query', () => {
 
   describe('render template', () => {
     test('findById', async () => {
-      await run([DOWN, ENTER, DOWN, ENTER, DOWN, ENTER, ENTER, ENTER]);
+      await run([...MENU, DOWN, ENTER, ENTER, ENTER]);
 
       const renderDto = readRender(PATH_USER_APPLICATION + '/find-by-id/user-find-by-id.dto.ts');
       const renderHandler = readRender(PATH_USER_APPLICATION + '/find-by-id/user-find-by-id.handler.ts');
@@ -51,7 +52,7 @@ describe('User application Query', () => {
     });
 
     test('list', async () => {
-      await run([DOWN, ENTER, DOWN, ENTER, UP, ENTER, ENTER, ENTER]);
+      await run([...MENU, UP, ENTER, ENTER, ENTER]);
 
       const renderDto = readRender(PATH_USER_APPLICATION + '/list/user-list.dto.ts');
       const renderHandler = readRender(PATH_USER_APPLICATION + '/list/user-list.handler.ts');
@@ -67,7 +68,7 @@ describe('User application Query', () => {
     });
 
     test('none', async () => {
-      await run([DOWN, ENTER, DOWN, ENTER, ENTER, 'none', ENTER, ENTER]);
+      await run([...MENU, ENTER, 'none', ENTER, ENTER]);
 
       const renderDto = readRender(PATH_USER_APPLICATION + '/none/user-none.dto.ts');
       const renderHandler = readRender(PATH_USER_APPLICATION + '/none/user-none.handler.ts');
