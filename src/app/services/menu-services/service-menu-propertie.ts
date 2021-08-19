@@ -61,6 +61,7 @@ export class ServiceMenuPropertieRender extends AbstractServiceResponse {
       templateData: {
         className,
         aggregate,
+        propertie,
       },
       generatefolder,
       generateFile,

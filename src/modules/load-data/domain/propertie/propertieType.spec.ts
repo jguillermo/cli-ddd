@@ -1,6 +1,6 @@
 import { PropertieType } from './propertieType';
 
-describe('Propertie', () => {
+describe('PropertieType', () => {
   let type: PropertieType;
 
   describe('value', () => {
