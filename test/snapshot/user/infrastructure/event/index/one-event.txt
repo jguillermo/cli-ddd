@@ -1,0 +1,3 @@
+import { ResourceOnUserCreated } from './resource-on-user-created.ts';
+
+export const AppEvents = [ResourceOnUserCreated];
