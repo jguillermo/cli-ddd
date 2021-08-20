@@ -88,6 +88,7 @@ export enum DDD {
   DOMAIN_EVENT = 'domain_event',
   DOMAIN_PROPERTIE = 'domain_propertie',
   INFRASTRUCTURE_EVENT = 'infrastructure_event',
+  INFRASTRUCTURE_EVENT_INDEX = 'infrastructure_event_index',
   INFRASTRUCTURE_GRAPH_QL = 'infrastructure_graph_ql',
   INFRASTRUCTURE_REPOSITORY = 'infrastructure_repository',
   APP_FIRESTORE = 'app_firestore',
@@ -140,6 +141,10 @@ export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
     }
     case DDD.INFRASTRUCTURE_EVENT: {
       menu = [...menu, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.INFRASTRUCTURE_EVENT_INDEX: {
+      menu = [...menuApp, DOWN, ENTER];
       break;
     }
     case DDD.INFRASTRUCTURE_GRAPH_QL: {

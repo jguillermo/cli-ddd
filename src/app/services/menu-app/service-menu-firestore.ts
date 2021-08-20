@@ -12,7 +12,7 @@ export class ServiceMenuFirestore extends AbstractService {
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+class ServiceRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/app/firestore`;
   }

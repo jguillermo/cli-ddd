@@ -17,9 +17,9 @@ export interface RenderData {
 }
 
 export class Render {
-  static generate(data: RenderData) {
+  static generate(data: RenderData, force = false) {
     const render = Render.generateRender(data.templateFile, data.templateData);
-    Render.generateFile(data.generatefolder, data.generateFile, render);
+    Render.generateFile(data.generatefolder, data.generateFile, render, force);
   }
 
   static fromDir(startPath, filter, callback) {
@@ -49,7 +49,7 @@ export class Render {
     return ejs.render(fs.readFileSync(`${storage.get('pathTemplate')}/main/${templateFile}`, 'utf-8'), templateData);
   }
 
-  private static generateFile(generatefolder: string, generateFile: string, render: string): void {
+  private static generateFile(generatefolder: string, generateFile: string, render: string, force = false): void {
     let fileGenerate = `${storage.get('pathRender')}/${generatefolder}/${generateFile}`;
     let folderGenerate = `${storage.get('pathRender')}/${generatefolder}`;
     if (generatefolder === '') {
@@ -57,16 +57,26 @@ export class Render {
       folderGenerate = `${storage.get('pathRender')}`;
     }
 
-    let exist = true;
-    if (!fs.existsSync(fileGenerate)) {
-      fs.mkdirSync(folderGenerate, { recursive: true });
+    const fileExist = fs.existsSync(fileGenerate);
+
+    fs.mkdirSync(folderGenerate, { recursive: true });
+
+    if (force) {
       fs.writeFileSync(fileGenerate, render, 'utf-8');
-      exist = false;
-    }
-    if (exist) {
-      console.log(colors.gray(`[exist] ${fileGenerate}`));
+      if (fileExist) {
+        console.log(colors.gray(`[updated] ${fileGenerate}`));
+      } else {
+        console.log(colors.green(`[created] ${fileGenerate}`));
+      }
     } else {
-      console.log(colors.green(`[created] ${fileGenerate}`));
+      if (!fileExist) {
+        fs.writeFileSync(fileGenerate, render, 'utf-8');
+      }
+      if (fileExist) {
+        console.log(colors.gray(`[exist] ${fileGenerate}`));
+      } else {
+        console.log(colors.green(`[created] ${fileGenerate}`));
+      }
     }
   }
 }

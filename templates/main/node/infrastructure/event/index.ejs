@@ -1,5 +1,5 @@
-import { ResourceOnUserCreated } from './resource-on-user-created';
-import { ResourceOnUserUpdated } from './resource-on-user-updated';
-import { ResourceOnUserDeleted } from './resource-on-user-deleted';
+<%_ events.forEach(function(e){ _%>
+import { <%= e.className %> } from './<%= e.fileName %>';
+<%_ }); _%>
 
-export const AppEvents = [ResourceOnUserCreated, ResourceOnUserUpdated, ResourceOnUserDeleted];
+export const AppEvents = [<%= classInline %>];
