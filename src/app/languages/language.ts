@@ -1,6 +1,8 @@
 import { NodeLanguage } from './node-language';
 
 export interface LanguageInterface {
+  dotExt(): string;
+
   language(): string;
 
   className(names: string[]): string;

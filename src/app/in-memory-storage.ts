@@ -38,6 +38,10 @@ export class WPropertie {
     return this.getPrimitivePropertie(this._propertie.name.fullName).type.primitiveType;
   }
 
+  get primitivePropertie(): Propertie {
+    return this.getPrimitivePropertie(this._propertie.name.fullName);
+  }
+
   get primitiveTypeImp(): string {
     return this.getPrimitivePropertie(this._propertie.name.fullName).type.primitiveTypeImp;
   }

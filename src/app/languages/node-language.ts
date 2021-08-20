@@ -7,6 +7,10 @@ const s = require('underscore.string');
 const slugify = require('underscore.string/slugify');
 
 export class NodeLanguage implements LanguageInterface {
+  dotExt(): string {
+    return '.ts';
+  }
+
   language(): string {
     return LanguageList.NODE;
   }
@@ -32,9 +36,9 @@ export class NodeLanguage implements LanguageInterface {
       })
       .join('-');
     if (name === '') {
-      return addType ? `${type}.ts` : `${type}`;
+      return addType ? `${type}${this.dotExt()}` : `${type}`;
     } else {
-      return addType ? `${name}.${type}.ts` : `${name}.${type}`;
+      return addType ? `${name}.${type}${this.dotExt()}` : `${name}.${type}`;
     }
   }
 
@@ -49,7 +53,7 @@ export class NodeLanguage implements LanguageInterface {
         return slugify(n);
       })
       .join('-');
-    return addType ? `${name}.ts` : name;
+    return addType ? `${name}${this.dotExt()}` : name;
   }
 
   folderPath(paths: string[]): string {
