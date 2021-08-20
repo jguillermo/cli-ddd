@@ -112,6 +112,7 @@ export function menuAggregate(aggregate: MenuPropertie): string[] {
 export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
   let menu = menuAggregate(aggregate);
   const menuSelect = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+  const menuApp = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
   switch (menuDdd) {
     case DDD.APPLICATION_COMMAND: {
       menu = [...menu, ENTER];
@@ -150,7 +151,7 @@ export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
       break;
     }
     case DDD.APP_FIRESTORE: {
-      menu = [...menuSelect, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+      menu = [...menuApp, ENTER];
       break;
     }
     case DDD.APP_CRUD: {
