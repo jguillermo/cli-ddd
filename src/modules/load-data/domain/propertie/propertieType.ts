@@ -1,6 +1,15 @@
+export enum PropertieTypes {
+  BOOLEAN = 'boolean',
+  DATE = 'date',
+  ENUM = 'enum',
+  ID = 'id',
+  NUMBER = 'number',
+  STRING = 'string',
+  UUID = 'uuid',
+}
+
 export class PropertieType {
   private _type: string;
-  private static primitivesValues = ['boolean', 'date', 'enum', 'id', 'number', 'string', 'uuid'];
 
   constructor(type: string) {
     this._type = PropertieType.isPrimitiveValue(type) ? type.toLowerCase() : type;
@@ -34,10 +43,10 @@ export class PropertieType {
     }
     let parentType = this.value;
     switch (this.value) {
-      case 'enum':
+      case PropertieTypes.ENUM:
         parentType = 'string';
         break;
-      case 'id':
+      case PropertieTypes.ID:
         parentType = 'uuid';
         break;
     }
@@ -45,18 +54,14 @@ export class PropertieType {
   }
 
   private static capitalizar(str: string) {
-    if (str === 'uuid') {
+    if (str === PropertieTypes.UUID) {
       return 'UUID';
     }
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  static isPrimitiveValue(value: string) {
-    return PropertieType.primitivesValues.indexOf(`${value}`.toLowerCase()) >= 0;
-  }
-
-  isString() {
-    return this.primitive === 'string';
+  static isPrimitiveValue(value: string): boolean {
+    return `${value}`.toUpperCase() in PropertieTypes;
   }
 
   get primitive(): string | null {
@@ -65,13 +70,13 @@ export class PropertieType {
     }
     let type = this.value;
     switch (this.value) {
-      case 'id':
+      case PropertieTypes.ID:
         type = 'string';
         break;
-      case 'uuid':
+      case PropertieTypes.UUID:
         type = 'string';
         break;
-      case 'enum':
+      case PropertieTypes.ENUM:
         type = 'string';
         break;
     }

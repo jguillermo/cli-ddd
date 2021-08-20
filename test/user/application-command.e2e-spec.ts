@@ -47,14 +47,17 @@ describe('User application Command', () => {
     test('template persist', async () => {
       await run([...MENU, DOWN, ENTER, ENTER, ENTER]);
       const renderDto = readRender(PATH_USER_APPLICATION + '/persist/user-persist.dto.ts');
+      const renderDtoTest = readRender(PATH_USER_APPLICATION + '/persist/user-persist.dto.spec.ts');
       const renderHandler = readRender(PATH_USER_APPLICATION + '/persist/user-persist.handler.ts');
       const renderService = readRender(PATH_USER_APPLICATION + '/persist/user-persist.service.ts');
 
+      const snapDtoTest = readSnapShot(SNAP_PATH_USER_APPLICATION + '/command/persist/dto-test.txt');
       const snapDto = readSnapShot(SNAP_PATH_USER_APPLICATION + '/command/persist/dto.txt');
       const snapHandler = readSnapShot(SNAP_PATH_USER_APPLICATION + '/command/persist/handler.txt');
       const snapService = readSnapShot(SNAP_PATH_USER_APPLICATION + '/command/persist/service.txt');
 
       expect(renderDto).toEqual(snapDto);
+      expect(renderDtoTest).toEqual(snapDtoTest);
       expect(renderHandler).toEqual(snapHandler);
       expect(renderService).toEqual(snapService);
 

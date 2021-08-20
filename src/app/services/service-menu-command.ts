@@ -5,6 +5,8 @@ import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 import { AbstractService, AbstractServiceResponse } from './abstract-service';
 import { ServiceMenuApplicationIndexRender } from './menu-app/service-menu-application-index';
+import { UUIDTypeImp } from 'base-ddd';
+import { PropertieTypes } from '../../modules/load-data/domain/propertie/propertieType';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
@@ -94,6 +96,8 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
 
     this.renderDto(aggregate, propertiesSelected, options.commandName, options.templateRender);
 
+    this.renderDtoTest(aggregate, propertiesSelected, options.commandName, options.templateRender);
+
     this.renderHandler(aggregate, propertiesSelected, options.commandName);
 
     this.renderService(aggregate, propertiesSelected, options.commandName, options.templateRender);
@@ -113,6 +117,47 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
         className,
         properties,
         templateRender,
+      },
+      generatefolder,
+      generateFile,
+    });
+  }
+
+  private renderDtoTest(aggregate: Aggregate, properties: WPropertie[], commandName: string, templateRender: string) {
+    if (templateRender !== 'persist') {
+      return;
+    }
+    const classDto = this.language.className([aggregate.name.value, commandName, 'Dto']);
+    const fileDto = this.language.classFile([aggregate.name.value, commandName, 'Dto'], false);
+
+    let generateFile = this.language.classFile([aggregate.name.value, commandName, 'Dto'], false);
+    generateFile = `${generateFile}.spec${this.language.dotExt()}`;
+
+    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
+
+    const propertiesString = properties.map((e) => {
+      let valuePrimitive = 'WIP';
+
+      if (e.primitivePropertie.type.value === PropertieTypes.ID) {
+        valuePrimitive = `'${UUIDTypeImp.fromValue('Guille')}'`;
+      }
+      if (e.primitivePropertie.type.value === PropertieTypes.STRING) {
+        valuePrimitive = `'${e.propertie.name.value}'`;
+      }
+      return {
+        name: e.propertie.name.value,
+        valuePrimitive,
+      };
+    });
+
+    Render.generate({
+      templateFile: `${this.templatePath}dto-test.ejs`,
+      templateData: {
+        classDto,
+        fileDto,
+        templateRender,
+        propertiesString,
+        propertiesCount: properties.length,
       },
       generatefolder,
       generateFile,
