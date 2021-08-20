@@ -1,0 +1,5 @@
+import { UserFindByIdHandler } from './find-by-id/user-find-by-id.handler';
+import { UserFindByIdService } from './find-by-id/user-find-by-id.service';
+
+export const ApplicationHandlers = [UserFindByIdHandler];
+export const ApplicationServices = [UserFindByIdService];

@@ -11,12 +11,12 @@ export class ServiceMenuEventIndex extends AbstractService {
   }
 
   async execute(aggregateName: string): Promise<void> {
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceMenuEventIndexRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName);
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceMenuEventIndexRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/infrastructure/event`;
   }
@@ -30,14 +30,19 @@ export class ServiceRender extends AbstractServiceResponse {
   private listEvent(aggregate: Aggregate): any[] {
     const eventsList = [];
     const pathEvents = path.join(storage.get('pathRender'), aggregate.path.value, 'infrastructure', 'event');
-    Render.fromDir(pathEvents, /\.ts$/, function (filename) {
-      const fileName = path.basename(filename).replace('.ts', '').split('-');
-      eventsList.push(fileName);
+    Render.fromDir(pathEvents, /\.ts$/, function (fullFilePath) {
+      const fileWithoutExt = path.basename(fullFilePath).replace('.ts', '');
+      if (fileWithoutExt !== 'index') {
+        eventsList.push({
+          fileWithoutExt: fileWithoutExt.split('-'),
+          filePath: `${fileWithoutExt}`,
+        });
+      }
     });
     return eventsList.map((e) => {
       return {
-        className: this.language.className(e),
-        fileName: this.language.classFileWithOutType(e),
+        className: this.language.className(e.fileWithoutExt),
+        filePath: e.filePath,
       };
     });
   }

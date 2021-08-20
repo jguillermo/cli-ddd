@@ -1,5 +1,5 @@
 <%_ events.forEach(function(e){ _%>
-import { <%= e.className %> } from './<%= e.fileName %>';
+import { <%= e.className %> } from './<%= e.filePath %>';
 <%_ }); _%>
 
 export const AppEvents = [<%= classInline %>];

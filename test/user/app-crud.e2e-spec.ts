@@ -147,5 +147,17 @@ describe('User crud', () => {
         expect(renderAggregate).toEqual(snapAggregate);
       });
     });
+
+    test('application index', async () => {
+      const renderIndex = readRender(PATH_USER_APPLICATION + '/index.ts');
+      const snapIndex = readSnapShot(SNAP_PATH_USER_APPLICATION + '/index/all.txt');
+      expect(renderIndex).toEqual(snapIndex);
+    });
+
+    test('event index', async () => {
+      const renderAggregate = readRender(PATH_USER_INFRASTRUCTURE + '/event/index.ts');
+      const snapAggregate = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/index/all.txt');
+      expect(renderAggregate).toEqual(snapAggregate);
+    });
   });
 });

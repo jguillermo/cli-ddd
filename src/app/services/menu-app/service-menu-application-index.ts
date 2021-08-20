@@ -11,12 +11,12 @@ export class ServiceMenuApplicationIndex extends AbstractService {
   }
 
   async execute(aggregateName: string): Promise<void> {
-    const render = new ServiceRender(this._collectionAggregate, this.language);
+    const render = new ServiceMenuApplicationIndexRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName);
   }
 }
 
-export class ServiceRender extends AbstractServiceResponse {
+export class ServiceMenuApplicationIndexRender extends AbstractServiceResponse {
   get templatePath(): string {
     return `${this.language.language()}/application`;
   }
@@ -32,7 +32,6 @@ export class ServiceRender extends AbstractServiceResponse {
     const eventsList = [];
     const pathEvents = path.join(storage.get('pathRender'), aggregate.path.value, 'application');
     Render.fromDir(pathEvents, regex, function (fullFilePath) {
-      console.log(fullFilePath);
       const fileDirName = path.dirname(fullFilePath).split('/');
       const fileWithoutExt = path.basename(fullFilePath).replace('.ts', '');
       eventsList.push({
