@@ -84,6 +84,7 @@ export enum DDD {
   APPLICATION_COMMAND = 'application_command',
   APPLICATION_QUERY = 'application_query',
   APPLICATION_RESPONSE = 'application_response',
+  APPLICATION_INDEX = 'application_index',
   DOMAIN_AGGREGATE = 'domain_aggregate',
   DOMAIN_EVENT = 'domain_event',
   DOMAIN_PROPERTIE = 'domain_propertie',
@@ -125,6 +126,10 @@ export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
     }
     case DDD.APPLICATION_RESPONSE: {
       menu = [...menuSelect, DOWN, DOWN, DOWN, DOWN, ENTER];
+      break;
+    }
+    case DDD.APPLICATION_INDEX: {
+      menu = [...menuApp, DOWN, DOWN, ENTER];
       break;
     }
     case DDD.DOMAIN_AGGREGATE: {

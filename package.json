@@ -31,7 +31,7 @@
     "build": "tsc --project tsconfig.build.json",
     "format-fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
-    "preconsole:dev": "rimraf render",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpreconsole:dev": "rimraf render",
     "console:dev": "ts-node -r tsconfig-paths/register src/index.ts",
     "console:prod": "node dist/index.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
