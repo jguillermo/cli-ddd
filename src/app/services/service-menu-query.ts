@@ -4,6 +4,7 @@ import { Render } from '../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 import { AbstractService, AbstractServiceResponse } from './abstract-service';
+import { ServiceMenuApplicationIndexRender } from './menu-app/service-menu-application-index';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
@@ -94,6 +95,9 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
     this.renderHandler(aggregate, propertiesSelected, options.queryName, options.templateRender, parentType);
 
     this.renderService(aggregate, propertiesSelected, options.queryName, options.templateRender, parentType);
+
+    const renderIndex = new ServiceMenuApplicationIndexRender(this._collectionAggregate, this.language);
+    await renderIndex.execute(aggregateName);
   }
 
   get templatePath(): string {

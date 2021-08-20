@@ -4,6 +4,7 @@ import { Render } from '../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 import { AbstractService, AbstractServiceResponse } from './abstract-service';
+import { ServiceMenuEventIndexRender } from './menu-app/service-menu-event-index';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -79,11 +80,13 @@ export class ServiceMenuInfrastructureEventRender extends AbstractServiceRespons
 
   async execute(aggregateName: string, options: { eventSelected: string; eventName: string }): Promise<void> {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
+    this.renderEvent(aggregate, options.eventSelected, options.eventName);
 
-    this.renderDto(aggregate, options.eventSelected, options.eventName);
+    const renderIndex = new ServiceMenuEventIndexRender(this._collectionAggregate, this.language);
+    await renderIndex.execute(aggregateName);
   }
 
-  private renderDto(aggregate: Aggregate, eventSelected: string, eventName: string) {
+  private renderEvent(aggregate: Aggregate, eventSelected: string, eventName: string) {
     const tempEventSelected = `${eventSelected}`.replace('Event', '');
 
     const eventFile = this.language.classFile([tempEventSelected, 'event'], false);

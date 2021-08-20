@@ -1,0 +1,5 @@
+import { UserPersistHandler } from './persist/user-persist.handler';
+import { UserPersistService } from './persist/user-persist.service';
+
+export const ApplicationHandlers = [UserPersistHandler];
+export const ApplicationServices = [UserPersistService];

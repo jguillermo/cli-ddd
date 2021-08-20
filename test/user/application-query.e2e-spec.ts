@@ -49,6 +49,10 @@ describe('User application Query', () => {
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
       expect(renderService).toEqual(snapService);
+
+      const renderIndex = readRender(PATH_USER_APPLICATION + '/index.ts');
+      const snapIndex = readSnapShot(SNAP_PATH_USER_APPLICATION + '/index/find-by-id.txt');
+      expect(renderIndex).toEqual(snapIndex);
     });
 
     test('list', async () => {

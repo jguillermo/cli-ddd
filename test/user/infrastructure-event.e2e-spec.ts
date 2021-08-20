@@ -18,5 +18,9 @@ describe('User infrastructure event', () => {
     const snapAggregate = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-created.txt');
 
     expect(renderAggregate).toEqual(snapAggregate);
+
+    const renderIndex = readRender(PATH_USER_INFRASTRUCTURE + '/event/index.ts');
+    const snapIndex = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/index/one-event.txt');
+    expect(renderIndex).toEqual(snapIndex);
   });
 });

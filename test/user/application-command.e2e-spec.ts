@@ -57,6 +57,10 @@ describe('User application Command', () => {
       expect(renderDto).toEqual(snapDto);
       expect(renderHandler).toEqual(snapHandler);
       expect(renderService).toEqual(snapService);
+
+      const renderIndex = readRender(PATH_USER_APPLICATION + '/index.ts');
+      const snapIndex = readSnapShot(SNAP_PATH_USER_APPLICATION + '/index/persist.txt');
+      expect(renderIndex).toEqual(snapIndex);
     });
 
     test('template delete', async () => {
