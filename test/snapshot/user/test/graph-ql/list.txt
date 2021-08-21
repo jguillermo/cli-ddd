@@ -4,7 +4,7 @@ import { TestingE2eModule } from '../../testing-e2e-module';
 import { UserRepository } from '../../../src/user/domain/user.repository';
 import { UserMother } from '../user-object-mother';
 
-describe('User list [userList] (e2e)', () => {
+describe('GraphQl User (userList)', () => {
   let app: INestApplication;
   let repository: UserRepository;
   beforeEach(async () => {
