@@ -1,14 +1,14 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
+import { <%= aggregate.name.value %>E2eModule } from './<%= aggregatePropertie %>-e2e-module';
 import { <%= classRepository %> } from '../../../src/<%= aggregatePropertie %>/domain/<%= fileRepository %>';
 import { <%= classMother %> } from '../<%= aggregatePropertie %>-object-mother';
-import { TestingE2eModule } from '../../testing-e2e-module';
 
 describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
   let app: INestApplication;
   let repository: <%= classRepository %>;
   beforeEach(async () => {
-    ({ app, <%= aggregatePropertieRepository %>: repository } = await TestingE2eModule.create());
+    ({ app, <%= aggregatePropertieRepository %>: repository } = await <%= aggregate.name.value %>E2eModule.create());
     const items = await repository.findAll();
     for await (const item of items) {
       await repository.deleteById(item.id);
