@@ -1,14 +1,14 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { TestingE2eModule } from '../../testing-e2e-module';
-import { UserRepository } from '../../../src/user/domain/user.repository';
-import { UserMother } from '../user-object-mother';
+import { <%= classRepository %> } from '../../../src/<%= aggregatePropertie %>/domain/<%= fileRepository %>';
+import { <%= classMother %> } from '../<%= aggregatePropertie %>-object-mother';
 
-describe('User list [userList] (e2e)', () => {
+describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
   let app: INestApplication;
-  let repository: UserRepository;
+  let repository: <%= classRepository %>;
   beforeEach(async () => {
-    ({ app, userRepository: repository } = await TestingE2eModule.create());
+    ({ app, <%= aggregatePropertieRepository %>: repository } = await TestingE2eModule.create());
     const items = await repository.findAll();
     for await (const item of items) {
       await repository.deleteById(item.id);
@@ -16,13 +16,14 @@ describe('User list [userList] (e2e)', () => {
   });
   describe('whitout filter', () => {
     it('get all', async () => {
-      const user = UserMother.create();
-      await repository.persist(user);
+      const <%= aggregatePropertie %> = <%= classMother %>.create();
+      await repository.persist(<%= aggregatePropertie %>);
       const query = `
           query{
-            userList{
-              id
-              name
+            <%= graphQlService %>{
+              <%_ properties.forEach(function(e){ _%>
+              <%= e.propertie.name.value %>
+              <%_ }); _%>
             }
           }
           `;
@@ -32,18 +33,20 @@ describe('User list [userList] (e2e)', () => {
         .then(async (response) => {
           expect(response.body).toEqual({
             data: {
-              userList: [
+              <%= graphQlService %>: [
                 {
-                  id: user.id.value,
-                  name: user.name.value,
+                  <%_ properties.forEach(function(e){ _%>
+                  <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.value,
+                  <%_ }); _%>
                 },
               ],
             },
           });
-          const userDb = await repository.findById(user.id);
-          expect(userDb).not.toBeNull();
-          expect(userDb.id.value).toEqual(user.id.value);
-          expect(userDb.name.value).toEqual(user.name.value);
+          const <%= aggregatePropertieDb %> = await repository.findById(<%= aggregatePropertieId %>);
+          expect(<%= aggregatePropertieDb %>).not.toBeNull();
+          <%_ properties.forEach(function(e){ _%>
+          expect(<%= aggregatePropertieDb %>.<%= e.propertie.name.value %>.value).toEqual(<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value);
+          <%_ }); _%>
           expect(response.statusCode).toEqual(200);
         });
     });
@@ -51,13 +54,14 @@ describe('User list [userList] (e2e)', () => {
 
   describe('all filter', () => {
     it('get all', async () => {
-      const user = UserMother.create();
-      await repository.persist(user);
+      const <%= aggregatePropertie %> = <%= classMother %>.create();
+      await repository.persist(<%= aggregatePropertie %>);
       const query = `
           query{
-            userList(id:"${user.id.value}",paginator:{page:1, perPage:1},order:{field:"id", direction:"desc"}){
-              id
-              name
+            <%= graphQlService %>(id:"${<%= aggregatePropertieId %>.value}",paginator:{page:1, perPage:1},order:{field:"id", direction:"desc"}){
+              <%_ properties.forEach(function(e){ _%>
+              <%= e.propertie.name.value %>
+              <%_ }); _%>
             }
           }
           `;
@@ -67,18 +71,20 @@ describe('User list [userList] (e2e)', () => {
         .then(async (response) => {
           expect(response.body).toEqual({
             data: {
-              userList: [
+              <%= graphQlService %>: [
                 {
-                  id: user.id.value,
-                  name: user.name.value,
+                  <%_ properties.forEach(function(e){ _%>
+                  <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.value,
+                  <%_ }); _%>
                 },
               ],
             },
           });
-          const userDb = await repository.findById(user.id);
-          expect(userDb).not.toBeNull();
-          expect(userDb.id.value).toEqual(user.id.value);
-          expect(userDb.name.value).toEqual(user.name.value);
+          const <%= aggregatePropertieDb %> = await repository.findById(<%= aggregatePropertieId %>);
+          expect(<%= aggregatePropertieDb %>).not.toBeNull();
+          <%_ properties.forEach(function(e){ _%>
+          expect(<%= aggregatePropertieDb %>.<%= e.propertie.name.value %>.value).toEqual(<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value);
+          <%_ }); _%>
           expect(response.statusCode).toEqual(200);
         });
     });

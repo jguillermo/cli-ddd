@@ -2,7 +2,6 @@ import { AbstractService, AbstractServiceResponse } from '../abstract-service';
 import { storage, WPropertie } from '../../in-memory-storage';
 import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
 import { Render } from '../../render';
-import { PropertieTypes } from '../../../modules/load-data/domain/propertie/propertieType';
 
 export class ServiceMenuGraphQl extends AbstractService {
   serviceName(): string {
@@ -27,6 +26,8 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     this.renderResolver(aggregate, properties);
     this.renderTest(aggregate, properties, 'delete');
     this.renderTest(aggregate, properties, 'findById');
+    this.renderTest(aggregate, properties, 'list');
+    this.renderTest(aggregate, properties, 'persist');
   }
 
   private renderType(aggregate: Aggregate, properties: WPropertie[]) {
@@ -110,8 +111,6 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   }
 
   private renderTest(aggregate: Aggregate, properties: WPropertie[], type: string) {
-
-
     const typeTest = this.language.className([type]);
     const typeFile = this.language.classFileTestWithOutType([type], false);
 
@@ -133,7 +132,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
       graphQlService = `${aggregatePropertie}`;
     }
 
-    properties[0].propertie.name.value
+    properties[0].propertie.name.value;
 
     Render.generate({
       templateFile: `${this.language.language()}/test/graph-ql/${typeFile}.ejs`,

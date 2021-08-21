@@ -35,5 +35,19 @@ describe('User infrastructure GraphQL', () => {
       const snap = readSnapShot(SNAP_PATH_USER_TEST + '/graph-ql/find-by-id.txt');
       expect(render).toEqual(snap);
     });
+
+    test('list', async () => {
+      await run([...MENU]);
+      const render = readRender(PATH_USER_TEST + '/graph-ql/user-list.e2e-spec.ts');
+      const snap = readSnapShot(SNAP_PATH_USER_TEST + '/graph-ql/list.txt');
+      expect(render).toEqual(snap);
+    });
+
+    test('persist', async () => {
+      await run([...MENU]);
+      const render = readRender(PATH_USER_TEST + '/graph-ql/user-persist.e2e-spec.ts');
+      const snap = readSnapShot(SNAP_PATH_USER_TEST + '/graph-ql/persist.txt');
+      expect(render).toEqual(snap);
+    });
   });
 });

@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-
 import { UserRepository } from '../../../src/user/domain/user.repository';
 import { UserMother } from '../user-object-mother';
 import { TestingE2eModule } from '../../testing-e2e-module';
@@ -48,6 +47,7 @@ describe('GraphQl User (user)', () => {
   });
 
   it('get not exit', async () => {
+    const user = UserMother.create();
     const query = `
           query{
             user(id: "${user.id.value}"){

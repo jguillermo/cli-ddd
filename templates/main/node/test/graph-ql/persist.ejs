@@ -1,14 +1,14 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { TestingE2eModule } from '../../testing-e2e-module';
-import { UserRepository } from '../../../src/user/domain/user.repository';
-import { UserMother } from '../user-object-mother';
+import { <%= classRepository %> } from '../../../src/<%= aggregatePropertie %>/domain/<%= fileRepository %>';
+import { <%= classMother %> } from '../<%= aggregatePropertie %>-object-mother';
 
-describe('GraphQl User (userPersist)', () => {
+describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
   let app: INestApplication;
-  let repository: UserRepository;
+  let repository: <%= classRepository %>;
   beforeEach(async () => {
-    ({ app, userRepository: repository } = await TestingE2eModule.create());
+    ({ app, <%= aggregatePropertieRepository %>: repository } = await TestingE2eModule.create());
     const items = await repository.findAll();
     for await (const item of items) {
       await repository.deleteById(item.id);
@@ -16,19 +16,21 @@ describe('GraphQl User (userPersist)', () => {
   });
   describe('create', () => {
     it('data ok return status', () => {
-      const user = UserMother.create();
+      const <%= aggregatePropertie %> = <%= classMother %>.create();
       const query = `
           mutation{
-            userPersist(
-              id: "${user.id.value}"
-              name: "${user.name.value}"
+            <%= graphQlService %>(
+              <%_ properties.forEach(function(e){ _%>
+              <%= e.propertie.name.value %>: "${<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value}"
+              <%_ }); _%>
             ){
               ...on Status{
                 status
               }
-              ...on User{
-                id
-                name
+              ...on <%= aggregate.name.value %>{
+                <%_ properties.forEach(function(e){ _%>
+                <%= e.propertie.name.value %>
+                <%_ }); _%>
               }
             }
           }
@@ -39,15 +41,16 @@ describe('GraphQl User (userPersist)', () => {
         .then(async (response) => {
           expect(response.body).toEqual({
             data: {
-              userPersist: {
+              <%= graphQlService %>: {
                 status: 'ok',
               },
             },
           });
-          const userDb = await repository.findById(user.id);
-          expect(userDb).not.toBeNull();
-          expect(userDb.id.value).toEqual(user.id.value);
-          expect(userDb.name.value).toEqual(user.name.value);
+          const <%= aggregatePropertieDb %> = await repository.findById(<%= aggregatePropertieId %>);
+          expect(<%= aggregatePropertieDb %>).not.toBeNull();
+          <%_ properties.forEach(function(e){ _%>
+          expect(<%= aggregatePropertieDb %>.<%= e.propertie.name.value %>.value).toEqual(<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value);
+          <%_ }); _%>
           expect(response.statusCode).toEqual(200);
         });
     });
@@ -55,21 +58,23 @@ describe('GraphQl User (userPersist)', () => {
 
   describe('update', () => {
     it('data  ok return entity', async () => {
-      const user = UserMother.create();
-      await repository.persist(user);
+      const <%= aggregatePropertie %> = <%= classMother %>.create();
+      await repository.persist(<%= aggregatePropertie %>);
       const query = `
           mutation{
-            userPersist(
-              id: "${user.id.value}"
-              name: "${user.name.value}"
+            <%= graphQlService %>(
+              <%_ properties.forEach(function(e){ _%>
+              <%= e.propertie.name.value %>: "${<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value}"
+              <%_ }); _%>
               showEntity: true
             ){
               ...on Status{
                 status
               }
-              ...on User{
-                id
-                name
+              ...on <%= aggregate.name.value %>{
+                <%_ properties.forEach(function(e){ _%>
+                <%= e.propertie.name.value %>
+                <%_ }); _%>
               }
             }
           }
@@ -80,16 +85,18 @@ describe('GraphQl User (userPersist)', () => {
         .then(async (response) => {
           expect(response.body).toEqual({
             data: {
-              userPersist: {
-                id: user.id.value,
-                name: user.name.value,
+              <%= graphQlService %>: {
+                <%_ properties.forEach(function(e){ _%>
+                <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.value,
+                <%_ }); _%>
               },
             },
           });
-          const userDb = await repository.findById(user.id);
-          expect(userDb).not.toBeNull();
-          expect(userDb.id.value).toEqual(user.id.value);
-          expect(userDb.name.value).toEqual(user.name.value);
+          const <%= aggregatePropertieDb %> = await repository.findById(<%= aggregatePropertieId %>);
+          expect(<%= aggregatePropertieDb %>).not.toBeNull();
+          <%_ properties.forEach(function(e){ _%>
+          expect(<%= aggregatePropertieDb %>.<%= e.propertie.name.value %>.value).toEqual(<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value);
+          <%_ }); _%>
           expect(response.statusCode).toEqual(200);
         });
     });

@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-
 import { <%= classRepository %> } from '../../../src/<%= aggregatePropertie %>/domain/<%= fileRepository %>';
 import { <%= classMother %> } from '../<%= aggregatePropertie %>-object-mother';
 import { TestingE2eModule } from '../../testing-e2e-module';
@@ -50,6 +49,7 @@ describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
   });
 
   it('get not exit', async () => {
+    const <%= aggregatePropertie %> = <%= classMother %>.create();
     const query = `
           query{
             <%= graphQlService %>(id: "${<%= aggregatePropertieId %>.value}"){
