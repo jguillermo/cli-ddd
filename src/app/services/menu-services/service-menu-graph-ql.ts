@@ -161,37 +161,16 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   }
 
   private renderE2eModule(aggregate: Aggregate, properties: WPropertie[]) {
-    const aggregateName = this.language.className([aggregate.name.value]);
-    const aggregateFile = this.language.classFileWithOutType([aggregate.name.value], false);
-
-    const classRepository = this.language.className([aggregate.name.value, 'Repository']);
-    const fileRepository = this.language.classFile([aggregate.name.value, 'Repository'], false);
-
-    const className = this.language.className([aggregate.name.value, 'E2eModule']);
-
     const generateFile = this.language.classFileWithOutType([aggregate.name.value, 'e2e', 'module']);
     const generatefolder = this.language.folderPath([aggregate.pathTest.value, 'graphQl']);
 
-    const dataInterface = `${aggregateName}DataInterface`;
-    const aggregatePropertie = aggregate.name.propertie;
-    const aggregatePropertieRepository = `${aggregatePropertie}Repository`;
     const testingInterface = this.language.className([aggregate.name.value, 'TestingInterface']);
-
     Render.generate({
       templateFile: `${this.language.language()}/test/graph-ql/e2e-module.ejs`,
       templateData: {
         testingInterface,
-        classRepository,
-        fileRepository,
-        aggregatePropertieRepository,
-        className,
-        dataInterface,
-        aggregatePropertie,
-        aggregateName,
-        aggregateFile,
-        aggregate,
         properties,
-        classResultPersist: `Result${aggregate.name.value}Persist`,
+        ...this.resources(aggregate),
       },
       generatefolder,
       generateFile,
@@ -199,16 +178,10 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   }
 
   private renderObjectMother(aggregate: Aggregate, properties: WPropertie[]) {
-    const aggregateName = this.language.className([aggregate.name.value]);
-    const aggregateFile = this.language.classFileWithOutType([aggregate.name.value], false);
+    const { classAggregate, fileObjectMother } = this.resources(aggregate);
 
-    const className = this.language.className([aggregate.name.value, 'mother']);
-
-    const generateFile = this.language.classFileWithOutType([aggregate.name.value, 'object', 'mother']);
+    const generateFile = fileObjectMother + this.language.dotExt();
     const generatefolder = this.language.folderPath([aggregate.pathTest.value]);
-
-    const dataInterface = `${aggregateName}DataInterface`;
-    const aggregatePropertie = aggregate.name.propertie;
 
     const propertiesMother = properties.map((e) => {
       let faker = 'faker.random.word';
@@ -227,19 +200,16 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
       };
     });
 
+    const dataInterface = `${classAggregate}DataInterface`;
+
     Render.generate({
       templateFile: `${this.language.language()}/test/object-mother.ejs`,
       templateData: {
-        className,
         dataInterface,
-        aggregatePropertie,
-        aggregateName,
-        aggregateFile,
-        aggregate,
         properties,
         propertiesMother,
         propertiesMotherStr: propertiesMother.map((e) => `${e.className}.create(data?.${e.propertie})`).join(', '),
-        classResultPersist: `Result${aggregate.name.value}Persist`,
+        ...this.resources(aggregate),
       },
       generatefolder,
       generateFile,

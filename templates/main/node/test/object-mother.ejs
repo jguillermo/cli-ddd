@@ -1,7 +1,7 @@
 import * as faker from 'faker';
-import { <%= aggregateName %> } from '../../src/<%= aggregatePropertie %>/domain/<%= aggregateFile %>';
+import { <%= classAggregate %> } from '../../src/<%= propertieAggregate %>/domain/<%= fileAggregate %>';
 <%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../src/<%= aggregatePropertie %>/domain/<%= e.file %>';
+import { <%= e.propertie.className %> } from '../../src/<%= propertieAggregate %>/domain/<%= e.file %>';
 <%_ }); _%>
 
 export interface <%= dataInterface %> {
@@ -19,8 +19,8 @@ export class <%= e.className %> {
 }
 <%_ }); _%>
 
-export class <%= className %> {
-  static create(data?: <%= dataInterface %>): <%= aggregateName %> {
-    return new <%= aggregateName %>(<%= propertiesMotherStr %>);
+export class <%= classObjectMother %> {
+  static create(data?: <%= dataInterface %>): <%= classAggregate %> {
+    return new <%= classAggregate %>(<%= propertiesMotherStr %>);
   }
 }
