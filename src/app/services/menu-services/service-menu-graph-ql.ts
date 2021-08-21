@@ -2,6 +2,7 @@ import { AbstractService, AbstractServiceResponse } from '../abstract-service';
 import { storage, WPropertie } from '../../in-memory-storage';
 import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
 import { Render } from '../../render';
+import { PropertieTypes } from '../../../modules/load-data/domain/propertie/propertieType';
 
 export class ServiceMenuGraphQl extends AbstractService {
   serviceName(): string {
@@ -20,7 +21,10 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   }
 
   async execute(aggregateName: string): Promise<void> {
-    const properties = storage.getWProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames);
+    const properties = storage.getWProperties(this._collectionAggregate.getAggregate(aggregateName).propertiesNames).map((e) => {
+      e.setLanguage(this.language);
+      return e;
+    });
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
     this.renderType(aggregate, properties);
     this.renderResolver(aggregate, properties);
@@ -28,6 +32,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     this.renderTest(aggregate, properties, 'findById');
     this.renderTest(aggregate, properties, 'list');
     this.renderTest(aggregate, properties, 'persist');
+    this.renderObjectMother(aggregate, properties);
   }
 
   private renderType(aggregate: Aggregate, properties: WPropertie[]) {
@@ -147,6 +152,54 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
         fileRepository,
         aggregate,
         properties,
+        classResultPersist: `Result${aggregate.name.value}Persist`,
+      },
+      generatefolder,
+      generateFile,
+    });
+  }
+
+  private renderObjectMother(aggregate: Aggregate, properties: WPropertie[]) {
+    const aggregateName = this.language.className([aggregate.name.value]);
+    const aggregateFile = this.language.classFileWithOutType([aggregate.name.value], false);
+
+    const className = this.language.className([aggregate.name.value, 'mother']);
+
+    const generateFile = this.language.classFileWithOutType([aggregate.name.value, 'object', 'mother']);
+    const generatefolder = this.language.folderPath([aggregate.pathTest.value]);
+
+    const dataInterface = `${aggregateName}DataInterface`;
+    const aggregatePropertie = aggregate.name.propertie;
+
+    const propertiesMother = properties.map((e) => {
+      let faker = 'faker.random.word';
+      if (e.primitivePropertie.type.value === PropertieTypes.ID || e.primitivePropertie.type.value === PropertieTypes.UUID) {
+        faker = 'faker.datatype.uuid';
+      }
+      if (e.propertie.name.value === 'name') {
+        faker = 'faker.name.firstName';
+      }
+      return {
+        className: `${e.propertie.className}Mother`,
+        classPropertie: e.propertie.className,
+        primitive: e.primitivePropertie.type.primitive,
+        propertie: e.propertie.name.value,
+        faker,
+      };
+    });
+
+    Render.generate({
+      templateFile: `${this.language.language()}/test/object-mother.ejs`,
+      templateData: {
+        className,
+        dataInterface,
+        aggregatePropertie,
+        aggregateName,
+        aggregateFile,
+        aggregate,
+        properties,
+        propertiesMother,
+        propertiesMotherStr: propertiesMother.map((e) => `${e.className}.create(data?.${e.propertie})`).join(', '),
         classResultPersist: `Result${aggregate.name.value}Persist`,
       },
       generatefolder,

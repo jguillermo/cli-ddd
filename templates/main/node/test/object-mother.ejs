@@ -1,29 +1,26 @@
 import * as faker from 'faker';
-import { User } from '../../src/user/domain/user';
-import { UserId } from '../../src/user/domain/user-id';
-import { UserName } from '../../src/user/domain/user-name';
+import { <%= aggregateName %> } from '../../src/<%= aggregatePropertie %>/domain/<%= aggregateFile %>';
+<%_ properties.forEach(function(e){ _%>
+import { <%= e.propertie.className %> } from '../../src/<%= aggregatePropertie %>/domain/<%= e.file %>';
+<%_ }); _%>
 
-export interface UserDataInterface {
-  id?: string;
-  name?: string;
+export interface <%= dataInterface %> {
+  <%_ propertiesMother.forEach(function(e){ _%>
+  <%= e.propertie %>?: <%= e.primitive %>;
+  <%_ }); _%>
 }
+<%_ propertiesMother.forEach(function(e){ _%>
 
-export class UserIdMother {
-  static create(value?: string): UserId {
-    const id = value ? value : faker.datatype.uuid();
-    return new UserId(id);
+export class <%= e.className %> {
+  static create(value?: <%= e.primitive %>): <%= e.classPropertie %> {
+    const <%= e.propertie %> = value ? value : <%= e.faker %>();
+    return new <%= e.classPropertie %>(<%= e.propertie %>);
   }
 }
+<%_ }); _%>
 
-export class UserNameMother {
-  static create(value?: string): UserName {
-    const name = value ? value : faker.name.firstName();
-    return new UserName(name);
-  }
-}
-
-export class UserMother {
-  static create(data?: UserDataInterface): User {
-    return new User(UserIdMother.create(data?.id), UserNameMother.create(data?.name));
+export class <%= className %> {
+  static create(data?: <%= dataInterface %>): <%= aggregateName %> {
+    return new <%= aggregateName %>(<%= propertiesMotherStr %>);
   }
 }

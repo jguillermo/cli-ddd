@@ -42,7 +42,7 @@
     "commit": "git-cz",
     "acp": "git add . && npm run commit && git push",
     "pretest:e2e": "npm run build",
-    "test:e2e": "jest --runInBand --config ./test/jest-e2e.json"
+    "test:e2e": "jest --runInBand --config ./test/jest-e2e.json ./test/user/infrastructure-graph-ql.e2e-spec.ts"
   },
   "dependencies": {
     "base-ddd": "^1.7.0",
