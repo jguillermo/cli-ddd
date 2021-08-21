@@ -21,12 +21,19 @@ describe('User infrastructure GraphQL', () => {
     expect(renderAggregate).toEqual(snapAggregate);
     expect(renderResolver).toEqual(snapResolver);
   });
+  describe('generate App GraphQL User test', () => {
+    test('delete', async () => {
+      await run([...MENU]);
+      const render = readRender(PATH_USER_TEST + '/graph-ql/user-delete.e2e-spec.ts');
+      const snap = readSnapShot(SNAP_PATH_USER_TEST + '/graph-ql/delete.txt');
+      expect(render).toEqual(snap);
+    });
 
-  test('generate App GraphQL User test', async () => {
-    await run([...MENU]);
-    const renderTestDelete = readRender(PATH_USER_TEST + '/graph-ql/user-delete.e2e-spec.ts');
-
-    const snapTestDelete = readSnapShot(SNAP_PATH_USER_TEST + '/graph-ql/delete.txt');
-    expect(renderTestDelete).toEqual(snapTestDelete);
+    test('findById', async () => {
+      await run([...MENU]);
+      const render = readRender(PATH_USER_TEST + '/graph-ql/user-find-by-id.e2e-spec.ts');
+      const snap = readSnapShot(SNAP_PATH_USER_TEST + '/graph-ql/find-by-id.txt');
+      expect(render).toEqual(snap);
+    });
   });
 });

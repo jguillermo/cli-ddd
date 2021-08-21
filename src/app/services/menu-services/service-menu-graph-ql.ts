@@ -26,6 +26,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     this.renderType(aggregate, properties);
     this.renderResolver(aggregate, properties);
     this.renderTest(aggregate, properties, 'delete');
+    this.renderTest(aggregate, properties, 'findById');
   }
 
   private renderType(aggregate: Aggregate, properties: WPropertie[]) {
@@ -126,7 +127,13 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const aggregatePropertieDb = `${aggregatePropertie}Db`;
     const aggregatePropertieId = `${aggregatePropertie}.id`;
     const aggregatePropertieRepository = `${aggregatePropertie}Repository`;
-    const graphQlService = `${aggregatePropertie}${typeTest}`;
+
+    let graphQlService = `${aggregatePropertie}${typeTest}`;
+    if (typeTest === 'FindById') {
+      graphQlService = `${aggregatePropertie}`;
+    }
+
+    properties[0].propertie.name.value
 
     Render.generate({
       templateFile: `${this.language.language()}/test/graph-ql/${typeFile}.ejs`,

@@ -48,7 +48,6 @@ describe('GraphQl User (user)', () => {
   });
 
   it('get not exit', async () => {
-    const user = UserMother.create();
     const query = `
           query{
             user(id: "${user.id.value}"){
