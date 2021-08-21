@@ -49,5 +49,12 @@ describe('User infrastructure GraphQL', () => {
       const snap = readSnapShot(SNAP_PATH_USER_TEST + '/graph-ql/persist.txt');
       expect(render).toEqual(snap);
     });
+
+    test('object Mother', async () => {
+      await run([...MENU]);
+      const render = readRender(PATH_USER_TEST + '/user-object-mother.ts');
+      const snap = readSnapShot(SNAP_PATH_USER_TEST + '/object-mother.txt');
+      expect(render).toEqual(snap);
+    });
   });
 });
