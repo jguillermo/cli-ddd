@@ -18,6 +18,7 @@ export class Aggregate {
     private _message: Message[],
     private _event: Event,
     private _repository: Repository,
+    private _pathTest: Path,
   ) {}
 
   static create(data: AggregateData): Aggregate {
@@ -31,11 +32,16 @@ export class Aggregate {
       [],
       new Event(data.event),
       new Repository(),
+      new Path(data.pathTest ? data.pathTest : data.path),
     );
   }
 
   get path(): Path {
     return this._path;
+  }
+
+  get pathTest(): Path {
+    return this._pathTest;
   }
 
   get nameSpace(): NameSpace {

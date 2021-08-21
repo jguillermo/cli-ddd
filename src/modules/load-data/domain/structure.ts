@@ -8,6 +8,7 @@ export interface AggregateData {
   message?: any;
   event?: string;
   repository?: Repository;
+  pathTest?: string;
 }
 
 export interface Entity {
