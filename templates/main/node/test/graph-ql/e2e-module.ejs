@@ -1,19 +1,19 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingE2eModule } from '../../testing-e2e-module';
-import { <%= classRepository %> } from '../../../src/<%= aggregatePropertie %>/domain/<%= fileRepository %>';
+import { <%= classRepository %> } from '../../../src/<%= fileAggregate %>/domain/<%= fileRepository %>';
 
 export interface <%= testingInterface %> {
   app: INestApplication;
-  <%= aggregatePropertieRepository %>: <%= classRepository %>;
+  <%= propertieRepository %>: <%= classRepository %>;
 }
 
-export class <%= className %> extends TestingE2eModule {
+export class <%= classE2eModule %> extends TestingE2eModule {
   static async create(): Promise<<%= testingInterface %>> {
-    const module = new <%= className %>();
+    const module = new <%= classE2eModule %>();
     await module.init();
     return {
       app: module.app,
-      <%= aggregatePropertieRepository %>: module.moduleFixture.get<<%= classRepository %>>(<%= classRepository %>),
+      <%= propertieRepository %>: module.moduleFixture.get<<%= classRepository %>>(<%= classRepository %>),
     };
   }
 }
