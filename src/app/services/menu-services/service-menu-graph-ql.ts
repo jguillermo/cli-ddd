@@ -2,6 +2,7 @@ import { AbstractService, AbstractServiceResponse } from '../abstract-service';
 import { storage, WPropertie } from '../../in-memory-storage';
 import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
 import { Render } from '../../render';
+import { PropertieTypes } from '../../../modules/load-data/domain/propertie/propertieType';
 
 export class ServiceMenuGraphQl extends AbstractService {
   serviceName(): string {
@@ -24,6 +25,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
     this.renderType(aggregate, properties);
     this.renderResolver(aggregate, properties);
+    this.renderTest(aggregate, properties, 'delete');
   }
 
   private renderType(aggregate: Aggregate, properties: WPropertie[]) {
@@ -98,6 +100,46 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
         fileListAggregateResponse,
         aggregate,
         className,
+        properties,
+        classResultPersist: `Result${aggregate.name.value}Persist`,
+      },
+      generatefolder,
+      generateFile,
+    });
+  }
+
+  private renderTest(aggregate: Aggregate, properties: WPropertie[], type: string) {
+
+
+    const typeTest = this.language.className([type]);
+    const typeFile = this.language.classFileTestWithOutType([type], false);
+
+    const classMother = this.language.className([aggregate.name.value, 'Mother']);
+
+    const classRepository = this.language.className([aggregate.name.value, 'Repository']);
+    const fileRepository = this.language.classFile([aggregate.name.value, 'Repository'], false);
+
+    const generateFile = this.language.classFileTestWithOutType([aggregate.name.value, type]);
+    const generatefolder = this.language.folderPath([aggregate.pathTest.value, 'graphQl']);
+
+    const aggregatePropertie = aggregate.name.propertie;
+    const aggregatePropertieDb = `${aggregatePropertie}Db`;
+    const aggregatePropertieId = `${aggregatePropertie}.id`;
+    const aggregatePropertieRepository = `${aggregatePropertie}Repository`;
+    const graphQlService = `${aggregatePropertie}${typeTest}`;
+
+    Render.generate({
+      templateFile: `${this.language.language()}/test/graph-ql/${typeFile}.ejs`,
+      templateData: {
+        aggregatePropertieRepository,
+        aggregatePropertieId,
+        aggregatePropertieDb,
+        graphQlService,
+        aggregatePropertie,
+        classMother,
+        classRepository,
+        fileRepository,
+        aggregate,
         properties,
         classResultPersist: `Result${aggregate.name.value}Persist`,
       },

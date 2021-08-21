@@ -1,0 +1,70 @@
+import { INestApplication } from '@nestjs/common';
+import * as request from 'supertest';
+import { <%= classRepository %> } from '../../../src/<%= aggregatePropertie %>/domain/<%= fileRepository %>';
+import { <%= classMother %> } from '../<%= aggregatePropertie %>-object-mother';
+import { TestingE2eModule } from '../../testing-e2e-module';
+
+describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
+  let app: INestApplication;
+  let repository: <%= classRepository %>;
+  beforeEach(async () => {
+    ({ app, <%= aggregatePropertieRepository %>: repository } = await TestingE2eModule.create());
+    const items = await repository.findAll();
+    for await (const item of items) {
+      await repository.deleteById(item.id);
+    }
+  });
+
+  it('delete', async () => {
+    const <%= aggregatePropertie %> = <%= classMother %>.create();
+    await repository.persist(<%= aggregatePropertie %>);
+    const query = `
+          mutation{
+            <%= graphQlService %>(id:"${<%= aggregatePropertieId %>.value}"){
+              status
+            }
+          }
+          `;
+    return request(app.getHttpServer())
+      .post(`/graphql`)
+      .send({ query: query, variables: {} })
+      .then(async (response) => {
+        expect(response.body).toEqual({
+          data: {
+            <%= graphQlService %>: {
+              status: 'ok',
+            },
+          },
+        });
+        const <%= aggregatePropertieDb %> = await repository.findById(<%= aggregatePropertieId %>);
+        expect(<%= aggregatePropertieDb %>).toBeNull();
+        expect(response.statusCode).toEqual(200);
+      });
+  });
+
+  it('delete not exist item', async () => {
+    const <%= aggregatePropertie %> = <%= classMother %>.create();
+    const query = `
+          mutation{
+            <%= graphQlService %>(id: "${<%= aggregatePropertieId %>.value}"){
+              status
+            }
+          }
+          `;
+    return request(app.getHttpServer())
+      .post(`/graphql`)
+      .send({ query: query, variables: {} })
+      .then(async (response) => {
+        expect(response.body).toEqual({
+          data: {
+            <%= graphQlService %>: {
+              status: 'ok',
+            },
+          },
+        });
+        const <%= aggregatePropertieDb %> = await repository.findById(<%= aggregatePropertieId %>);
+        expect(<%= aggregatePropertieDb %>).toBeNull();
+        expect(response.statusCode).toEqual(200);
+      });
+  });
+});

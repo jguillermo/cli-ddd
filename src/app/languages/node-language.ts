@@ -42,6 +42,21 @@ export class NodeLanguage implements LanguageInterface {
     }
   }
 
+  classFileTestWithOutType(names: string[], addType = true): string {
+    const namesMayus = names.map((n) => {
+      const dd = n.split(/(?=[A-Z])/);
+      return dd.join('-');
+    });
+
+    const name = namesMayus
+      .map((n) => {
+        return slugify(n);
+      })
+      .join('-');
+
+    return addType ? `${name}.e2e-spec${this.dotExt()}` : name;
+  }
+
   classFileWithOutType(names: string[], addType = true): string {
     const namesMayus = names.map((n) => {
       const dd = n.split(/(?=[A-Z])/);
