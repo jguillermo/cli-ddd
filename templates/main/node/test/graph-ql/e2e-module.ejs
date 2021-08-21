@@ -8,7 +8,7 @@ export interface <%= testingInterface %> {
 }
 
 export class <%= className %> extends TestingE2eModule {
-  static async create(): Promise<CreateTestingInterface> {
+  static async create(): Promise<<%= testingInterface %>> {
     const module = new <%= className %>();
     await module.init();
     return {

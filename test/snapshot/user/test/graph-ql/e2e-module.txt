@@ -8,7 +8,7 @@ export interface UserTestingInterface {
 }
 
 export class UserE2eModule extends TestingE2eModule {
-  static async create(): Promise<CreateTestingInterface> {
+  static async create(): Promise<UserTestingInterface> {
     const module = new UserE2eModule();
     await module.init();
     return {
