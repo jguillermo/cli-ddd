@@ -33,6 +33,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     this.renderTest(aggregate, properties, 'list');
     this.renderTest(aggregate, properties, 'persist');
     this.renderObjectMother(aggregate, properties);
+    this.renderE2eModule(aggregate, properties);
   }
 
   private renderType(aggregate: Aggregate, properties: WPropertie[]) {
@@ -150,6 +151,44 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
         classMother,
         classRepository,
         fileRepository,
+        aggregate,
+        properties,
+        classResultPersist: `Result${aggregate.name.value}Persist`,
+      },
+      generatefolder,
+      generateFile,
+    });
+  }
+
+  private renderE2eModule(aggregate: Aggregate, properties: WPropertie[]) {
+    const aggregateName = this.language.className([aggregate.name.value]);
+    const aggregateFile = this.language.classFileWithOutType([aggregate.name.value], false);
+
+    const classRepository = this.language.className([aggregate.name.value, 'Repository']);
+    const fileRepository = this.language.classFile([aggregate.name.value, 'Repository'], false);
+
+    const className = this.language.className([aggregate.name.value, 'E2eModule']);
+
+    const generateFile = this.language.classFileWithOutType([aggregate.name.value, 'e2e', 'module']);
+    const generatefolder = this.language.folderPath([aggregate.pathTest.value, 'graphQl']);
+
+    const dataInterface = `${aggregateName}DataInterface`;
+    const aggregatePropertie = aggregate.name.propertie;
+    const aggregatePropertieRepository = `${aggregatePropertie}Repository`;
+    const testingInterface = this.language.className([aggregate.name.value, 'TestingInterface']);
+
+    Render.generate({
+      templateFile: `${this.language.language()}/test/graph-ql/e2e-module.ejs`,
+      templateData: {
+        testingInterface,
+        classRepository,
+        fileRepository,
+        aggregatePropertieRepository,
+        className,
+        dataInterface,
+        aggregatePropertie,
+        aggregateName,
+        aggregateFile,
         aggregate,
         properties,
         classResultPersist: `Result${aggregate.name.value}Persist`,

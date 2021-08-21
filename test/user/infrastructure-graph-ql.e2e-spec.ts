@@ -50,6 +50,13 @@ describe('User infrastructure GraphQL', () => {
       expect(render).toEqual(snap);
     });
 
+    test('e2e module', async () => {
+      await run([...MENU]);
+      const render = readRender(PATH_USER_TEST + '/graph-ql/user-e2e-module.ts');
+      const snap = readSnapShot(SNAP_PATH_USER_TEST + '/graph-ql/e2e-module.txt');
+      expect(render).toEqual(snap);
+    });
+
     test('object Mother', async () => {
       await run([...MENU]);
       const render = readRender(PATH_USER_TEST + '/user-object-mother.ts');
