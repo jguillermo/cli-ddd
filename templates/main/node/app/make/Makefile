@@ -17,13 +17,13 @@ lint:
 	npm run lint
 
 lint-check:
-	eslint "{src,apps,libs,test}/**/*.ts"
+	npx eslint "{src,apps,libs,test}/**/*.ts"
 
 format:
 	npm run format
 
 format-check:
-	prettier --check "src/**/*.ts" "test/**/*.ts"
+	npx prettier --check "src/**/*.ts" "test/**/*.ts"
 
 test-unit:
 	npm run test

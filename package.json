@@ -27,7 +27,7 @@
     "templates/"
   ],
   "scripts": {
-    "prebuild": "rimraf dist && rimraf render && rimraf config-cli && rimraf src/share",
+    "prebuild": "rimraf dist && rimraf render && rimraf src/share",
     "build": "tsc --project tsconfig.build.json",
     "format-fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
