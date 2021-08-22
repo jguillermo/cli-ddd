@@ -9,6 +9,7 @@ import { ServiceMenuPropertieRender } from './domain/service-menu-propertie';
 import { ServiceMenuCommandRender } from './application/service-menu-command';
 import { ServiceMenuQueryRender } from './application/service-menu-query';
 import { ServiceMenuInfrastructureEventRender } from './infrastructure/service-menu-infrastructure-event';
+import { ServiceMenuAppModuleRender } from './app/service-menu-app-module';
 
 export class ServiceMenuCrud extends AbstractService {
   serviceName(): string {
@@ -30,6 +31,7 @@ export class ServiceMenuCrud extends AbstractService {
     await this.infrastructureEvent(aggregateName, 'UserCreatedEvent');
     await this.infrastructureEvent(aggregateName, 'UserUpdatedEvent');
     await this.infrastructureEvent(aggregateName, 'UserDeletedEvent');
+    await this.module(aggregateName);
   }
 
   async response(aggregateName: string): Promise<void> {
@@ -87,5 +89,10 @@ export class ServiceMenuCrud extends AbstractService {
   async infrastructureEvent(aggregateName: string, eventSelected: string): Promise<void> {
     const render = new ServiceMenuInfrastructureEventRender(this._collectionAggregate, this.language);
     await render.execute(aggregateName, { eventSelected, eventName: 'Resource' });
+  }
+
+  async module(aggregateName: string): Promise<void> {
+    const render = new ServiceMenuAppModuleRender(this._collectionAggregate, this.language);
+    await render.execute(aggregateName);
   }
 }

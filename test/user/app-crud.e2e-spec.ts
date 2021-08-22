@@ -1,9 +1,11 @@
 import { cleanRender, DDD, menu, MenuPropertie, readRender, readSnapShot, run } from '../load-cmd';
 
+const PATH_USER = 'src/user';
 const PATH_USER_DOMAIN = 'src/user/domain';
 const PATH_USER_APPLICATION = 'src/user/application';
 const PATH_USER_INFRASTRUCTURE = 'src/user/infrastructure';
 
+const SNAP_PATH_USER = '/user';
 const SNAP_PATH_USER_DOMAIN = '/user/domain';
 const SNAP_PATH_USER_APPLICATION = '/user/application';
 const SNAP_PATH_USER_INFRASTRUCTURE = '/user/infrastructure';
@@ -132,19 +134,19 @@ describe('User crud', () => {
     });
     describe('infrastructure event', () => {
       test('created', async () => {
-        const renderAggregate = readRender(PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-created.ts');
-        const snapAggregate = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-created.txt');
-        expect(renderAggregate).toEqual(snapAggregate);
+        const render = readRender(PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-created.ts');
+        const snap = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-created.txt');
+        expect(render).toEqual(snap);
       });
       test('updated', async () => {
-        const renderAggregate = readRender(PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-updated.ts');
-        const snapAggregate = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-updated.txt');
-        expect(renderAggregate).toEqual(snapAggregate);
+        const render = readRender(PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-updated.ts');
+        const snap = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-updated.txt');
+        expect(render).toEqual(snap);
       });
       test('deleted', async () => {
-        const renderAggregate = readRender(PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-deleted.ts');
-        const snapAggregate = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-deleted.txt');
-        expect(renderAggregate).toEqual(snapAggregate);
+        const render = readRender(PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-deleted.ts');
+        const snap = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/resource-on-user-deleted.txt');
+        expect(render).toEqual(snap);
       });
     });
 
@@ -155,9 +157,15 @@ describe('User crud', () => {
     });
 
     test('event index', async () => {
-      const renderAggregate = readRender(PATH_USER_INFRASTRUCTURE + '/event/index.ts');
-      const snapAggregate = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/index/all.txt');
-      expect(renderAggregate).toEqual(snapAggregate);
+      const render = readRender(PATH_USER_INFRASTRUCTURE + '/event/index.ts');
+      const snap = readSnapShot(SNAP_PATH_USER_INFRASTRUCTURE + '/event/index/all.txt');
+      expect(render).toEqual(snap);
+    });
+
+    test('user module', async () => {
+      const render = readRender(PATH_USER + '/user.module.ts');
+      const snap = readSnapShot(SNAP_PATH_USER + '/module.txt');
+      expect(render).toEqual(snap);
     });
   });
 });
