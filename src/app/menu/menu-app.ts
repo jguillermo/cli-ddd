@@ -1,6 +1,6 @@
-import { AbstractService } from '../abstract-service';
-import { factory } from '../../service-factory';
-import { menuServices } from './index';
+import { AbstractService } from '../services/abstract-service';
+import { factory } from '../service-factory';
+import { menuServices } from './dynamic-list-2-app';
 
 export class MenuApp extends AbstractService {
   serviceName(): string {

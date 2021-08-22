@@ -1,7 +1,7 @@
-import { storage, WPropertie } from '../in-memory-storage';
-import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Render } from '../render';
-import { AbstractService, AbstractServiceResponse } from './abstract-service';
+import { storage, WPropertie } from '../../in-memory-storage';
+import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
+import { Render } from '../../render';
+import { AbstractService, AbstractServiceResponse } from '../abstract-service';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
 // eslint-disable-next-line @typescript-eslint/no-var-requires

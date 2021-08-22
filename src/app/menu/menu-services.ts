@@ -1,22 +1,14 @@
-import { QuestionCollection } from 'inquirer';
-import * as inquirer from 'inquirer';
 import { AbstractService } from '../services/abstract-service';
+import { factory } from '../service-factory';
+import { menuServices } from './dynamic-list-2-services';
 
-export class MenuServices {
-  async execute(aggregate: string, services: AbstractService[]): Promise<string> {
-    const answerMenuCreate = await inquirer.prompt(MenuServices.questionMenuCreate(aggregate, services));
-    return answerMenuCreate.menuSelected;
+export class MenuServices extends AbstractService {
+  serviceName(): string {
+    return 'Menu services';
   }
 
-  private static questionMenuCreate(aggregate: string, services: AbstractService[]): QuestionCollection<{ menuSelected: string }> {
-    return [
-      {
-        type: 'rawlist',
-        name: 'menuSelected',
-        message: `What do you want to generate in ${aggregate}?`,
-        choices: services.map((e) => e.serviceName()),
-        pageSize: services.length + 2,
-      },
-    ];
+  async execute(aggregateName: string): Promise<void> {
+    const serviceSelected = await factory.menuAggregate(aggregateName, menuServices);
+    await factory.generate(serviceSelected, aggregateName, this._collectionAggregate, menuServices);
   }
 }

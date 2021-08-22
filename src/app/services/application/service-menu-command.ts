@@ -1,12 +1,12 @@
-import { storage, WPropertie } from '../in-memory-storage';
-import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Render } from '../render';
+import { storage, WPropertie } from '../../in-memory-storage';
+import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
+import { Render } from '../../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
-import { AbstractService, AbstractServiceResponse } from './abstract-service';
-import { ServiceMenuApplicationIndexRender } from './menu-app/service-menu-application-index';
+import { AbstractService, AbstractServiceResponse } from '../abstract-service';
+import { ServiceMenuApplicationIndexRender } from './service-menu-application-index';
 import { UUIDTypeImp } from 'base-ddd';
-import { PropertieTypes } from '../../modules/load-data/domain/propertie/propertieType';
+import { PropertieTypes } from '../../../modules/load-data/domain/propertie/propertieType';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');

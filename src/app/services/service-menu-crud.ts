@@ -1,14 +1,14 @@
 import { AbstractService } from './abstract-service';
-import { ServiceMenuResponseRender } from './menu-services/service-menu-response';
-import { ServiceMenuRepositoryRender } from './menu-services/service-menu-repository';
-import { ServiceMenuGraphQlRender } from './menu-services/service-menu-graph-ql';
+import { ServiceMenuResponseRender } from './application/service-menu-response';
+import { ServiceMenuRepositoryRender } from './infrastructure/service-menu-repository';
+import { ServiceMenuGraphQlRender } from './infrastructure/service-menu-graph-ql';
 import { storage } from '../in-memory-storage';
-import { ServiceRenderDomainEvent } from './service-menu-domain-event';
-import { EventsEnum, ServiceMenuAggregateRender } from './menu-services/service-menu-aggregate';
-import { ServiceMenuPropertieRender } from './menu-services/service-menu-propertie';
-import { ServiceMenuCommandRender } from './service-menu-command';
-import { ServiceMenuQueryRender } from './service-menu-query';
-import { ServiceMenuInfrastructureEventRender } from './service-menu-infrastructure-event';
+import { ServiceRenderDomainEvent } from './domain/service-menu-domain-event';
+import { EventsEnum, ServiceMenuAggregateRender } from './domain/service-menu-aggregate';
+import { ServiceMenuPropertieRender } from './domain/service-menu-propertie';
+import { ServiceMenuCommandRender } from './application/service-menu-command';
+import { ServiceMenuQueryRender } from './application/service-menu-query';
+import { ServiceMenuInfrastructureEventRender } from './infrastructure/service-menu-infrastructure-event';
 
 export class ServiceMenuCrud extends AbstractService {
   serviceName(): string {

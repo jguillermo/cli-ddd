@@ -4,7 +4,7 @@ import { factory } from './app/service-factory';
 import { storage } from './app/in-memory-storage';
 import * as path from 'path';
 import * as fs from 'fs';
-import { services } from './app/services';
+import { services } from './app/menu/dynamic-list-1';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const copydir = require('copy-dir');
