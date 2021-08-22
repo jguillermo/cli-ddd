@@ -17,6 +17,9 @@ export class ServiceMenuCrud extends AbstractService {
   }
 
   async execute(aggregateName: string): Promise<void> {
+    const aggregate = this._collectionAggregate.getAggregate(aggregateName);
+    const classAggregate = this.language.className([aggregate.name.value]);
+
     await this.response(aggregateName);
     await this.repository(aggregateName);
     await this.graphQl(aggregateName);
@@ -28,9 +31,9 @@ export class ServiceMenuCrud extends AbstractService {
     await this.query(aggregateName, 'findById');
     await this.query(aggregateName, 'list');
 
-    await this.infrastructureEvent(aggregateName, 'UserCreatedEvent');
-    await this.infrastructureEvent(aggregateName, 'UserUpdatedEvent');
-    await this.infrastructureEvent(aggregateName, 'UserDeletedEvent');
+    await this.infrastructureEvent(aggregateName, `${classAggregate}CreatedEvent`);
+    await this.infrastructureEvent(aggregateName, `${classAggregate}UpdatedEvent`);
+    await this.infrastructureEvent(aggregateName, `${classAggregate}DeletedEvent`);
     await this.module(aggregateName);
   }
 
