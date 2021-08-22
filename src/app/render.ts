@@ -9,6 +9,9 @@ const ejs = require('ejs');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const copydir = require('copy-dir');
+
 export interface RenderData {
   templateFile: string;
   templateData: any;
@@ -42,6 +45,22 @@ export class Render {
   static copy(data: RenderData) {
     const render = fs.readFileSync(`${storage.get('pathTemplate')}/main/${data.templateFile}`, 'utf-8');
     Render.generateFile(data.generatefolder, data.generateFile, render);
+  }
+
+  static copyFolder(language: string, templateFolder: string, renderFolder: string) {
+    const pathTemplate = path.join(storage.get('pathTemplate'), 'main', language, templateFolder);
+    const pathRender = path.join(storage.get('pathRender'), renderFolder);
+
+    if (!fs.existsSync(pathRender)) {
+      copydir.sync(pathTemplate, pathRender, {
+        utimes: true,
+        mode: true,
+        cover: true,
+      });
+      console.log(colors.green(`[created] ${pathRender}`));
+    } else {
+      console.log(colors.gray(`[exist] ${pathRender}`));
+    }
   }
 
   private static generateRender(templateFile: string, templateData: any): string {

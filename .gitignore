@@ -40,3 +40,5 @@ lerna-debug.log*
 firebase.json
 firestore.indexes.json
 firestore.rules
+test/testing-e2e-module.ts
+src/share

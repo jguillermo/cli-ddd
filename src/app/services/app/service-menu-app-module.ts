@@ -1,6 +1,5 @@
 import { AbstractService, AbstractServiceResponse } from '../abstract-service';
 import { Render } from '../../render';
-import { storage } from '../../in-memory-storage';
 import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
 
 export class ServiceMenuAppModule extends AbstractService {

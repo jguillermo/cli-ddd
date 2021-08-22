@@ -34,12 +34,24 @@ export function removeRender(pathRender: string): void {
   const pathFile = path.join(renderPath, pathRender);
   if (fs.existsSync(pathFile)) {
     try {
-      fs.unlinkSync(pathFile);
-      //file removed
+      if (fs.lstatSync(pathFile).isDirectory()) {
+        rimraf.sync(pathFile);
+      } else {
+        fs.unlinkSync(pathFile);
+        //file removed
+      }
     } catch (err) {
       console.error(err);
     }
   }
+}
+
+export function renderExist(pathRender: string): boolean {
+  const pathFile = path.join(renderPath, pathRender);
+  if (!fs.existsSync(pathFile)) {
+    console.error(pathFile);
+  }
+  return fs.existsSync(pathFile);
 }
 
 export function readSnapShot(pathSnap: string): string {
@@ -92,7 +104,7 @@ export enum DDD {
   INFRASTRUCTURE_EVENT_INDEX = 'infrastructure_event_index',
   INFRASTRUCTURE_GRAPH_QL = 'infrastructure_graph_ql',
   INFRASTRUCTURE_REPOSITORY = 'infrastructure_repository',
-  APP_FIRESTORE = 'app_firestore',
+  INT_PROJET = 'init_project',
   APP_CRUD = 'app_crud',
 }
 
@@ -160,7 +172,7 @@ export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
       menu = [...menuSelect, DOWN, DOWN, ENTER];
       break;
     }
-    case DDD.APP_FIRESTORE: {
+    case DDD.INT_PROJET: {
       menu = [...menuApp, ENTER];
       break;
     }
