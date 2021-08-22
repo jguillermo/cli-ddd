@@ -125,8 +125,7 @@ export function menuAggregate(aggregate: MenuPropertie): string[] {
 
 export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
   let menu = menuAggregate(aggregate);
-  const menuSelect = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
-  const menuApp = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
+  const moreServices = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
   switch (menuDdd) {
     case DDD.APPLICATION_COMMAND: {
       menu = [...menu, ENTER];
@@ -137,15 +136,15 @@ export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
       break;
     }
     case DDD.APPLICATION_RESPONSE: {
-      menu = [...menuSelect, DOWN, DOWN, DOWN, DOWN, ENTER];
+      menu = [...moreServices, DOWN, DOWN, DOWN, DOWN, ENTER];
       break;
     }
     case DDD.APPLICATION_INDEX: {
-      menu = [...menuApp, DOWN, DOWN, ENTER];
+      menu = [...moreServices, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
       break;
     }
     case DDD.DOMAIN_AGGREGATE: {
-      menu = [...menuSelect, DOWN, DOWN, DOWN, ENTER];
+      menu = [...moreServices, DOWN, DOWN, DOWN, ENTER];
       break;
     }
     case DDD.DOMAIN_EVENT: {
@@ -153,7 +152,7 @@ export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
       break;
     }
     case DDD.DOMAIN_PROPERTIE: {
-      menu = [...menuSelect, DOWN, ENTER];
+      menu = [...moreServices, DOWN, ENTER];
       break;
     }
     case DDD.INFRASTRUCTURE_EVENT: {
@@ -161,19 +160,19 @@ export function menu(aggregate: MenuPropertie, menuDdd: DDD): string[] {
       break;
     }
     case DDD.INFRASTRUCTURE_EVENT_INDEX: {
-      menu = [...menuApp, DOWN, ENTER];
+      menu = [...moreServices, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
       break;
     }
     case DDD.INFRASTRUCTURE_GRAPH_QL: {
-      menu = [...menuSelect, ENTER];
+      menu = [...moreServices, ENTER];
       break;
     }
     case DDD.INFRASTRUCTURE_REPOSITORY: {
-      menu = [...menuSelect, DOWN, DOWN, ENTER];
+      menu = [...moreServices, DOWN, DOWN, ENTER];
       break;
     }
     case DDD.INT_PROJET: {
-      menu = [...menuApp, ENTER];
+      menu = [...menu, DOWN, DOWN, DOWN, DOWN, DOWN, DOWN, ENTER];
       break;
     }
     case DDD.APP_CRUD: {

@@ -4,7 +4,7 @@ import { ServiceMenuQuery } from '../services/application/service-menu-query';
 import { ServiceMenuInfrastructureEvent } from '../services/infrastructure/service-menu-infrastructure-event';
 import { ServiceMenuDomainEvent } from '../services/domain/service-menu-domain-event';
 import { ServiceMenuCrud } from '../services/service-menu-crud';
-import { MenuApp } from './menu-app';
+import { ServiceMenuInitProject } from '../services/app/service-menu-init-project';
 
 export const services = [
   new ServiceMenuCommand(),
@@ -13,5 +13,5 @@ export const services = [
   new ServiceMenuDomainEvent(),
   new ServiceMenuCrud(),
   new MenuServices(),
-  new MenuApp(),
+  new ServiceMenuInitProject(),
 ];

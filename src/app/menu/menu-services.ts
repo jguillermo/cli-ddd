@@ -4,7 +4,7 @@ import { menuServices } from './dynamic-list-2-services';
 
 export class MenuServices extends AbstractService {
   serviceName(): string {
-    return 'Menu services';
+    return 'more services';
   }
 
   async execute(aggregateName: string): Promise<void> {
