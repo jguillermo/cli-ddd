@@ -27,12 +27,13 @@
     "templates/"
   ],
   "scripts": {
-    "prebuild": "rimraf dist && rimraf render && rimraf config-cli",
+    "prebuild": "rimraf dist && rimraf render && rimraf config-cli && rimraf src/share",
     "build": "tsc --project tsconfig.build.json",
     "format-fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
-    "preconsole:dev": "rimraf render",
+    "preconsole:dev": "rimraf render && rimraf src/share",
     "console:dev": "ts-node -r tsconfig-paths/register src/index.ts",
+    "preconsole:prod": "npm run build",
     "console:prod": "node dist/index.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "lint-fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
