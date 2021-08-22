@@ -4,7 +4,7 @@ import { Render } from '../../render';
 import { AbstractService, AbstractServiceResponse } from '../abstract-service';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
-import { ServiceRenderDomainEvent } from '../service-menu-domain-event';
+import { ServiceRenderDomainEvent } from './service-menu-domain-event';
 
 export enum EventsEnum {
   CREATE = 'create',

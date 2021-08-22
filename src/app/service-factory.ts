@@ -1,7 +1,7 @@
 import { YmlToJsonService } from '../modules/load-data/application/yml-to-json/yml-to-json.service';
 import { ReadSkeletonDataService } from '../modules/load-data/application/read-skeleton-data/read-skeleton-data.service';
 import { SelectAggregate } from './menu/select-aggregate';
-import { MenuServices } from './menu/menu-services';
+import { GeneralMenuServices } from './menu/general-menu-services';
 import { CollectionAggregate } from '../modules/load-data/domain/CollectionAggregate';
 import { AbstractService } from './services/abstract-service';
 
@@ -11,13 +11,13 @@ class ServiceFactory {
   private readonly _ymlToJsonService: YmlToJsonService;
   private readonly _readSkeletonDataService: ReadSkeletonDataService;
   private readonly _menuSelectAggregate: SelectAggregate;
-  private readonly _menuAggregate: MenuServices;
+  private readonly _menuAggregate: GeneralMenuServices;
 
   private constructor() {
     this._ymlToJsonService = new YmlToJsonService();
     this._readSkeletonDataService = new ReadSkeletonDataService();
     this._menuSelectAggregate = new SelectAggregate();
-    this._menuAggregate = new MenuServices();
+    this._menuAggregate = new GeneralMenuServices();
   }
 
   public static getInstance(): ServiceFactory {

@@ -1,10 +1,10 @@
-import { storage } from '../in-memory-storage';
-import { Aggregate } from '../../modules/load-data/domain/Aggregate';
-import { Render } from '../render';
+import { storage } from '../../in-memory-storage';
+import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
+import { Render } from '../../render';
 import * as inquirer from 'inquirer';
 import { QuestionCollection } from 'inquirer';
-import { AbstractService, AbstractServiceResponse } from './abstract-service';
-import { ServiceMenuEventIndexRender } from './menu-app/service-menu-event-index';
+import { AbstractService, AbstractServiceResponse } from '../abstract-service';
+import { ServiceMenuEventIndexRender } from './service-menu-event-index';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
