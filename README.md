@@ -18,9 +18,11 @@ nest new my-project
 ```
 ```bash
 cd my-project
-
+```
+```bash
 npm install --save @nestjs/cqrs @nestjs/graphql graphql apollo-server-express@2.x.x class-validator class-transformer base-ddd firebase-admin
-
+```
+```bash
 npm i faker @types/faker --save-dev
 ```
 ### 2.- remove generate files
@@ -126,14 +128,13 @@ this command run : format, lint, init test and e2e test
 ```bash
 make
 ```
-
-## Development tool
-
-----
-```
-npm i -g generate-code-ddd
-```
-----
+---
+##End generator
+---
+---
+---
+---
+# Detail yml 
 
 ## Example
 ```yaml
