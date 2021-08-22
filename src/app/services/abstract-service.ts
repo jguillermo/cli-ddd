@@ -23,6 +23,10 @@ export interface GenerateResourcesData {
   aggregate: Aggregate;
   classAggregate: string;
   fileAggregate: string;
+  classFirestoreRepository: string;
+  fileFirestoreRepository: string;
+  classResolver: string;
+  fileResolver: string;
   propertieAggregate: string;
   classRepository: string;
   fileRepository: string;
@@ -30,6 +34,8 @@ export interface GenerateResourcesData {
   classObjectMother: string;
   fileObjectMother: string;
   classE2eModule: string;
+  classModule: string;
+  fileModule: string;
 }
 
 export abstract class AbstractServiceResponse {
@@ -44,6 +50,10 @@ export abstract class AbstractServiceResponse {
       aggregate,
       classAggregate: this.language.className([aggregate.name.value]),
       fileAggregate: this.language.classFileWithOutType([aggregate.name.value], false),
+      classFirestoreRepository: this.language.className([aggregate.name.value, 'firestore', 'repository']),
+      fileFirestoreRepository: this.language.classFile([aggregate.name.value, 'firestore', 'repository'], false),
+      classResolver: this.language.className([aggregate.name.value, 'Resolver']),
+      fileResolver: this.language.classFile([aggregate.name.value, 'Resolver'], false),
       propertieAggregate: aggregate.name.propertie,
       classRepository: this.language.className([aggregate.name.value, 'Repository']),
       fileRepository: this.language.classFile([aggregate.name.value, 'Repository'], false),
@@ -51,6 +61,8 @@ export abstract class AbstractServiceResponse {
       classObjectMother: this.language.className([aggregate.name.value, 'mother']),
       fileObjectMother: this.language.classFileWithOutType([aggregate.name.value, 'object', 'mother'], false),
       classE2eModule: this.language.className([aggregate.name.value, 'E2eModule']),
+      classModule: this.language.className([aggregate.name.value, 'module']),
+      fileModule: this.language.classFile([aggregate.name.value, 'module'], false),
     };
   }
 }
