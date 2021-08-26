@@ -5,3 +5,10 @@ name: Product
 properties:
   id: id
   name: string
+  code: uuid
+  description: string
+  createAt: date
+  price: number
+  category:
+    type: enum
+    values: [cat1, cat2]

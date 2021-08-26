@@ -39,10 +39,15 @@ test-e2e:
 	@#docker run -it -w /app -v $(PWD)/ddd-commander:/app node:14.16.1-stretch npm run test:e2e
 
 .PHONY: test
-test:
-	@make tools
+code:
+	@make format-fix
+	@make lint-fix
 	@make format
 	@make lint
+
+.PHONY: test
+test:
+	@make code
 	@make test-unit-cov
 	@make test-e2e
 
