@@ -21,7 +21,13 @@ describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
           mutation{
             <%= graphQlService %>(
               <%_ properties.forEach(function(e){ _%>
+              <%_ if (e.primitivePropertie.type.isDate) { _%>
+              <%= e.propertie.name.value %>: "${<%= aggregatePropertie %>.<%= e.propertie.name.value %>.toString}"
+              <%_ }else if (e.primitivePropertie.type.isNumber){ _%>
+              <%= e.propertie.name.value %>: ${<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value}
+              <%_ }else{ _%>
               <%= e.propertie.name.value %>: "${<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value}"
+              <%_ } _%>
               <%_ }); _%>
             ){
               ...on Status{
@@ -64,7 +70,13 @@ describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
           mutation{
             <%= graphQlService %>(
               <%_ properties.forEach(function(e){ _%>
+              <%_ if (e.primitivePropertie.type.isDate) { _%>
+              <%= e.propertie.name.value %>: "${<%= aggregatePropertie %>.<%= e.propertie.name.value %>.toString}"
+              <%_ }else if (e.primitivePropertie.type.isNumber){ _%>
+              <%= e.propertie.name.value %>: ${<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value}
+              <%_ }else{ _%>
               <%= e.propertie.name.value %>: "${<%= aggregatePropertie %>.<%= e.propertie.name.value %>.value}"
+              <%_ } _%>
               <%_ }); _%>
               showEntity: true
             ){
@@ -87,7 +99,11 @@ describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
             data: {
               <%= graphQlService %>: {
                 <%_ properties.forEach(function(e){ _%>
+                <%_ if (e.primitivePropertie.type.isDate) { _%>
+                <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.toString,
+                <%_ }else{ _%>
                 <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.value,
+                <%_ } _%>
                 <%_ }); _%>
               },
             },

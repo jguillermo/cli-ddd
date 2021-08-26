@@ -30,6 +30,16 @@ export class PropertieType {
     return this.value;
   }
 
+  get isDate(): boolean {
+    return this.value === PropertieTypes.DATE;
+  }
+  get isNumber(): boolean {
+    return this.value === PropertieTypes.NUMBER;
+  }
+  get isEnum(): boolean {
+    return this.value === PropertieTypes.ENUM;
+  }
+
   get primitiveTypeImp(): string | null {
     if (!this.isPrimitiveType) {
       return null;
@@ -78,6 +88,9 @@ export class PropertieType {
         break;
       case PropertieTypes.ENUM:
         type = 'string';
+        break;
+      case PropertieTypes.DATE:
+        type = 'Date';
         break;
     }
     return type;

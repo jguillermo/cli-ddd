@@ -36,7 +36,11 @@ describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
               <%= graphQlService %>: [
                 {
                   <%_ properties.forEach(function(e){ _%>
+                  <%_ if (e.primitivePropertie.type.isDate) { _%>
+                  <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.toString,
+                  <%_ }else{ _%>
                   <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.value,
+                  <%_ } _%>
                   <%_ }); _%>
                 },
               ],
@@ -74,7 +78,11 @@ describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
               <%= graphQlService %>: [
                 {
                   <%_ properties.forEach(function(e){ _%>
+                  <%_ if (e.primitivePropertie.type.isDate) { _%>
+                  <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.toString,
+                  <%_ }else{ _%>
                   <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.value,
+                  <%_ } _%>
                   <%_ }); _%>
                 },
               ],

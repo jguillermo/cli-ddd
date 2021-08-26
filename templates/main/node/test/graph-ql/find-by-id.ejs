@@ -21,8 +21,9 @@ describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
     const query = `
           query{
             <%= graphQlService %>(id: "${<%= aggregatePropertieId %>.value}"){
-              id
-              name
+              <%_ properties.forEach(function(e){ _%>
+              <%= e.propertie.name.value %>
+              <%_ }); _%>
             }
           }
           `;
@@ -34,7 +35,11 @@ describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
           data: {
             <%= graphQlService %>: {
               <%_ properties.forEach(function(e){ _%>
+              <%_ if (e.primitivePropertie.type.isDate) { _%>
+              <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.toString,
+              <%_ }else{ _%>
               <%= e.propertie.name.value %>: <%= aggregatePropertie %>.<%= e.propertie.name.value %>.value,
+              <%_ } _%>
               <%_ }); _%>
             },
           },
@@ -53,8 +58,9 @@ describe('GraphQl <%= aggregate.name.value %> (<%= graphQlService %>)', () => {
     const query = `
           query{
             <%= graphQlService %>(id: "${<%= aggregatePropertieId %>.value}"){
-              id
-              name
+              <%_ properties.forEach(function(e){ _%>
+              <%= e.propertie.name.value %>
+              <%_ }); _%>
             }
           }
           `;

@@ -188,6 +188,12 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
       if (e.primitivePropertie.type.value === PropertieTypes.ID || e.primitivePropertie.type.value === PropertieTypes.UUID) {
         faker = 'faker.datatype.uuid';
       }
+      if (e.primitivePropertie.type.isDate) {
+        faker = 'faker.datatype.datetime().toISOString';
+      }
+      if (e.primitivePropertie.type.isNumber) {
+        faker = 'faker.datatype.number';
+      }
       if (e.propertie.name.value === 'name') {
         faker = 'faker.name.firstName';
       }
@@ -196,19 +202,20 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
         classPropertie: e.propertie.className,
         primitive: e.primitivePropertie.type.primitive,
         propertie: e.propertie.name.value,
+        isEnum: e.propertie.type.isEnum,
         faker,
       };
     });
 
     const dataInterface = `${classAggregate}DataInterface`;
-
+    const propertiesMotherStr = propertiesMother.map((e) => `${e.className}.create(data?.${e.propertie})`).join(', ');
     Render.generate({
       templateFile: `${this.language.language()}/test/object-mother.ejs`,
       templateData: {
         dataInterface,
         properties,
         propertiesMother,
-        propertiesMotherStr: propertiesMother.map((e) => `${e.className}.create(data?.${e.propertie})`).join(', '),
+        propertiesMotherStr,
         ...this.resources(aggregate),
       },
       generatefolder,
