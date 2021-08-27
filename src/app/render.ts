@@ -12,6 +12,9 @@ const path = require('path');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const copydir = require('copy-dir');
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const prettier = require('prettier');
+
 export interface RenderData {
   templateFile: string;
   templateData: any;
@@ -21,7 +24,18 @@ export interface RenderData {
 
 export class Render {
   static generate(data: RenderData, force = false) {
-    const render = Render.generateRender(data.templateFile, data.templateData);
+    let render = Render.generateRender(data.templateFile, data.templateData);
+    try {
+      render = prettier.format(render, {
+        singleQuote: true,
+        trailingComma: 'all',
+        printWidth: 120,
+        babel: 'babel',
+        filepath: 'render.ts',
+      });
+    } catch (e) {
+      render = Render.generateRender(data.templateFile, data.templateData);
+    }
     Render.generateFile(data.generatefolder, data.generateFile, render, force);
   }
 
