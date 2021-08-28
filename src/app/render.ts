@@ -1,4 +1,6 @@
 import { storage } from './in-memory-storage';
+import { scalarOptions } from 'yaml';
+import Str = scalarOptions.Str;
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const colors = require('colors');
 
@@ -24,18 +26,7 @@ export interface RenderData {
 
 export class Render {
   static generate(data: RenderData, force = false) {
-    let render = Render.generateRender(data.templateFile, data.templateData);
-    try {
-      render = prettier.format(render, {
-        singleQuote: true,
-        trailingComma: 'all',
-        printWidth: 120,
-        babel: 'babel',
-        filepath: 'render.ts',
-      });
-    } catch (e) {
-      render = Render.generateRender(data.templateFile, data.templateData);
-    }
+    const render = Render.generateRender(data.templateFile, data.templateData);
     Render.generateFile(data.generatefolder, data.generateFile, render, force);
   }
 
@@ -82,6 +73,20 @@ export class Render {
     return ejs.render(fs.readFileSync(`${storage.get('pathTemplate')}/main/${templateFile}`, 'utf-8'), templateData);
   }
 
+  private static prettierSource(source: string): string {
+    try {
+      return prettier.format(source, {
+        singleQuote: true,
+        trailingComma: 'all',
+        printWidth: 120,
+        babel: 'babel',
+        filepath: 'render.ts',
+      });
+    } catch (e) {
+      return source;
+    }
+  }
+
   private static generateFile(generatefolder: string, generateFile: string, render: string, force = false): void {
     let fileGenerate = `${storage.get('pathRender')}/${generatefolder}/${generateFile}`;
     let folderGenerate = `${storage.get('pathRender')}/${generatefolder}`;
@@ -95,6 +100,7 @@ export class Render {
     fs.mkdirSync(folderGenerate, { recursive: true });
 
     if (force) {
+      render = Render.prettierSource(render);
       fs.writeFileSync(fileGenerate, render, 'utf-8');
       if (fileExist) {
         console.log(colors.gray(`[updated] ${fileGenerate}`));
@@ -103,6 +109,7 @@ export class Render {
       }
     } else {
       if (!fileExist) {
+        render = Render.prettierSource(render);
         fs.writeFileSync(fileGenerate, render, 'utf-8');
       }
       if (fileExist) {

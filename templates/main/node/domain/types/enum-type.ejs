@@ -1,17 +1,28 @@
 import { EnumType } from 'base-ddd';
 
-enum Enum<%= className %> {
-UP = 'UP',
-DOWN = 'DOWN',
+export enum Enum<%= className %> {
+  cat1 = 'cat1',
+  cat2 = 'cat2',
 }
 
 export class <%= className %> extends EnumType<string> {
-    protected _enum = Enum<%= className %>;
-    get enum() {
+  protected _enum = Enum<%= className %>;
+  get enum() {
     return this._enum;
-    }
+  }
 
-    protected enumValues(): string[] {
-    return Object.keys(Enum<%= className %>);
+  <%_ if (propertie.propertie.required.value) { _%>
+  isValid(): boolean {
+    if (this.isNull) {
+      throw new Error('is required.');
     }
+    return true;
+  }
+  <%_ } _%>
+
+  public validValue(value: string): boolean {
+    return Object.keys(Enum<%= className %>)
+      .map((e) => Enum<%= className %>[e])
+      .includes(value);
+  }
 }

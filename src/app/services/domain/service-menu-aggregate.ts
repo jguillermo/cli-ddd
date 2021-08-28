@@ -88,6 +88,26 @@ export class ServiceMenuAggregateRender extends AbstractServiceResponse {
 
     const propertiesWithOutId = properties.filter((e) => e.propertie.name.value !== 'id');
 
+    const eventProperties = properties
+      .map((e) => {
+        if (e.primitivePropertie.type.isDate) {
+          return `this.${e.propertie.name.value}.toString`;
+        } else {
+          return `this.${e.propertie.name.value}.value`;
+        }
+      })
+      .join(', ');
+
+    const eventCreateProperties = properties
+      .map((e) => {
+        if (e.primitivePropertie.type.isDate) {
+          return `${e.propertie.name.value}.toString`;
+        } else {
+          return `${e.propertie.name.value}.value`;
+        }
+      })
+      .join(', ');
+
     Render.generate({
       templateFile: `${this.templatePath}/aggregate.ejs`,
       templateData: {
@@ -105,8 +125,8 @@ export class ServiceMenuAggregateRender extends AbstractServiceResponse {
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
         strVoProperties: properties.map((e) => `${e.propertie.name.value}: ${e.propertie.className}`).join(', '),
         eventUpdateProperties: propertiesWithOutId.map((e) => `${e.propertie.name.value}: ${e.propertie.className}`).join(', '),
-        eventCreateProperties: properties.map((e) => `${e.propertie.name.value}.value`).join(', '),
-        eventProperties: properties.map((e) => `this.${e.propertie.name.value}.value`).join(', '),
+        eventCreateProperties,
+        eventProperties,
         strVoUndescoreProperties: properties.map((e) => `private _${e.propertie.name.value}: ${e.propertie.className}`).join(', '),
       },
       generatefolder,
