@@ -4,10 +4,10 @@ export class <%= className %> extends EventBase {
   constructor(<%= strVoUndescoreProperties %>) {
     super();
   }
-  <%_ properties.forEach(function(e){ _%>
+  <%_ propertiesEvent.forEach(function(e){ _%>
 
-  get <%= e.propertie.name.value %>(): <%= e.primitive %> {
-    return this._<%= e.propertie.name.value %>;
+  get <%= e.e.propertie.name.value %>(): <%= e.ePrimitive %> {
+    return this._<%= e.e.propertie.name.value %>;
   }
   <%_ }); _%>
 

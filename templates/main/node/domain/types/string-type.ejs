@@ -1,7 +1,7 @@
 import { StringType } from 'base-ddd';
 
-<%_ if (propertie.propertie.required.value) { _%>
 export class <%= className %> extends StringType {
+<%_ if (propertie.propertie.required.value) { _%>
   isValid(): boolean {
     if (this.isNull) {
       throw new Error('is required.');
@@ -11,7 +11,6 @@ export class <%= className %> extends StringType {
     }
     return true;
   }
-}
-<%_ }else{ _%>
-export class <%= className %> extends StringType {}
 <%_ } _%>
+}
+

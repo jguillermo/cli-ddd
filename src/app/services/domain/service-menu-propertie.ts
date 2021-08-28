@@ -60,7 +60,6 @@ export class ServiceMenuPropertieRender extends AbstractServiceResponse {
       templateFile: `${this.templatePath}/${propertie.primitiveType}-type.ejs`,
       templateData: {
         className,
-        aggregate,
         propertie,
       },
       generatefolder,

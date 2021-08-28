@@ -23,44 +23,44 @@ describe('Product crud', () => {
     test('properties', async () => {
       console.log(RENDER_PATH_DOMAIN + '/product-category.ts');
       const renderCategory = readRender(RENDER_PATH_DOMAIN + '/product-category.ts');
-      // const renderCode = readRender(RENDER_PATH_DOMAIN + '/product-code.ts');
-      // const renderCreateAt = readRender(RENDER_PATH_DOMAIN + '/product-create-at.ts');
-      // const renderDescription = readRender(RENDER_PATH_DOMAIN + '/product-description.ts');
-      // const renderId = readRender(RENDER_PATH_DOMAIN + '/product-id.ts');
-      // const renderName = readRender(RENDER_PATH_DOMAIN + '/product-name.ts');
-      // const renderPrice = readRender(RENDER_PATH_DOMAIN + '/product-price.ts');
+      const renderCode = readRender(RENDER_PATH_DOMAIN + '/product-code.ts');
+      const renderCreateAt = readRender(RENDER_PATH_DOMAIN + '/product-create-at.ts');
+      const renderDescription = readRender(RENDER_PATH_DOMAIN + '/product-description.ts');
+      const renderId = readRender(RENDER_PATH_DOMAIN + '/product-id.ts');
+      const renderName = readRender(RENDER_PATH_DOMAIN + '/product-name.ts');
+      const renderPrice = readRender(RENDER_PATH_DOMAIN + '/product-price.ts');
 
       const snapRenderCategory = readSnapShot(SNAP_PATH_DOMAIN + '/product-category.txt');
-      // const snapRenderCode = readSnapShot(SNAP_PATH_DOMAIN + '/product-code.txt');
-      // const snapRenderCreateAt = readSnapShot(SNAP_PATH_DOMAIN + '/product-create-at.txt');
-      // const snapRenderDescription = readSnapShot(SNAP_PATH_DOMAIN + '/product-description.txt');
-      // const snapRenderId = readSnapShot(SNAP_PATH_DOMAIN + '/product-id.txt');
-      // const snapRenderName = readSnapShot(SNAP_PATH_DOMAIN + '/product-name.txt');
-      // const snapRenderPrice = readSnapShot(SNAP_PATH_DOMAIN + '/product-price.txt');
+      const snapRenderCode = readSnapShot(SNAP_PATH_DOMAIN + '/product-code.txt');
+      const snapRenderCreateAt = readSnapShot(SNAP_PATH_DOMAIN + '/product-create-at.txt');
+      const snapRenderDescription = readSnapShot(SNAP_PATH_DOMAIN + '/product-description.txt');
+      const snapRenderId = readSnapShot(SNAP_PATH_DOMAIN + '/product-id.txt');
+      const snapRenderName = readSnapShot(SNAP_PATH_DOMAIN + '/product-name.txt');
+      const snapRenderPrice = readSnapShot(SNAP_PATH_DOMAIN + '/product-price.txt');
 
       expect(renderCategory).toEqual(snapRenderCategory);
-      // expect(renderCode).toEqual(snapRenderCode);
-      // expect(renderCreateAt).toEqual(snapRenderCreateAt);
-      // expect(renderDescription).toEqual(snapRenderDescription);
-      // expect(renderId).toEqual(snapRenderId);
-      // expect(renderName).toEqual(snapRenderName);
-      // expect(renderPrice).toEqual(snapRenderPrice);
+      expect(renderCode).toEqual(snapRenderCode);
+      expect(renderCreateAt).toEqual(snapRenderCreateAt);
+      expect(renderDescription).toEqual(snapRenderDescription);
+      expect(renderId).toEqual(snapRenderId);
+      expect(renderName).toEqual(snapRenderName);
+      expect(renderPrice).toEqual(snapRenderPrice);
     });
-    test.only('aggregate', async () => {
+    test('aggregate', async () => {
       const renderAggregate = readRender(RENDER_PATH_DOMAIN + '/product.ts');
-      // const renderEventCreated = readRender(RENDER_PATH_DOMAIN + '/product-created.event.ts');
-      // const renderEventUpdated = readRender(RENDER_PATH_DOMAIN + '/product-updated.event.ts');
-      // const renderEventDeleted = readRender(RENDER_PATH_DOMAIN + '/product-deleted.event.ts');
+      const renderEventCreated = readRender(RENDER_PATH_DOMAIN + '/product-created.event.ts');
+      const renderEventUpdated = readRender(RENDER_PATH_DOMAIN + '/product-updated.event.ts');
+      const renderEventDeleted = readRender(RENDER_PATH_DOMAIN + '/product-deleted.event.ts');
 
       const snapAggregate = readSnapShot(SNAP_PATH_DOMAIN + '/product.txt');
-      // const snapEventCreated = readSnapShot(SNAP_PATH_DOMAIN + '/product-created.event.txt');
-      // const snapEventUpdated = readSnapShot(SNAP_PATH_DOMAIN + '/product-updated.event.txt');
-      // const snapEventDeleted = readSnapShot(SNAP_PATH_DOMAIN + '/product-deleted.event.txt');
+      const snapEventCreated = readSnapShot(SNAP_PATH_DOMAIN + '/product-created.event.txt');
+      const snapEventUpdated = readSnapShot(SNAP_PATH_DOMAIN + '/product-updated.event.txt');
+      const snapEventDeleted = readSnapShot(SNAP_PATH_DOMAIN + '/product-deleted.event.txt');
 
       expect(renderAggregate).toEqual(snapAggregate);
-      // expect(renderEventCreated).toEqual(snapEventCreated);
-      // expect(renderEventUpdated).toEqual(snapEventUpdated);
-      // expect(renderEventDeleted).toEqual(snapEventDeleted);
+      expect(renderEventCreated).toEqual(snapEventCreated);
+      expect(renderEventUpdated).toEqual(snapEventUpdated);
+      expect(renderEventDeleted).toEqual(snapEventDeleted);
     });
   });
 

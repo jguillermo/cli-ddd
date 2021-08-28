@@ -1,3 +1,12 @@
 import { DateType } from 'base-ddd';
 
-export class <%= className %> extends DateType {}
+export class <%= className %> extends DateType {
+  <%_ if (propertie.propertie.required.value) { _%>
+  isValid(): boolean {
+    if (this.isNull) {
+      throw new Error('is required.');
+    }
+    return true;
+  }
+  <%_ } _%>
+}

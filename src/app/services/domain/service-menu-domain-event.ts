@@ -97,13 +97,35 @@ export class ServiceRenderDomainEvent extends AbstractServiceResponse {
     const generateFile = this.language.classFile([aggregate.name.value, eventName, 'event']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'domain']);
 
+    const strVoUndescoreProperties = properties
+      .map((e) => {
+        if (e.primitivePropertie.type.isDate) {
+          return `private _${e.propertie.name.value}: string`;
+        } else {
+          return `private _${e.propertie.name.value}: ${e.primitive}`;
+        }
+      })
+      .join(', ');
+
+    const propertiesEvent = properties.map((e) => {
+      let ePrimitive = e.primitive;
+
+      if (e.primitivePropertie.type.isDate) {
+        ePrimitive = `string`;
+      }
+      return {
+        e,
+        ePrimitive,
+      };
+    });
+
     Render.generate({
       templateFile: `${this.templatePath}/event.ejs`,
       templateData: {
         eventType,
         className,
-        properties,
-        strVoUndescoreProperties: properties.map((e) => `private _${e.propertie.name.value}: ${e.primitive}`).join(', '),
+        propertiesEvent,
+        strVoUndescoreProperties,
       },
       generatefolder,
       generateFile,
