@@ -1,14 +1,24 @@
+<%_ if(enumProperties.length>0){ _%>
+import { createUnionType, Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+<%_ }else{ _%>
 import { createUnionType, Field, ObjectType } from '@nestjs/graphql';
+<%_ } _%>
 import { StatusType } from '../../../share/app/status.type';
+<%_ enumProperties.forEach(function(e){ _%>
+import { Enum<%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+<%_ }); _%>
 
 @ObjectType('<%= aggregate.name.value %>')
 export class <%= className %> {
   <%_ properties.forEach(function(e){ _%>
-  <%_ if (firstPropertie !== e.propertie.name.value) { _%>
 
-  <%_ } _%>
+  <%_ if(e.primitivePropertie.type.isEnum){ _%>
+  @Field(() => Enum<%= e.propertie.className %>)
+  <%= e.propertie.name.value %>: Enum<%= e.propertie.className %>;
+  <%_ }else{ _%>
   @Field()
   <%= e.propertie.name.value %>: <%= e.primitive %>;
+  <%_ } _%>
   <%_ }); _%>
 }
 
@@ -22,3 +32,9 @@ export const <%= classResultPersist %> = createUnionType({
     return <%= className %>;
   },
 });
+
+<%_ enumProperties.forEach(function(e){ _%>
+registerEnumType(Enum<%= e.propertie.className %>, {
+  name: '<%= e.propertie.className %>',
+});
+<%_ }); _%>

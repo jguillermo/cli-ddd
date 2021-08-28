@@ -1,110 +1,97 @@
-import { cleanRender, DDD, menu, MenuPropertie, readRender, readSnapShot, run } from '../load-cmd';
+import { cleanRender, DDD, menu, MenuPropertie, run, testCrud } from '../load-cmd';
 
-const RENDER_PATH = 'src/product';
-const RENDER_PATH_DOMAIN = RENDER_PATH + '/domain';
-// const RENDER_PATH_APPLICATION = RENDER_PATH + '/application';
-// const RENDER_PATH_INFRASTRUCTURE = RENDER_PATH + '/infrastructure';
-//
-const SNAP_PATH = '/product';
-const SNAP_PATH_DOMAIN = SNAP_PATH + '/domain';
-// const SNAP_PATH_APPLICATION = '/user/application';
-// const SNAP_PATH_INFRASTRUCTURE = '/user/infrastructure';
-
-const PATH_PRODUCT_TEST = 'test/product';
-const SNAP_PATH_PRODUCT_TEST = '/product/test';
+const aggregate = 'product';
 
 const MENU = menu(MenuPropertie.PRODUCT, DDD.APP_CRUD);
-describe('Product crud', () => {
+describe(`${aggregate} CRUD`, () => {
   beforeAll(async () => {
     cleanRender();
     await run(MENU);
   });
-  describe('domain', () => {
-    test('properties', async () => {
-      console.log(RENDER_PATH_DOMAIN + '/product-category.ts');
-      const renderCategory = readRender(RENDER_PATH_DOMAIN + '/product-category.ts');
-      const renderCode = readRender(RENDER_PATH_DOMAIN + '/product-code.ts');
-      const renderCreateAt = readRender(RENDER_PATH_DOMAIN + '/product-create-at.ts');
-      const renderDescription = readRender(RENDER_PATH_DOMAIN + '/product-description.ts');
-      const renderId = readRender(RENDER_PATH_DOMAIN + '/product-id.ts');
-      const renderName = readRender(RENDER_PATH_DOMAIN + '/product-name.ts');
-      const renderPrice = readRender(RENDER_PATH_DOMAIN + '/product-price.ts');
-
-      const snapRenderCategory = readSnapShot(SNAP_PATH_DOMAIN + '/product-category.txt');
-      const snapRenderCode = readSnapShot(SNAP_PATH_DOMAIN + '/product-code.txt');
-      const snapRenderCreateAt = readSnapShot(SNAP_PATH_DOMAIN + '/product-create-at.txt');
-      const snapRenderDescription = readSnapShot(SNAP_PATH_DOMAIN + '/product-description.txt');
-      const snapRenderId = readSnapShot(SNAP_PATH_DOMAIN + '/product-id.txt');
-      const snapRenderName = readSnapShot(SNAP_PATH_DOMAIN + '/product-name.txt');
-      const snapRenderPrice = readSnapShot(SNAP_PATH_DOMAIN + '/product-price.txt');
-
-      expect(renderCategory).toEqual(snapRenderCategory);
-      expect(renderCode).toEqual(snapRenderCode);
-      expect(renderCreateAt).toEqual(snapRenderCreateAt);
-      expect(renderDescription).toEqual(snapRenderDescription);
-      expect(renderId).toEqual(snapRenderId);
-      expect(renderName).toEqual(snapRenderName);
-      expect(renderPrice).toEqual(snapRenderPrice);
+  describe('application', () => {
+    test('delete', async () => {
+      testCrud(`src/${aggregate}/application/delete/${aggregate}-delete.dto.ts`);
+      testCrud(`src/${aggregate}/application/delete/${aggregate}-delete.handler.ts`);
+      testCrud(`src/${aggregate}/application/delete/${aggregate}-delete.service.ts`);
     });
-    test('aggregate', async () => {
-      const renderAggregate = readRender(RENDER_PATH_DOMAIN + '/product.ts');
-      const renderEventCreated = readRender(RENDER_PATH_DOMAIN + '/product-created.event.ts');
-      const renderEventUpdated = readRender(RENDER_PATH_DOMAIN + '/product-updated.event.ts');
-      const renderEventDeleted = readRender(RENDER_PATH_DOMAIN + '/product-deleted.event.ts');
-
-      const snapAggregate = readSnapShot(SNAP_PATH_DOMAIN + '/product.txt');
-      const snapEventCreated = readSnapShot(SNAP_PATH_DOMAIN + '/product-created.event.txt');
-      const snapEventUpdated = readSnapShot(SNAP_PATH_DOMAIN + '/product-updated.event.txt');
-      const snapEventDeleted = readSnapShot(SNAP_PATH_DOMAIN + '/product-deleted.event.txt');
-
-      expect(renderAggregate).toEqual(snapAggregate);
-      expect(renderEventCreated).toEqual(snapEventCreated);
-      expect(renderEventUpdated).toEqual(snapEventUpdated);
-      expect(renderEventDeleted).toEqual(snapEventDeleted);
+    test('findById', async () => {
+      testCrud(`src/${aggregate}/application/find-by-id/${aggregate}-find-by-id.dto.ts`);
+      testCrud(`src/${aggregate}/application/find-by-id/${aggregate}-find-by-id.handler.ts`);
+      testCrud(`src/${aggregate}/application/find-by-id/${aggregate}-find-by-id.service.ts`);
+    });
+    test('list', async () => {
+      testCrud(`src/${aggregate}/application/list/${aggregate}-list.dto.ts`);
+      testCrud(`src/${aggregate}/application/list/${aggregate}-list.handler.ts`);
+      testCrud(`src/${aggregate}/application/list/${aggregate}-list.service.ts`);
+    });
+    test('persist', async () => {
+      testCrud(`src/${aggregate}/application/persist/${aggregate}-persist.dto.spec.ts`);
+      testCrud(`src/${aggregate}/application/persist/${aggregate}-persist.dto.ts`);
+      testCrud(`src/${aggregate}/application/persist/${aggregate}-persist.handler.ts`);
+      testCrud(`src/${aggregate}/application/persist/${aggregate}-persist.service.ts`);
+    });
+    test('index', async () => {
+      testCrud(`src/${aggregate}/application/index.ts`);
+    });
+    test('response', async () => {
+      testCrud(`src/${aggregate}/application/list-${aggregate}.response.ts`);
+      testCrud(`src/${aggregate}/application/${aggregate}.response.ts`);
     });
   });
 
-  describe('test e2e', () => {
-    test('delete', async () => {
-      await run([...MENU]);
-      const render = readRender(PATH_PRODUCT_TEST + '/graph-ql/product-delete.e2e-spec.ts');
-      const snap = readSnapShot(SNAP_PATH_PRODUCT_TEST + '/graph-ql/delete.txt');
-      expect(render).toEqual(snap);
+  describe('domain', () => {
+    test('repository', async () => {
+      testCrud(`src/${aggregate}/domain/${aggregate}.repository.ts`);
     });
-
-    test('findById', async () => {
-      await run([...MENU]);
-      const render = readRender(PATH_PRODUCT_TEST + '/graph-ql/product-find-by-id.e2e-spec.ts');
-      const snap = readSnapShot(SNAP_PATH_PRODUCT_TEST + '/graph-ql/find-by-id.txt');
-      expect(render).toEqual(snap);
+    test('aggregate', async () => {
+      testCrud(`src/${aggregate}/domain/${aggregate}.ts`);
     });
-
-    test('list', async () => {
-      await run([...MENU]);
-      const render = readRender(PATH_PRODUCT_TEST + '/graph-ql/product-list.e2e-spec.ts');
-      const snap = readSnapShot(SNAP_PATH_PRODUCT_TEST + '/graph-ql/list.txt');
-      expect(render).toEqual(snap);
+    test('event', async () => {
+      testCrud(`src/${aggregate}/domain/${aggregate}-created.event.ts`);
+      testCrud(`src/${aggregate}/domain/${aggregate}-deleted.event.ts`);
+      testCrud(`src/${aggregate}/domain/${aggregate}-updated.event.ts`);
     });
-
-    test('persist', async () => {
-      await run([...MENU]);
-      const render = readRender(PATH_PRODUCT_TEST + '/graph-ql/product-persist.e2e-spec.ts');
-      const snap = readSnapShot(SNAP_PATH_PRODUCT_TEST + '/graph-ql/persist.txt');
-      expect(render).toEqual(snap);
+    test('properties', async () => {
+      testCrud(`src/${aggregate}/domain/${aggregate}-category.ts`);
+      testCrud(`src/${aggregate}/domain/${aggregate}-code.ts`);
+      testCrud(`src/${aggregate}/domain/${aggregate}-create-at.ts`);
+      testCrud(`src/${aggregate}/domain/${aggregate}-description.ts`);
+      testCrud(`src/${aggregate}/domain/${aggregate}-id.ts`);
+      testCrud(`src/${aggregate}/domain/${aggregate}-name.ts`);
+      testCrud(`src/${aggregate}/domain/${aggregate}-price.ts`);
     });
+  });
 
-    test('e2e module', async () => {
-      await run([...MENU]);
-      const render = readRender(PATH_PRODUCT_TEST + '/graph-ql/product-e2e-module.ts');
-      const snap = readSnapShot(SNAP_PATH_PRODUCT_TEST + '/graph-ql/e2e-module.txt');
-      expect(render).toEqual(snap);
+  describe('infrastructure', () => {
+    test('event', async () => {
+      testCrud(`src/${aggregate}/infrastructure/event/index.ts`);
+      testCrud(`src/${aggregate}/infrastructure/event/resource-on-${aggregate}-created.ts`);
+      testCrud(`src/${aggregate}/infrastructure/event/resource-on-${aggregate}-deleted.ts`);
+      testCrud(`src/${aggregate}/infrastructure/event/resource-on-${aggregate}-updated.ts`);
     });
+    test('graphQl', async () => {
+      testCrud(`src/${aggregate}/infrastructure/graph-ql/${aggregate}.resolver.ts`);
+      testCrud(`src/${aggregate}/infrastructure/graph-ql/${aggregate}.type.ts`);
+    });
+    test('persistence', async () => {
+      testCrud(`src/${aggregate}/infrastructure/persistence/${aggregate}.dao.ts`);
+      testCrud(`src/${aggregate}/infrastructure/persistence/${aggregate}-firestore.repository.ts`);
+    });
+  });
 
-    test('object Mother', async () => {
-      await run([...MENU]);
-      const render = readRender(PATH_PRODUCT_TEST + '/product-object-mother.ts');
-      const snap = readSnapShot(SNAP_PATH_PRODUCT_TEST + '/object-mother.txt');
-      expect(render).toEqual(snap);
+  test('module', async () => {
+    testCrud(`src/${aggregate}/${aggregate}.module.ts`);
+  });
+  describe('test', () => {
+    test('graph-ql', async () => {
+      testCrud(`test/${aggregate}/graph-ql/${aggregate}-delete.e2e-spec.ts`);
+      testCrud(`test/${aggregate}/graph-ql/${aggregate}-find-by-id.e2e-spec.ts`);
+      testCrud(`test/${aggregate}/graph-ql/${aggregate}-list.e2e-spec.ts`);
+      testCrud(`test/${aggregate}/graph-ql/${aggregate}-persist.e2e-spec.ts`);
+      testCrud(`test/${aggregate}/graph-ql/${aggregate}-e2e-module.ts`);
+    });
+    test('object-mother', async () => {
+      testCrud(`test/${aggregate}/${aggregate}-object-mother.ts`);
     });
   });
 });

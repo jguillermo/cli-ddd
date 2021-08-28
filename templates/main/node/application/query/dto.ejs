@@ -27,16 +27,16 @@ export class <%= className %> extends BaseDto {
     super();
   }
 <%_ } _%>
-  <%_ properties.forEach(function(e){ _%>
+  <%_ propertiesDto.forEach(function(e){ _%>
 
   <%_ if (templateRender === "findById") { _%>
-  @Validate(DomainValidator, [<%= e.propertie.className %>])
+  @Validate(DomainValidator, [<%= e.e.propertie.className %>])
   @Field()
-  <%= e.propertie.name.value %>: <%= e.primitive %>;
+  <%= e.e.propertie.name.value %>: <%= e.ePrimitive %>;
   <%_ }else{ _%>
-  @Validate(DomainValidator, [<%= e.parentTypeImp %>])
+  @Validate(DomainValidator, [<%= e.e.parentTypeImp %>])
   @Field({ nullable: true })
-  <%= e.propertie.name.value %>?: <%= e.primitive %>;
+  <%= e.e.propertie.name.value %>?: <%= e.ePrimitive %>;
   <%_ } _%>
   <%_ }); _%>
   <%_ if (templateRender !== "findById") { _%>

@@ -1,6 +1,4 @@
 import { storage } from './in-memory-storage';
-import { scalarOptions } from 'yaml';
-import Str = scalarOptions.Str;
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const colors = require('colors');
 

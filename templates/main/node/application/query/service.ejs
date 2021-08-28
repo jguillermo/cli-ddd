@@ -39,7 +39,11 @@ export class <%= className %> {
         {
           field: '<%= e.propertie.name.value %>',
           opStr: FilterOpStr.EQUAL_TO,
+          <%_ if (e.primitivePropertie.type.isDate || e.primitivePropertie.type.isNumber) { _%>
+          value: <%= e.propertie.name.value %>.toString,
+          <%_ }else{ _%>
           value: <%= e.propertie.name.value %>.value,
+          <%_ } _%>
         },
         <%_ }); _%>
       ],

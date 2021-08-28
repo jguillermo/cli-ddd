@@ -56,6 +56,8 @@ export class ServiceMenuPropertieRender extends AbstractServiceResponse {
     const generateFile = this.language.classFileWithOutType([propertie.propertie.className]);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'domain']);
 
+    //todo: get all properties of enum
+
     Render.generate({
       templateFile: `${this.templatePath}/${propertie.primitiveType}-type.ejs`,
       templateData: {

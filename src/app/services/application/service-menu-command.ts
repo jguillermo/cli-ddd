@@ -111,11 +111,24 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
     const generateFile = this.language.classFile([aggregate.name.value, commandName, 'Dto']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
 
+    const propertiesDto = properties.map((e) => {
+      let ePrimitive = e.primitive;
+
+      if (e.primitivePropertie.type.isDate) {
+        ePrimitive = `string`;
+      }
+      return {
+        e,
+        ePrimitive,
+      };
+    });
+
     Render.generate({
       templateFile: `${this.templatePath}dto.ejs`,
       templateData: {
         className,
         properties,
+        propertiesDto,
         templateRender,
       },
       generatefolder,
@@ -136,13 +149,23 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
 
     const propertiesString = properties.map((e) => {
-      let valuePrimitive = 'WIP';
+      let valuePrimitive: any = 'WIP';
 
-      if (e.primitivePropertie.type.value === PropertieTypes.ID) {
+      if (e.primitivePropertie.type.value === PropertieTypes.ID || e.primitivePropertie.type.value === PropertieTypes.UUID) {
         valuePrimitive = `'${UUIDTypeImp.fromValue('Guille')}'`;
       }
       if (e.primitivePropertie.type.value === PropertieTypes.STRING) {
         valuePrimitive = `'${e.propertie.name.value}'`;
+      }
+      if (e.primitivePropertie.type.isDate) {
+        valuePrimitive = `'2018-03-23'`;
+      }
+      if (e.primitivePropertie.type.isNumber) {
+        valuePrimitive = 12.5;
+      }
+      //todo: get first value of enum
+      if (e.primitivePropertie.type.isEnum) {
+        valuePrimitive = `'cat1'`;
       }
       return {
         name: e.propertie.name.value,
@@ -157,7 +180,6 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
         fileDto,
         templateRender,
         propertiesString,
-        propertiesCount: properties.length,
       },
       generatefolder,
       generateFile,

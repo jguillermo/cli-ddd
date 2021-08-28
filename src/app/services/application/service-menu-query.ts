@@ -109,10 +109,23 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
     const generateFile = this.language.classFile([aggregate.name.value, queryName, 'Dto']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', queryName]);
 
+    const propertiesDto = properties.map((e) => {
+      let ePrimitive = e.primitive;
+
+      if (e.primitivePropertie.type.isDate) {
+        ePrimitive = `string`;
+      }
+      return {
+        e,
+        ePrimitive,
+      };
+    });
+
     Render.generate({
       templateFile: `${this.templatePath}dto.ejs`,
       templateData: {
         className,
+        propertiesDto,
         properties,
         templateRender,
         parentType,
