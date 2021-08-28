@@ -15,11 +15,11 @@ export class <%= className %> extends BaseDto {
   constructor() {
     super();
   }
-  <%_ properties.forEach(function(e){ _%>
+  <%_ propertiesDto.forEach(function(e){ _%>
 
-  @Validate(DomainValidator, [<%= e.propertie.className %>])
+  @Validate(DomainValidator, [<%= e.e.propertie.className %>])
   @Field()
-  <%= e.propertie.name.value %>: <%= e.primitive %>;
+  <%= e.e.propertie.name.value %>: <%= e.ePrimitive %>;
   <%_ }); _%>
   <%_ if (templateRender==='persist') { _%>
 

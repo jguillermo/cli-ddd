@@ -40,10 +40,8 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const className = this.language.className([aggregate.name.value, 'type']);
     const generateFile = this.language.classFile([aggregate.name.value, 'type']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'graphQl']);
-    let firstPropertie = '';
-    if (properties.length > 0) {
-      firstPropertie = properties[0].propertie.name.value;
-    }
+
+    const enumProperties = properties.filter((e) => e.primitivePropertie.type.isEnum);
 
     Render.generate({
       templateFile: `${this.templatePath}/type.ejs`,
@@ -51,7 +49,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
         aggregate,
         className,
         properties,
-        firstPropertie,
+        enumProperties,
         classResultPersist: `Result${aggregate.name.value}Persist`,
       },
       generatefolder,

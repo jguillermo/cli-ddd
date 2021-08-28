@@ -21,7 +21,11 @@ export class <%= className %> {
     const dao = new <%= className %>();
     //item.data.id = item.id
     <%_ properties.forEach(function(e){ _%>
+    <%_ if (e.primitivePropertie.type.isDate) { _%>
+    dao.<%= e.propertie.name.value %> = item.data.<%= e.propertie.name.value %>.toDate();
+    <%_ }else{ _%>
     dao.<%= e.propertie.name.value %> = item.data.<%= e.propertie.name.value %>;
+    <%_ } _%>
     <%_ }); _%>
     return dao;
   }

@@ -7,7 +7,7 @@ describe('User infrastructure event', () => {
   beforeEach(() => {
     cleanRender();
   });
-  test('no existe event', async () => {
+  test.skip('no existe event', async () => {
     const result = await run([...MENU]);
     expect(result).toMatch(/No exist Events/);
   });

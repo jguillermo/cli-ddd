@@ -13,6 +13,7 @@ const rimraf = require('rimraf');
 const cliPath = __dirname + '/../dist/index.js';
 const renderPath = __dirname + '/../render';
 const snapShotPath = __dirname + '/snapshot';
+const snapNewShotPath = __dirname + '/../snapshot';
 
 export function cleanRender() {
   rimraf.sync(renderPath);
@@ -20,6 +21,16 @@ export function cleanRender() {
 
 export function readRender(pathRender: string): string {
   return fs.readFileSync(path.join(renderPath, pathRender), 'utf-8');
+}
+
+export function readNewSnapShot(pathSnap: string): string {
+  return fs.readFileSync(path.join(snapNewShotPath, pathSnap), 'utf-8');
+}
+
+export function testCrud(file: string) {
+  const renderFile = readRender(file);
+  const snapFile = readNewSnapShot(file);
+  expect(renderFile).toEqual(snapFile);
 }
 
 export function copyfromSnapToRender(pathSnap: string, pathRender: string): void {
