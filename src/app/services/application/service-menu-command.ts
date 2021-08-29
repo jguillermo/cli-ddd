@@ -163,9 +163,9 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
       if (e.primitivePropertie.type.isNumber) {
         valuePrimitive = 12.5;
       }
-      //todo: get first value of enum
       if (e.primitivePropertie.type.isEnum) {
-        valuePrimitive = `'cat1'`;
+        const firstValue = e.primitivePropertie.metadataEnum.values.length > 0 ? e.primitivePropertie.metadataEnum.values[0] : '';
+        valuePrimitive = `'${firstValue}'`;
       }
       return {
         name: e.propertie.name.value,

@@ -3,42 +3,42 @@ import { PropertieType } from './propertieType';
 import { PropertieRequired } from './propertieRequired';
 import { PropertieDefault } from './propertieDefault';
 import { Name } from '../Name';
+import { MetadataFactory } from './metadata/metadata-factory';
+import { Metadata } from './metadata/metadata';
+import { MetadataEnum } from './metadata/metadata-enum';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 
-interface PropertieValue {
-  required: boolean;
-  defaultValue: string | boolean | number;
-  type: string;
-}
-
 export class Propertie {
-  constructor(private _name: PropertieName, private _type: PropertieType, private _required: PropertieRequired, private _defaultValue: PropertieDefault, private _aggregateName: Name) {}
+  constructor(
+    private _name: PropertieName,
+    private _type: PropertieType,
+    private _required: PropertieRequired,
+    private _defaultValue: PropertieDefault,
+    private _aggregateName: Name,
+    private _metadata: Metadata,
+  ) {}
 
   static create(propertieName: string, value: any, aggregateName: Name): Propertie {
-    const { type, required, defaultValue } = this.processValue(value);
-    return new Propertie(new PropertieName(propertieName, aggregateName.value), new PropertieType(type), new PropertieRequired(required), new PropertieDefault(defaultValue), aggregateName);
+    const metadata = MetadataFactory.create(value);
+
+    return new Propertie(
+      new PropertieName(propertieName, aggregateName.value),
+      new PropertieType(metadata.type),
+      new PropertieRequired(metadata.required),
+      new PropertieDefault(metadata.defaultValue),
+      aggregateName,
+      metadata,
+    );
   }
 
-  private static processValue(value): PropertieValue {
-    let type: string;
-    let required: boolean;
-    let defaultValue: any;
-    if (typeof value === 'string') {
-      type = value;
-      defaultValue = null;
-      required = true;
-    } else {
-      type = value['type'];
-      required = typeof value['required'] == 'undefined' ? true : value['required'];
-      defaultValue = typeof value['default'] == 'undefined' ? null : value['default'];
-    }
-    return {
-      type,
-      required,
-      defaultValue,
-    };
+  get metadata(): Metadata {
+    return this._metadata;
+  }
+
+  get metadataEnum(): MetadataEnum {
+    return <MetadataEnum>this._metadata;
   }
 
   get aggregateName(): Name {

@@ -1,8 +1,9 @@
 import { EnumType } from 'base-ddd';
 
 export enum Enum<%= className %> {
-  cat1 = 'cat1',
-  cat2 = 'cat2',
+  <%_ enumValues.forEach(function(enumValue){ _%>
+  <%= enumValue %> = '<%= enumValue %>',
+  <%_ }); _%>
 }
 
 export class <%= className %> extends EnumType<string> {
