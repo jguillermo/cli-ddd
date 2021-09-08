@@ -1,16 +1,9 @@
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
-<%_ if (templateRender === "findById") { _%>
-import { <%= classResponse %> } from '../<%= fileResponse %>';
-<%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
-<%_ }); _%>
-<%_ }else{ _%>
 import { OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
 import { <%= classListResponse %> } from '../<%= fileListResponse %>';
 <%_ parentType.forEach(function(type){ _%>
 import { <%= type %> } from 'base-ddd/dist/ValueObject/Implement/<%= type %>';
 <%_ }); _%>
-<%_ } _%>
 import { <%= classDto %> } from './<%= fileDto %>';
 import { <%= classService %> } from './<%= fileService %>';
 
@@ -18,15 +11,6 @@ import { <%= classService %> } from './<%= fileService %>';
 export class <%= className %> implements IQueryHandler<<%= classDto %>> {
   constructor(private service: <%= classService %>) {}
 
-<%_ if (templateRender === "findById") { _%>
-  async execute(dto: <%= classDto %>): Promise<<%= classResponse %>> {
-    <%_ properties.forEach(function(e){ _%>
-    const <%= e.propertie.name.value %> = new <%= e.propertie.className %>(dto.<%= e.propertie.name.value %>);
-    <%_ }); _%>
-
-    return await this.service.execute(<%= strProperties %>);
-  }
-<%_ }else{ _%>
   async execute(dto: <%= classDto %>): Promise<<%= classListResponse %>> {
     <%_ properties.forEach(function(e){ _%>
     const <%= e.propertie.name.value %> = new <%= e.parentTypeImp %>(dto.<%= e.propertie.name.value %>);
@@ -36,5 +20,4 @@ export class <%= className %> implements IQueryHandler<<%= classDto %>> {
 
     return await this.service.execute(<%= strProperties %>, paginator, order);
   }
-<%_ } _%>
 }

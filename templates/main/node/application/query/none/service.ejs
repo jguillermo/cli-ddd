@@ -1,0 +1,44 @@
+import { Injectable } from '@nestjs/common';
+import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
+import { <%= classResponse %> } from '../<%= fileResponse %>';
+import { <%= classListResponse %> } from '../<%= fileListResponse %>';
+import { FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
+<%_ parentType.forEach(function(type){ _%>
+import { <%= type %> } from 'base-ddd/dist/ValueObject/Implement/<%= type %>';
+<%_ }); _%>
+
+@Injectable()
+export class <%= className %> {
+  constructor(private repository: <%= classRepository %>) {}
+
+  public async execute(
+    <%_ properties.forEach(function(e){ _%>
+    <%= e.propertie.name.value %>: <%= e.parentTypeImp %>,
+    <%_ }); _%>
+    paginator: PaginatorTypeImp,
+    order: OrderTypeImp,
+  ): Promise<<%= classListResponse %>> {
+    const list<%= aggregate.name.value %> = await this.repository.findAll(
+      [
+        <%_ properties.forEach(function(e){ _%>
+        {
+          field: '<%= e.propertie.name.value %>',
+          opStr: FilterOpStr.EQUAL_TO,
+          <%_ if (e.primitivePropertie.type.isDate || e.primitivePropertie.type.isNumber) { _%>
+          value: <%= e.propertie.name.value %>.toString,
+          <%_ }else{ _%>
+          value: <%= e.propertie.name.value %>.value,
+          <%_ } _%>
+        },
+        <%_ }); _%>
+      ],
+      paginator,
+      order,
+    );
+    return new <%= classListResponse %>(
+      list<%= aggregate.name.value %>.map((<%= aggregate.name.propertie %>) => {
+        return <%= classResponse %>.fromAggregate(<%= aggregate.name.propertie %>);
+      }),
+    );
+  }
+}

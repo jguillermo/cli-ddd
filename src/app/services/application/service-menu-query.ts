@@ -101,7 +101,7 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
   }
 
   get templatePath(): string {
-    return `${this.language.language()}/application/query/`;
+    return `${this.language.language()}/application/query`;
   }
 
   private renderDto(aggregate: Aggregate, properties: WPropertie[], queryName: string, templateRender: string, parentType: string[]) {
@@ -122,12 +122,11 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
     });
 
     Render.generate({
-      templateFile: `${this.templatePath}dto.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/dto.ejs`,
       templateData: {
         className,
         propertiesDto,
         properties,
-        templateRender,
         parentType,
       },
       generatefolder,
@@ -153,7 +152,7 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', queryName]);
 
     Render.generate({
-      templateFile: `${this.templatePath}handler.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/handler.ejs`,
       templateData: {
         classDto,
         fileDto,
@@ -166,7 +165,6 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
         className,
         properties,
         aggregate,
-        templateRender,
         parentType,
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
       },
@@ -190,7 +188,7 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', queryName]);
 
     Render.generate({
-      templateFile: `${this.templatePath}service.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/service.ejs`,
       templateData: {
         classRepository,
         fileRepository,
@@ -198,7 +196,6 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
         fileResponse,
         classListResponse,
         fileListResponse,
-        templateRender,
         className,
         aggregate,
         properties,

@@ -1,9 +1,5 @@
-<%_ if (templateRender==='persist') { _%>
-import { Validate, IsOptional } from 'class-validator';
-<%_ }else{ _%>
-import { Validate } from 'class-validator';
-<%_ } _%>
 import { ArgsType, Field } from '@nestjs/graphql';
+import { Validate } from 'class-validator';
 import { DomainValidator } from 'base-ddd';
 import { BaseDto } from '../../../share/application/base.dto';
 <%_ properties.forEach(function(e){ _%>
@@ -12,8 +8,9 @@ import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
 
 @ArgsType()
 export class <%= className %> extends BaseDto {
-  constructor() {
+  constructor(id: string) {
     super();
+    this.id = id;
   }
   <%_ propertiesDto.forEach(function(e){ _%>
 
@@ -21,10 +18,4 @@ export class <%= className %> extends BaseDto {
   @Field()
   <%= e.e.propertie.name.value %>: <%= e.ePrimitive %>;
   <%_ }); _%>
-  <%_ if (templateRender==='persist') { _%>
-
-  @IsOptional()
-  @Field({ nullable: true, defaultValue: false })
-  showEntity?: boolean;
-  <%_ } _%>
 }

@@ -1,0 +1,16 @@
+import { Injectable } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
+import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
+<%_ properties.forEach(function(e){ _%>
+import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+<%_ }); _%>
+
+@Injectable()
+export class <%= className %> {
+  constructor(private repository: <%= classRepository %>, private eventBus: EventBus) {}
+
+  public async execute(<%= strVoProperties %>): Promise<void> {
+    const <%= aggregate.name.propertie %> = await this.repository.findById(id);
+    this.eventBus.publishAll(<%= aggregate.name.propertie %>.pullDomainEvents());
+  }
+}

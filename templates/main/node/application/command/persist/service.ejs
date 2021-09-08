@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
-<%_ if (templateRender == "persist") { _%>
 import { <%= aggregate.name.value %> } from '../../domain/<%= fileAggregate %>';
-<%_ } _%>
 <%_ properties.forEach(function(e){ _%>
 import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
 <%_ }); _%>
@@ -13,7 +11,6 @@ export class <%= className %> {
   constructor(private repository: <%= classRepository %>, private eventBus: EventBus) {}
 
   public async execute(<%= strVoProperties %>): Promise<void> {
-    <%_ if (templateRender == "persist") { _%>
     let <%= aggregate.name.propertie %> = await this.repository.findById(id);
     if (!<%= aggregate.name.propertie %>) {
       <%= aggregate.name.propertie %> = <%= aggregate.name.value %>.create(<%= strProperties %>);
@@ -22,18 +19,5 @@ export class <%= className %> {
     }
     await this.repository.persist(<%= aggregate.name.propertie %>);
     this.eventBus.publishAll(<%= aggregate.name.propertie %>.pullDomainEvents());
-    <%_ } _%>
-    <%_ if (templateRender == "delete") { _%>
-    const <%= aggregate.name.propertie %> = await this.repository.findById(id);
-    if (<%= aggregate.name.propertie %>) {
-      <%= aggregate.name.propertie %>.delete();
-      await this.repository.deleteById(<%= aggregate.name.propertie %>.id);
-      this.eventBus.publishAll(<%= aggregate.name.propertie %>.pullDomainEvents());
-    }
-    <%_ } _%>
-    <%_ if (templateRender == "none") { _%>
-    const <%= aggregate.name.propertie %> = await this.repository.findById(id);
-    this.eventBus.publishAll(<%= aggregate.name.propertie %>.pullDomainEvents());
-    <%_ } _%>
   }
 }
