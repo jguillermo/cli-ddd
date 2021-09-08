@@ -2,10 +2,6 @@ import { ArgsType, Field } from '@nestjs/graphql';
 import { IsOptional, Validate } from 'class-validator';
 import { DomainValidator, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
 import { BaseDto, OrderDto, PaginatorDto } from '../../../share/application/base.dto';
-import { DateTypeImp } from 'base-ddd/dist/ValueObject/Implement/DateTypeImp';
-import { NumberTypeImp } from 'base-ddd/dist/ValueObject/Implement/NumberTypeImp';
-import { StringTypeImp } from 'base-ddd/dist/ValueObject/Implement/StringTypeImp';
-import { UUIDTypeImp } from 'base-ddd/dist/ValueObject/Implement/UUIDTypeImp';
 
 @ArgsType()
 export class ProductListDto extends BaseDto {
@@ -13,31 +9,31 @@ export class ProductListDto extends BaseDto {
     super();
   }
 
-  @Validate(DomainValidator, [UUIDTypeImp])
+  @IsOptional()
   @Field({ nullable: true })
   id?: string;
 
-  @Validate(DomainValidator, [StringTypeImp])
+  @IsOptional()
   @Field({ nullable: true })
   name?: string;
 
-  @Validate(DomainValidator, [UUIDTypeImp])
+  @IsOptional()
   @Field({ nullable: true })
   code?: string;
 
-  @Validate(DomainValidator, [StringTypeImp])
+  @IsOptional()
   @Field({ nullable: true })
   description?: string;
 
-  @Validate(DomainValidator, [DateTypeImp])
+  @IsOptional()
   @Field({ nullable: true })
   createAt?: string;
 
-  @Validate(DomainValidator, [NumberTypeImp])
+  @IsOptional()
   @Field({ nullable: true })
   price?: number;
 
-  @Validate(DomainValidator, [StringTypeImp])
+  @IsOptional()
   @Field({ nullable: true })
   category?: string;
 

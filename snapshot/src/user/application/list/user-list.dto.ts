@@ -2,8 +2,6 @@ import { ArgsType, Field } from '@nestjs/graphql';
 import { IsOptional, Validate } from 'class-validator';
 import { DomainValidator, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
 import { BaseDto, OrderDto, PaginatorDto } from '../../../share/application/base.dto';
-import { StringTypeImp } from 'base-ddd/dist/ValueObject/Implement/StringTypeImp';
-import { UUIDTypeImp } from 'base-ddd/dist/ValueObject/Implement/UUIDTypeImp';
 
 @ArgsType()
 export class UserListDto extends BaseDto {
@@ -11,11 +9,11 @@ export class UserListDto extends BaseDto {
     super();
   }
 
-  @Validate(DomainValidator, [UUIDTypeImp])
+  @IsOptional()
   @Field({ nullable: true })
   id?: string;
 
-  @Validate(DomainValidator, [StringTypeImp])
+  @IsOptional()
   @Field({ nullable: true })
   name?: string;
 

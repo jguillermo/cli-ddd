@@ -3,30 +3,24 @@ import { UserRepository } from '../../domain/user.repository';
 import { UserResponse } from '../user.response';
 import { ListUserResponse } from '../list-user.response';
 import { FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
-import { StringTypeImp } from 'base-ddd/dist/ValueObject/Implement/StringTypeImp';
-import { UUIDTypeImp } from 'base-ddd/dist/ValueObject/Implement/UUIDTypeImp';
+import { UserListDto } from './user-list.dto';
 
 @Injectable()
 export class UserListService {
   constructor(private repository: UserRepository) {}
 
-  public async execute(
-    id: UUIDTypeImp,
-    name: StringTypeImp,
-    paginator: PaginatorTypeImp,
-    order: OrderTypeImp,
-  ): Promise<ListUserResponse> {
+  public async execute(dto: UserListDto, paginator: PaginatorTypeImp, order: OrderTypeImp): Promise<ListUserResponse> {
     const listUser = await this.repository.findAll(
       [
         {
           field: 'id',
           opStr: FilterOpStr.EQUAL_TO,
-          value: id.value,
+          value: dto.id,
         },
         {
           field: 'name',
           opStr: FilterOpStr.EQUAL_TO,
-          value: name.value,
+          value: dto.name,
         },
       ],
       paginator,

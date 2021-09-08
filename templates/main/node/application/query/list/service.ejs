@@ -2,19 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
 import { <%= classResponse %> } from '../<%= fileResponse %>';
 import { <%= classListResponse %> } from '../<%= fileListResponse %>';
+<%_ if (hasPropertieDate) { _%>
+import { DateTypeImp, FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
+<%_ }else{ _%>
 import { FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
-<%_ parentType.forEach(function(type){ _%>
-import { <%= type %> } from 'base-ddd/dist/ValueObject/Implement/<%= type %>';
-<%_ }); _%>
+<%_ } _%>
+import { <%= classDto %> } from './<%= fileDto %>';
 
 @Injectable()
 export class <%= className %> {
   constructor(private repository: <%= classRepository %>) {}
 
   public async execute(
-    <%_ properties.forEach(function(e){ _%>
-    <%= e.propertie.name.value %>: <%= e.parentTypeImp %>,
-    <%_ }); _%>
+    dto: <%= classDto %>,
     paginator: PaginatorTypeImp,
     order: OrderTypeImp,
   ): Promise<<%= classListResponse %>> {
@@ -24,10 +24,10 @@ export class <%= className %> {
         {
           field: '<%= e.propertie.name.value %>',
           opStr: FilterOpStr.EQUAL_TO,
-          <%_ if (e.primitivePropertie.type.isDate || e.primitivePropertie.type.isNumber) { _%>
-          value: <%= e.propertie.name.value %>.toString,
-          <%_ }else{ _%>
-          value: <%= e.propertie.name.value %>.value,
+          <%_ if (e.primitivePropertie.type.isDate) { _%>
+          value: dto.<%= e.propertie.name.value %> ? DateTypeImp.create(dto.<%= e.propertie.name.value %>).toString : null,
+        <%_ }else{ _%>
+          value: dto.<%= e.propertie.name.value %>,
           <%_ } _%>
         },
         <%_ }); _%>
