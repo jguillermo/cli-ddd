@@ -183,9 +183,14 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
     const classListResponse = this.language.className(['list', aggregate.name.value, 'response']);
     const fileListResponse = this.language.classFile(['list', aggregate.name.value, 'response'], false);
 
+    const classDto = this.language.className([aggregate.name.value, queryName, 'Dto']);
+    const fileDto = this.language.classFile([aggregate.name.value, queryName, 'Dto'], false);
+
     const className = this.language.className([aggregate.name.value, queryName, 'service']);
     const generateFile = this.language.classFile([aggregate.name.value, queryName, 'service']);
     const generatefolder = this.language.folderPath([aggregate.path.value, 'application', queryName]);
+
+    const propertiesDates = properties.filter((e) => e.primitivePropertie.type.isDate);
 
     Render.generate({
       templateFile: `${this.templatePath}/${templateRender}/service.ejs`,
@@ -200,6 +205,9 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
         aggregate,
         properties,
         parentType,
+        classDto,
+        fileDto,
+        hasPropertieDate: propertiesDates.length > 0,
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
         strVoProperties: properties.map((e) => `${e.propertie.name.value}: ${e.propertie.className}`).join(', '),
       },

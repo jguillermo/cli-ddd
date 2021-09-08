@@ -1,9 +1,6 @@
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
 import { OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
 import { <%= classListResponse %> } from '../<%= fileListResponse %>';
-<%_ parentType.forEach(function(type){ _%>
-import { <%= type %> } from 'base-ddd/dist/ValueObject/Implement/<%= type %>';
-<%_ }); _%>
 import { <%= classDto %> } from './<%= fileDto %>';
 import { <%= classService %> } from './<%= fileService %>';
 
@@ -12,12 +9,8 @@ export class <%= className %> implements IQueryHandler<<%= classDto %>> {
   constructor(private service: <%= classService %>) {}
 
   async execute(dto: <%= classDto %>): Promise<<%= classListResponse %>> {
-    <%_ properties.forEach(function(e){ _%>
-    const <%= e.propertie.name.value %> = new <%= e.parentTypeImp %>(dto.<%= e.propertie.name.value %>);
-    <%_ }); _%>
     const paginator = PaginatorTypeImp.create(dto.paginator?.page, dto.paginator?.perPage);
     const order = OrderTypeImp.create(dto.order?.field, dto.order?.direction);
-
-    return await this.service.execute(<%= strProperties %>, paginator, order);
+    return await this.service.execute(dto, paginator, order);
   }
 }
