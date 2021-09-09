@@ -20,7 +20,7 @@ nest new my-project
 cd my-project
 ```
 ```bash
-npm install --save @nestjs/cqrs @nestjs/graphql graphql apollo-server-express@2.x.x class-validator class-transformer base-ddd firebase-admin
+npm install --save @nestjs/cqrs @nestjs/graphql graphql apollo-server-express class-validator class-transformer base-ddd firebase-admin
 ```
 ```bash
 npm i faker @types/faker --save-dev
