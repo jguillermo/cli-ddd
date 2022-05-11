@@ -1,5 +1,5 @@
-path: src/user
-pathTest: test/user
+path: user
+pathTest: user
 nameSpace: app.user
 name: User
 properties:

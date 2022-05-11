@@ -49,7 +49,7 @@ export class ServiceMenuEventIndexRender extends AbstractServiceResponse {
 
   private renderIndex(events: any[], aggregate: Aggregate) {
     const generateFile = this.language.classFileWithOutType(['index']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'event']);
+    const generatefolder = this.folderPath(aggregate, ['event']).infrastructure;
 
     Render.generate(
       {

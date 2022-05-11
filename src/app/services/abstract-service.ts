@@ -38,12 +38,34 @@ export interface GenerateResourcesData {
   fileModule: string;
 }
 
+export interface GenerateFolderPath {
+  module: string;
+  app: string;
+  domain: string;
+  application: string;
+  infrastructure: string;
+  testFeatures: string;
+  testInfrastructure: string;
+}
+
 export abstract class AbstractServiceResponse {
   constructor(protected _collectionAggregate: CollectionAggregate, protected language: LanguageInterface) {}
 
   abstract get templatePath(): string;
 
   abstract execute(aggregateName: string, options: any): void | Promise<void>;
+
+  protected folderPath(aggregate: Aggregate, after: string[] = []): GenerateFolderPath {
+    return {
+      app: this.language.folderPath([aggregate.path.before, 'src', 'app', 'graphQl', aggregate.path.value, ...after]),
+      module: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, ...after]),
+      domain: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, 'domain', ...after]),
+      application: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, 'application', ...after]),
+      infrastructure: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, 'infrastructure', ...after]),
+      testFeatures: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.pathTest.value, ...after]),
+      testInfrastructure: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.pathTest.value, ...after]),
+    };
+  }
 
   protected resources(aggregate: Aggregate): GenerateResourcesData {
     return {

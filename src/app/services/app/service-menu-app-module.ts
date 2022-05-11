@@ -26,7 +26,7 @@ export class ServiceMenuAppModuleRender extends AbstractServiceResponse {
   private renderModule(aggregate: Aggregate) {
     const { fileModule } = this.resources(aggregate);
     const generateFile = fileModule + this.language.dotExt();
-    const generatefolder = this.language.folderPath([aggregate.path.value]);
+    const generatefolder = this.folderPath(aggregate).module;
 
     Render.generate({
       templateFile: `${this.templatePath}/module.ejs`,

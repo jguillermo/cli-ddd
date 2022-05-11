@@ -39,7 +39,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   private renderType(aggregate: Aggregate, properties: WPropertie[]) {
     const className = this.language.className([aggregate.name.value, 'type']);
     const generateFile = this.language.classFile([aggregate.name.value, 'type']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'graphQl']);
+    const generatefolder = this.folderPath(aggregate, ['graphQl']).infrastructure;
 
     const enumProperties = properties.filter((e) => e.primitivePropertie.type.isEnum);
 
@@ -85,7 +85,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
 
     const className = this.language.className([aggregate.name.value, 'Resolver']);
     const generateFile = this.language.classFile([aggregate.name.value, 'Resolver']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'graphQl']);
+    const generatefolder = this.folderPath(aggregate, ['graphQl']).infrastructure;
 
     Render.generate({
       templateFile: `${this.templatePath}/resolver.ejs`,
@@ -124,7 +124,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const fileRepository = this.language.classFile([aggregate.name.value, 'Repository'], false);
 
     const generateFile = this.language.classFileTestWithOutType([aggregate.name.value, type]);
-    const generatefolder = this.language.folderPath([aggregate.pathTest.value, 'graphQl']);
+    const generatefolder = this.folderPath(aggregate).testInfrastructure;
 
     const aggregatePropertie = aggregate.name.propertie;
     const aggregatePropertieDb = `${aggregatePropertie}Db`;
@@ -160,7 +160,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
 
   private renderE2eModule(aggregate: Aggregate, properties: WPropertie[]) {
     const generateFile = this.language.classFileWithOutType([aggregate.name.value, 'e2e', 'module']);
-    const generatefolder = this.language.folderPath([aggregate.pathTest.value, 'graphQl']);
+    const generatefolder = this.folderPath(aggregate, ['graphQl']).testInfrastructure;
 
     const testingInterface = this.language.className([aggregate.name.value, 'TestingInterface']);
     Render.generate({
@@ -179,7 +179,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const { classAggregate, fileObjectMother } = this.resources(aggregate);
 
     const generateFile = fileObjectMother + this.language.dotExt();
-    const generatefolder = this.language.folderPath([aggregate.pathTest.value]);
+    const generatefolder = this.folderPath(aggregate).testInfrastructure;
 
     const propertiesMother = properties.map((e) => {
       let faker = 'faker.random.word';

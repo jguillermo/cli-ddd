@@ -39,7 +39,7 @@ describe(`${aggregate} CRUD`, () => {
     });
   });
 
-  describe('domain', () => {
+  describe.skip('domain', () => {
     test('repository', async () => {
       testCrud(`src/context/${aggregate}/domain/${aggregate}.repository.ts`);
     });
@@ -57,7 +57,7 @@ describe(`${aggregate} CRUD`, () => {
     });
   });
 
-  describe('infrastructure', () => {
+  describe.skip('infrastructure', () => {
     test('event', async () => {
       testCrud(`src/context/${aggregate}/infrastructure/event/index.ts`);
       testCrud(`src/context/${aggregate}/infrastructure/event/resource-on-${aggregate}-created.ts`);
@@ -70,17 +70,17 @@ describe(`${aggregate} CRUD`, () => {
     });
   });
 
-  describe('app', () => {
+  describe.skip('app', () => {
     test('graphQl', async () => {
       testCrud(`app/graph-ql/${aggregate}.resolver.ts`);
       testCrud(`app/graph-ql/${aggregate}.type.ts`);
     });
   });
 
-  test('module', async () => {
+  test.skip('module', async () => {
     testCrud(`src/context/${aggregate}/${aggregate}.module.ts`);
   });
-  describe('test', () => {
+  describe.skip('test', () => {
     test('graph-ql features', async () => {
       testCrud(`test/features/${aggregate}/delete.feature`);
       testCrud(`test/features/${aggregate}/find-by-id.feature`);

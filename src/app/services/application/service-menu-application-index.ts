@@ -49,7 +49,7 @@ export class ServiceMenuApplicationIndexRender extends AbstractServiceResponse {
 
   private renderIndex(handlers: any[], services: any[], aggregate: Aggregate) {
     const generateFile = this.language.classFileWithOutType(['index']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application']);
+    const generatefolder = this.folderPath(aggregate).application;
 
     Render.generate(
       {

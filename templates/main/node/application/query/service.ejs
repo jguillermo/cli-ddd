@@ -3,14 +3,12 @@ import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
 import { <%= classResponse %> } from '../<%= fileResponse %>';
 <%_ if (templateRender === "findById") { _%>
 <%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
 <%_ }); _%>
 <%_ }else{ _%>
 import { <%= classListResponse %> } from '../<%= fileListResponse %>';
 import { FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
-<%_ parentType.forEach(function(type){ _%>
-import { <%= type %> } from 'base-ddd/dist/ValueObject/Implement/<%= type %>';
-<%_ }); _%>
+import { <%= classDto %> } from './<%= fileDto %>';
 <%_ } _%>
 
 @Injectable()
@@ -26,24 +24,14 @@ export class <%= className %> {
     return <%= classResponse %>.fromAggregate(<%= aggregate.name.propertie %>);
   }
   <%_ }else{ _%>
-  public async execute(
-    <%_ properties.forEach(function(e){ _%>
-    <%= e.propertie.name.value %>: <%= e.parentTypeImp %>,
-    <%_ }); _%>
-    paginator: PaginatorTypeImp,
-    order: OrderTypeImp,
-  ): Promise<<%= classListResponse %>> {
+  public async execute(dto: <%= classDto %>, paginator: PaginatorTypeImp, order: OrderTypeImp): Promise<<%= classListResponse %>> {
     const list<%= aggregate.name.value %> = await this.repository.findAll(
       [
         <%_ properties.forEach(function(e){ _%>
         {
           field: '<%= e.propertie.name.value %>',
           opStr: FilterOpStr.EQUAL_TO,
-          <%_ if (e.primitivePropertie.type.isDate || e.primitivePropertie.type.isNumber) { _%>
-          value: <%= e.propertie.name.value %>.toString,
-          <%_ }else{ _%>
-          value: <%= e.propertie.name.value %>.value,
-          <%_ } _%>
+          value: dto.<%= e.propertie.name.value %>,
         },
         <%_ }); _%>
       ],

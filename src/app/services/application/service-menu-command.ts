@@ -109,7 +109,7 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
   private renderDto(aggregate: Aggregate, properties: WPropertie[], commandName: string, templateRender: string) {
     const className = this.language.className([aggregate.name.value, commandName, 'Dto']);
     const generateFile = this.language.classFile([aggregate.name.value, commandName, 'Dto']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
+    const generatefolder = this.folderPath(aggregate, [commandName]).application;
 
     const propertiesDto = properties.map((e) => {
       let ePrimitive = e.primitive;
@@ -146,7 +146,7 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
     let generateFile = this.language.classFile([aggregate.name.value, commandName, 'Dto'], false);
     generateFile = `${generateFile}.spec${this.language.dotExt()}`;
 
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
+    const generatefolder = this.folderPath(aggregate, [commandName]).application;
 
     const propertiesString = properties.map((e) => {
       let valuePrimitive: any = 'WIP';
@@ -195,7 +195,7 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
 
     const className = this.language.className([aggregate.name.value, commandName, 'handler']);
     const generateFile = this.language.classFile([aggregate.name.value, commandName, 'handler']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
+    const generatefolder = this.folderPath(aggregate, [commandName]).application;
 
     Render.generate({
       templateFile: `${this.templatePath}handler.ejs`,
@@ -221,7 +221,7 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
 
     const className = this.language.className([aggregate.name.value, commandName, 'service']);
     const generateFile = this.language.classFile([aggregate.name.value, commandName, 'service']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application', commandName]);
+    const generatefolder = this.folderPath(aggregate, [commandName]).application;
 
     const propertiesWithoutId = properties.filter((e) => e.propertie.name.value !== 'id');
 
