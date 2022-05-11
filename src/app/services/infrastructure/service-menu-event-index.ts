@@ -29,7 +29,7 @@ export class ServiceMenuEventIndexRender extends AbstractServiceResponse {
 
   private listEvent(aggregate: Aggregate): any[] {
     const eventsList = [];
-    const pathEvents = path.join(storage.get('pathRender'), aggregate.path.value, 'infrastructure', 'event');
+    const pathEvents = path.join(storage.get('pathRender'), aggregate.path.before, 'src', 'context', aggregate.path.value, 'infrastructure', 'event');
     Render.fromDir(pathEvents, /\.ts$/, function (fullFilePath) {
       const fileWithoutExt = path.basename(fullFilePath).replace('.ts', '');
       if (fileWithoutExt !== 'index') {

@@ -3,13 +3,13 @@ import { AggregateRoot } from 'base-ddd';
 import { <%= e.propertie.className %> } from './<%= e.file %>';
 <%_ }); _%>
 <%_ if (events.create) { _%>
-import { <%= classEventCreated %> } from './<%= fileEventCreated %>';
+import { <%= classEventCreated %> } from '../event/<%= fileEventCreated %>';
 <%_ } _%>
 <%_ if (events.update) { _%>
-import { <%= classEventUpdated %> } from './<%= fileEventUpdated %>';
+import { <%= classEventUpdated %> } from '../event/<%= fileEventUpdated %>';
 <%_ } _%>
 <%_ if (events.delete) { _%>
-import { <%= classEventDeleted %> } from './<%= fileEventDeleted %>';
+import { <%= classEventDeleted %> } from '../event/<%= fileEventDeleted %>';
 <%_ } _%>
 
 export class <%= className %> extends AggregateRoot {

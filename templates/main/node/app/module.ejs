@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { <%= classFirestoreRepository %> } from './infrastructure/persistence/<%= fileFirestoreRepository %>';
 import { <%= classRepository %> } from './domain/<%= fileRepository %>';
 import { ShareModule } from '../share/share.module';
-import { <%= classResolver %> } from './infrastructure/graph-ql/<%= fileResolver %>';
+import { <%= classResolver %> } from '../../app/graph-ql/<%= fileAggregate %>/<%= fileResolver %>';
 import { AppEvents } from './infrastructure/event';
 import { ApplicationHandlers, ApplicationServices } from './application';
+import { <%= classFirestoreRepository %> } from './infrastructure/persistence/firestore/<%= fileFirestoreRepository %>';
 
 @Module({
   imports: [CqrsModule, ShareModule],

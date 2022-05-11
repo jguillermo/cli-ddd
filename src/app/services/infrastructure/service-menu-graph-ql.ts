@@ -39,7 +39,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   private renderType(aggregate: Aggregate, properties: WPropertie[]) {
     const className = this.language.className([aggregate.name.value, 'type']);
     const generateFile = this.language.classFile([aggregate.name.value, 'type']);
-    const generatefolder = this.folderPath(aggregate, ['graphQl']).infrastructure;
+    const generatefolder = this.folderPath(aggregate).appGraphQl;
 
     const enumProperties = properties.filter((e) => e.primitivePropertie.type.isEnum);
 
@@ -62,6 +62,9 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   }
 
   private renderResolver(aggregate: Aggregate, properties: WPropertie[]) {
+
+    const { fileAggregate } = this.resources(aggregate);
+
     const classType = this.language.className([aggregate.name.value, 'type']);
     const fileType = this.language.classFile([aggregate.name.value, 'type'], false);
 
@@ -80,12 +83,12 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const classAggregateResponse = this.language.className([aggregate.name.value, 'Response']);
     const fileAggregateResponse = this.language.classFile([aggregate.name.value, 'Response'], false);
 
-    const classListAggregateResponse = this.language.className(['list', aggregate.name.value, 'Response']);
-    const fileListAggregateResponse = this.language.classFile(['list', aggregate.name.value, 'Response'], false);
+    const classListAggregateResponse = this.language.className([aggregate.name.value, 'list', 'Response']);
+    const fileListAggregateResponse = this.language.classFile([aggregate.name.value, 'list', 'Response'], false);
 
     const className = this.language.className([aggregate.name.value, 'Resolver']);
     const generateFile = this.language.classFile([aggregate.name.value, 'Resolver']);
-    const generatefolder = this.folderPath(aggregate, ['graphQl']).infrastructure;
+    const generatefolder = this.folderPath(aggregate).appGraphQl;
 
     Render.generate({
       templateFile: `${this.templatePath}/resolver.ejs`,
@@ -107,6 +110,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
         aggregate,
         className,
         properties,
+        fileAggregate,
         classResultPersist: `Result${aggregate.name.value}Persist`,
       },
       generatefolder,

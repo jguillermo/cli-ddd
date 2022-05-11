@@ -34,12 +34,12 @@ describe(`${aggregate} CRUD`, () => {
       testCrud(`src/context/${aggregate}/application/index.ts`);
     });
     test('response', async () => {
-      testCrud(`src/context/${aggregate}/application/list-${aggregate}.response.ts`);
+      testCrud(`src/context/${aggregate}/application/${aggregate}-list.response.ts`);
       testCrud(`src/context/${aggregate}/application/${aggregate}.response.ts`);
     });
   });
 
-  describe.skip('domain', () => {
+  describe('domain', () => {
     test('repository', async () => {
       testCrud(`src/context/${aggregate}/domain/${aggregate}.repository.ts`);
     });
@@ -57,12 +57,12 @@ describe(`${aggregate} CRUD`, () => {
     });
   });
 
-  describe.skip('infrastructure', () => {
+  describe('infrastructure', () => {
     test('event', async () => {
-      testCrud(`src/context/${aggregate}/infrastructure/event/index.ts`);
       testCrud(`src/context/${aggregate}/infrastructure/event/resource-on-${aggregate}-created.ts`);
       testCrud(`src/context/${aggregate}/infrastructure/event/resource-on-${aggregate}-deleted.ts`);
       testCrud(`src/context/${aggregate}/infrastructure/event/resource-on-${aggregate}-updated.ts`);
+      testCrud(`src/context/${aggregate}/infrastructure/event/index.ts`);
     });
     test('persistence', async () => {
       testCrud(`src/context/${aggregate}/infrastructure/persistence/firestore/${aggregate}.dao.ts`);
@@ -70,17 +70,17 @@ describe(`${aggregate} CRUD`, () => {
     });
   });
 
-  describe.skip('app', () => {
+  describe('app', () => {
     test('graphQl', async () => {
-      testCrud(`app/graph-ql/${aggregate}.resolver.ts`);
-      testCrud(`app/graph-ql/${aggregate}.type.ts`);
+      testCrud(`src/app/graph-ql/${aggregate}/${aggregate}.resolver.ts`);
+      testCrud(`src/app/graph-ql/${aggregate}/${aggregate}.type.ts`);
     });
   });
 
-  test.skip('module', async () => {
+  test('module', async () => {
     testCrud(`src/context/${aggregate}/${aggregate}.module.ts`);
   });
-  describe.skip('test', () => {
+  describe('test', () => {
     test('graph-ql features', async () => {
       testCrud(`test/features/${aggregate}/delete.feature`);
       testCrud(`test/features/${aggregate}/find-by-id.feature`);

@@ -30,7 +30,12 @@ export class ServiceMenuApplicationIndexRender extends AbstractServiceResponse {
 
   private listFiles(regex: any, aggregate: Aggregate): any[] {
     const eventsList = [];
-    const pathEvents = path.join(storage.get('pathRender'), aggregate.path.value, 'application');
+    const pathEvents = path.join(storage.get('pathRender'), aggregate.path.before, 'src', 'context', aggregate.path.value, 'application');
+    console.log(pathEvents);
+    console.log(pathEvents);
+    console.log(pathEvents);
+    console.log(pathEvents);
+    console.log(pathEvents);
     Render.fromDir(pathEvents, regex, function (fullFilePath) {
       const fileDirName = path.dirname(fullFilePath).split('/');
       const fileWithoutExt = path.basename(fullFilePath).replace('.ts', '');

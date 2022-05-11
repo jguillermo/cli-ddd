@@ -40,7 +40,7 @@ export interface GenerateResourcesData {
 
 export interface GenerateFolderPath {
   module: string;
-  app: string;
+  appGraphQl: string;
   domain: string;
   application: string;
   infrastructure: string;
@@ -57,7 +57,7 @@ export abstract class AbstractServiceResponse {
 
   protected folderPath(aggregate: Aggregate, after: string[] = []): GenerateFolderPath {
     return {
-      app: this.language.folderPath([aggregate.path.before, 'src', 'app', 'graphQl', aggregate.path.value, ...after]),
+      appGraphQl: this.language.folderPath([aggregate.path.before, 'src', 'app', 'graphQl', aggregate.path.value, ...after]),
       module: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, ...after]),
       domain: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, 'domain', ...after]),
       application: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, 'application', ...after]),

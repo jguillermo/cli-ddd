@@ -1,14 +1,14 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { <%= classResultPersist %>, <%= classType %> } from './<%= fileType %>';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ResponseStatus } from '../../../share/application/applicationResponse';
-import { StatusType } from '../../../share/app/status.type';
-import { <%= classFindByIdDto %> } from '../../application/<%= fileFindByIdDto %>';
-import { <%= classPersistDto %> } from '../../application/<%= filePersistDto %>';
-import { <%= classDeleteDto %> } from '../../application/<%= fileDeleteDto %>';
-import { <%= classListDto %> } from '../../application/<%= fileListDto %>';
-import { <%= classAggregateResponse %> } from '../../application/<%= fileAggregateResponse %>';
-import { <%= classListAggregateResponse %> } from '../../application/<%= fileListAggregateResponse %>';
+import { ResponseStatus } from '../../../context/share/application/applicationResponse';
+import { StatusType } from '../../../context/share/app/status.type';
+import { <%= classFindByIdDto %> } from '../../../context/<%= fileAggregate %>/application/<%= fileFindByIdDto %>';
+import { <%= classPersistDto %> } from '../../../context/<%= fileAggregate %>/application/<%= filePersistDto %>';
+import { <%= classDeleteDto %> } from '../../../context/<%= fileAggregate %>/application/<%= fileDeleteDto %>';
+import { <%= classListDto %> } from '../../../context/<%= fileAggregate %>/application/<%= fileListDto %>';
+import { <%= classAggregateResponse %> } from '../../../context/<%= fileAggregate %>/application/<%= fileAggregateResponse %>';
+import { <%= classListAggregateResponse %> } from '../../../context/<%= fileAggregate %>/application/<%= fileListAggregateResponse %>';
 
 @Resolver(() => <%= classType %>)
 export class <%= className %> {

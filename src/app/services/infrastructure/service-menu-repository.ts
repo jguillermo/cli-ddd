@@ -54,7 +54,7 @@ export class ServiceMenuRepositoryRender extends AbstractServiceResponse {
   private renderInfratructureDao(aggregate: Aggregate, properties: WPropertie[]) {
     const className = this.language.className([aggregate.name.value, 'Dao']);
     const generateFile = this.language.classFile([aggregate.name.value, 'Dao']);
-    const generatefolder = this.folderPath(aggregate, ['persistence']).infrastructure;
+    const generatefolder = this.folderPath(aggregate, ['persistence', 'firestore']).infrastructure;
 
     Render.generate({
       templateFile: `${this.templatePath}/infrastructure/persistence/firestore/dao.ejs`,
@@ -78,7 +78,7 @@ export class ServiceMenuRepositoryRender extends AbstractServiceResponse {
 
     const className = this.language.className([aggregate.name.value, 'firestore', 'repository']);
     const generateFile = this.language.classFile([aggregate.name.value, 'firestore', 'repository']);
-    const generatefolder = this.folderPath(aggregate, ['persistence']).infrastructure;
+    const generatefolder = this.folderPath(aggregate, ['persistence', 'firestore']).infrastructure;
 
     Render.generate({
       templateFile: `${this.templatePath}/infrastructure/persistence/firestore/firestore.ejs`,
