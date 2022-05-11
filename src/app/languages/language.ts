@@ -17,6 +17,10 @@ export interface LanguageInterface {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
+  classFileTestFeature(names: string[]): string;
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   classFileWithOutType(names: string[], addType: boolean = false): string;
 
   folderPath(paths: string[]): string;

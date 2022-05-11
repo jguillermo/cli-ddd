@@ -62,7 +62,7 @@ export abstract class AbstractServiceResponse {
       domain: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, 'domain', ...after]),
       application: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, 'application', ...after]),
       infrastructure: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.path.value, 'infrastructure', ...after]),
-      testFeatures: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.pathTest.value, ...after]),
+      testFeatures: this.language.folderPath([aggregate.path.before, 'test', 'features', aggregate.pathTest.value, ...after]),
       testInfrastructure: this.language.folderPath([aggregate.path.before, 'src', 'context', aggregate.pathTest.value, ...after]),
     };
   }

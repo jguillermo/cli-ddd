@@ -1,7 +1,7 @@
-Feature: Delete User
-  In order to delete user
+Feature: Delete <%= aggregate.name.value %>
+  In order to delete <%= aggregatePropertie %>
   As an user
-  I need to be able to delete User
+  I need to be able to delete <%= aggregate.name.value %>
 
   Background:
   Given I have the following data on collection "companies"
@@ -9,17 +9,17 @@ Feature: Delete User
     [
       {
         "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "User A"
+        "name": "<%= aggregate.name.value %> A"
       }
     ]
     """
 
 
-  Scenario: delete one user
+  Scenario: delete one <%= aggregatePropertie %>
     Given I make a request to graphql
     """
     mutation{
-      userDelete(id:"daf673b7-b1ba-415e-ac5e-04848e5e2e5f"){
+      <%= graphQlService %>(id:"daf673b7-b1ba-415e-ac5e-04848e5e2e5f"){
         status
       }
     }
@@ -28,7 +28,7 @@ Feature: Delete User
     """
     {
       "data": {
-        "userDelete": {
+        "<%= graphQlService %>": {
             "status": "ok"
          }
       }
@@ -37,11 +37,11 @@ Feature: Delete User
     Then response should have a status 200
 
 
-  Scenario: delete user not exist
+  Scenario: delete <%= aggregatePropertie %> not exist
     Given I make a request to graphql
     """
     mutation{
-      userDelete(id:"daf673b7-b1ba-415e-ac5e-04848e5e2e6f"){
+      <%= graphQlService %>(id:"daf673b7-b1ba-415e-ac5e-04848e5e2e6f"){
         status
       }
     }
@@ -50,7 +50,7 @@ Feature: Delete User
     """
     {
       "data": {
-        "userDelete": {
+        "<%= graphQlService %>": {
             "status": "ok"
          }
       }

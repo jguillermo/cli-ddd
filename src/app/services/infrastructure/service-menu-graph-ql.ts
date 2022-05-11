@@ -32,6 +32,12 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     this.renderTest(aggregate, properties, 'findById');
     this.renderTest(aggregate, properties, 'list');
     this.renderTest(aggregate, properties, 'persist');
+
+    this.renderFeature(aggregate, properties, 'delete');
+    this.renderFeature(aggregate, properties, 'findById');
+    this.renderFeature(aggregate, properties, 'list');
+    this.renderFeature(aggregate, properties, 'persist');
+
     this.renderObjectMother(aggregate, properties);
     this.renderE2eModule(aggregate, properties);
   }
@@ -62,7 +68,6 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   }
 
   private renderResolver(aggregate: Aggregate, properties: WPropertie[]) {
-
     const { fileAggregate } = this.resources(aggregate);
 
     const classType = this.language.className([aggregate.name.value, 'type']);
@@ -144,6 +149,50 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
 
     Render.generate({
       templateFile: `${this.language.language()}/test/graph-ql/${typeFile}.ejs`,
+      templateData: {
+        aggregatePropertieRepository,
+        aggregatePropertieId,
+        aggregatePropertieDb,
+        graphQlService,
+        aggregatePropertie,
+        classMother,
+        classRepository,
+        fileRepository,
+        aggregate,
+        properties,
+        classResultPersist: `Result${aggregate.name.value}Persist`,
+      },
+      generatefolder,
+      generateFile,
+    });
+  }
+
+  private renderFeature(aggregate: Aggregate, properties: WPropertie[], type: string) {
+    const typeTest = this.language.className([type]);
+    const typeFile = this.language.classFileTestWithOutType([type], false);
+
+    const classMother = this.language.className([aggregate.name.value, 'Mother']);
+
+    const classRepository = this.language.className([aggregate.name.value, 'Repository']);
+    const fileRepository = this.language.classFile([aggregate.name.value, 'Repository'], false);
+
+    const generateFile = this.language.classFileTestFeature([type]);
+    const generatefolder = this.folderPath(aggregate).testFeatures;
+
+    const aggregatePropertie = aggregate.name.propertie;
+    const aggregatePropertieDb = `${aggregatePropertie}Db`;
+    const aggregatePropertieId = `${aggregatePropertie}.id`;
+    const aggregatePropertieRepository = `${aggregatePropertie}Repository`;
+
+    let graphQlService = `${aggregatePropertie}${typeTest}`;
+    if (typeTest === 'FindById') {
+      graphQlService = `${aggregatePropertie}`;
+    }
+
+    properties[0].propertie.name.value;
+
+    Render.generate({
+      templateFile: `${this.language.language()}/test/feature/${typeFile}-feature.ejs`,
       templateData: {
         aggregatePropertieRepository,
         aggregatePropertieId,

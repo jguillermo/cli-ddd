@@ -1,25 +1,25 @@
-Feature: find User by id
-  In order to find user by id
-  As an user
-  I need to be able to find one User
+Feature: find <%= aggregate.name.value %> by id
+  In order to find <%= aggregatePropertie %> by id
+  As an utser
+  I need to be able to find one <%= aggregate.name.value %>
 
   Background:
-  Given I have the following data on collection "users"
+  Given I have the following data on collection "<%= aggregatePropertie %>s"
   """
     [
       {
         "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "User A"
+        "name": "<%= aggregate.name.value %> A"
       }
     ]
     """
 
 
-  Scenario: find one user
+  Scenario: find one <%= aggregatePropertie %>
     Given I make a request to graphql
     """
     query{
-      user(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"){
+      <%= graphQlService %>(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"){
         id
         name
       }
@@ -29,9 +29,9 @@ Feature: find User by id
     """
     {
       "data": {
-        "user": {
+        "<%= graphQlService %>": {
             "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-            "name": "User A"
+            "name": "<%= aggregate.name.value %> A"
          }
       }
     }
@@ -39,11 +39,11 @@ Feature: find User by id
     Then response should have a status 200
 
 
-  Scenario: find user not exist
+  Scenario: find <%= aggregatePropertie %> not exist
     Given I make a request to graphql
     """
     query{
-      user(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e6f"){
+      <%= graphQlService %>(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e6f"){
         id
         name
       }
@@ -53,7 +53,7 @@ Feature: find User by id
     """
     {
       "data": {
-        "user": null
+        "<%= graphQlService %>": null
       }
     }
     """
