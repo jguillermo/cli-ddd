@@ -10,83 +10,88 @@ describe(`${aggregate} CRUD`, () => {
   });
   describe('application', () => {
     test('delete', async () => {
-      testCrud(`src/${aggregate}/application/delete/${aggregate}-delete.dto.ts`);
-      testCrud(`src/${aggregate}/application/delete/${aggregate}-delete.handler.ts`);
-      testCrud(`src/${aggregate}/application/delete/${aggregate}-delete.service.ts`);
+      testCrud(`src/context/${aggregate}/application/delete/${aggregate}-delete.dto.ts`);
+      testCrud(`src/context/${aggregate}/application/delete/${aggregate}-delete.handler.ts`);
+      testCrud(`src/context/${aggregate}/application/delete/${aggregate}-delete.service.ts`);
     });
     test('findById', async () => {
-      testCrud(`src/${aggregate}/application/find-by-id/${aggregate}-find-by-id.dto.ts`);
-      testCrud(`src/${aggregate}/application/find-by-id/${aggregate}-find-by-id.handler.ts`);
-      testCrud(`src/${aggregate}/application/find-by-id/${aggregate}-find-by-id.service.ts`);
+      testCrud(`src/context/${aggregate}/application/find-by-id/${aggregate}-find-by-id.dto.ts`);
+      testCrud(`src/context/${aggregate}/application/find-by-id/${aggregate}-find-by-id.handler.ts`);
+      testCrud(`src/context/${aggregate}/application/find-by-id/${aggregate}-find-by-id.service.ts`);
     });
     test('list', async () => {
-      testCrud(`src/${aggregate}/application/list/${aggregate}-list.dto.ts`);
-      testCrud(`src/${aggregate}/application/list/${aggregate}-list.handler.ts`);
-      testCrud(`src/${aggregate}/application/list/${aggregate}-list.service.ts`);
+      testCrud(`src/context/${aggregate}/application/list/${aggregate}-list.dto.ts`);
+      testCrud(`src/context/${aggregate}/application/list/${aggregate}-list.handler.ts`);
+      testCrud(`src/context/${aggregate}/application/list/${aggregate}-list.service.ts`);
     });
     test('persist', async () => {
-      testCrud(`src/${aggregate}/application/persist/${aggregate}-persist.dto.spec.ts`);
-      testCrud(`src/${aggregate}/application/persist/${aggregate}-persist.dto.ts`);
-      testCrud(`src/${aggregate}/application/persist/${aggregate}-persist.handler.ts`);
-      testCrud(`src/${aggregate}/application/persist/${aggregate}-persist.service.ts`);
+      testCrud(`src/context/${aggregate}/application/persist/${aggregate}-persist.dto.spec.ts`);
+      testCrud(`src/context/${aggregate}/application/persist/${aggregate}-persist.dto.ts`);
+      testCrud(`src/context/${aggregate}/application/persist/${aggregate}-persist.handler.ts`);
+      testCrud(`src/context/${aggregate}/application/persist/${aggregate}-persist.service.ts`);
     });
     test('index', async () => {
-      testCrud(`src/${aggregate}/application/index.ts`);
+      testCrud(`src/context/${aggregate}/application/index.ts`);
     });
     test('response', async () => {
-      testCrud(`src/${aggregate}/application/list-${aggregate}.response.ts`);
-      testCrud(`src/${aggregate}/application/${aggregate}.response.ts`);
+      testCrud(`src/context/${aggregate}/application/list-${aggregate}.response.ts`);
+      testCrud(`src/context/${aggregate}/application/${aggregate}.response.ts`);
     });
   });
 
   describe('domain', () => {
     test('repository', async () => {
-      testCrud(`src/${aggregate}/domain/${aggregate}.repository.ts`);
+      testCrud(`src/context/${aggregate}/domain/${aggregate}.repository.ts`);
     });
     test('aggregate', async () => {
-      testCrud(`src/${aggregate}/domain/${aggregate}.ts`);
+      testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}.ts`);
     });
     test('event', async () => {
-      testCrud(`src/${aggregate}/domain/${aggregate}-created.event.ts`);
-      testCrud(`src/${aggregate}/domain/${aggregate}-deleted.event.ts`);
-      testCrud(`src/${aggregate}/domain/${aggregate}-updated.event.ts`);
+      testCrud(`src/context/${aggregate}/domain/event/${aggregate}-created.event.ts`);
+      testCrud(`src/context/${aggregate}/domain/event/${aggregate}-deleted.event.ts`);
+      testCrud(`src/context/${aggregate}/domain/event/${aggregate}-updated.event.ts`);
     });
     test('properties', async () => {
-      testCrud(`src/${aggregate}/domain/${aggregate}-id.ts`);
-      testCrud(`src/${aggregate}/domain/${aggregate}-name.ts`);
+      testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-id.ts`);
+      testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-name.ts`);
     });
   });
 
   describe('infrastructure', () => {
     test('event', async () => {
-      testCrud(`src/${aggregate}/infrastructure/event/index.ts`);
-      testCrud(`src/${aggregate}/infrastructure/event/resource-on-${aggregate}-created.ts`);
-      testCrud(`src/${aggregate}/infrastructure/event/resource-on-${aggregate}-deleted.ts`);
-      testCrud(`src/${aggregate}/infrastructure/event/resource-on-${aggregate}-updated.ts`);
-    });
-    test('graphQl', async () => {
-      testCrud(`src/${aggregate}/infrastructure/graph-ql/${aggregate}.resolver.ts`);
-      testCrud(`src/${aggregate}/infrastructure/graph-ql/${aggregate}.type.ts`);
+      testCrud(`src/context/${aggregate}/infrastructure/event/index.ts`);
+      testCrud(`src/context/${aggregate}/infrastructure/event/resource-on-${aggregate}-created.ts`);
+      testCrud(`src/context/${aggregate}/infrastructure/event/resource-on-${aggregate}-deleted.ts`);
+      testCrud(`src/context/${aggregate}/infrastructure/event/resource-on-${aggregate}-updated.ts`);
     });
     test('persistence', async () => {
-      testCrud(`src/${aggregate}/infrastructure/persistence/${aggregate}.dao.ts`);
-      testCrud(`src/${aggregate}/infrastructure/persistence/${aggregate}-firestore.repository.ts`);
+      testCrud(`src/context/${aggregate}/infrastructure/persistence/firestore/${aggregate}.dao.ts`);
+      testCrud(`src/context/${aggregate}/infrastructure/persistence/firestore/${aggregate}-firestore.repository.ts`);
+    });
+  });
+
+  describe('app', () => {
+    test('graphQl', async () => {
+      testCrud(`app/graph-ql/${aggregate}.resolver.ts`);
+      testCrud(`app/graph-ql/${aggregate}.type.ts`);
     });
   });
 
   test('module', async () => {
-    testCrud(`src/${aggregate}/${aggregate}.module.ts`);
+    testCrud(`src/context/${aggregate}/${aggregate}.module.ts`);
   });
   describe('test', () => {
-    test('graph-ql', async () => {
-      testCrud(`test/${aggregate}/graph-ql/${aggregate}-delete.e2e-spec.ts`);
-      testCrud(`test/${aggregate}/graph-ql/${aggregate}-find-by-id.e2e-spec.ts`);
-      testCrud(`test/${aggregate}/graph-ql/${aggregate}-list.e2e-spec.ts`);
-      testCrud(`test/${aggregate}/graph-ql/${aggregate}-persist.e2e-spec.ts`);
-      testCrud(`test/${aggregate}/graph-ql/${aggregate}-e2e-module.ts`);
+    test('graph-ql features', async () => {
+      testCrud(`test/features/${aggregate}/delete.feature`);
+      testCrud(`test/features/${aggregate}/find-by-id.feature`);
+      testCrud(`test/features/${aggregate}/list.feature`);
+      testCrud(`test/features/${aggregate}/persist.feature`);
     });
-    test('object-mother', async () => {
-      testCrud(`test/${aggregate}/${aggregate}-object-mother.ts`);
+
+    test('infrastructure', async () => {
+      testCrud(`test/infrastructure/${aggregate}/persistence/${aggregate}-object-mother.ts`);
+      testCrud(`test/infrastructure/${aggregate}/persistence/${aggregate}-repository.e2e-spec.ts`);
+      //testCrud(`test/infrastructure/testing-e2e-module.ts`);
     });
   });
 });

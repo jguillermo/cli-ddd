@@ -3,7 +3,7 @@ import { cleanRender, DDD, menu, MenuPropertie, run, testCrud } from '../load-cm
 const aggregate = 'product';
 
 const MENU = menu(MenuPropertie.PRODUCT, DDD.APP_CRUD);
-describe(`${aggregate} CRUD`, () => {
+describe.skip(`${aggregate} CRUD`, () => {
   beforeAll(async () => {
     cleanRender();
     await run(MENU);
