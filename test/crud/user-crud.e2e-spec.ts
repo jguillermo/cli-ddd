@@ -103,7 +103,7 @@ describe(`${aggregate} CRUD`, () => {
       test('repository', async () => {
         testCrud(`test/infrastructure/${aggregate}/persistence/${aggregate}-repository.e2e-spec.ts`);
       });
-      test('repository', async () => {
+      test('module', async () => {
         testCrud(`test/infrastructure/${aggregate}/${aggregate}-e2e-module.ts`);
       });
     });

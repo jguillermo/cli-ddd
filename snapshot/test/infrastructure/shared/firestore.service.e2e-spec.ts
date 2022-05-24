@@ -1,6 +1,6 @@
 import { FirestoreService } from '../../../src/context/share/infrastructure/firestore/firestore.service';
 import { FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
-import { TestingE2eModule } from '../testing-e2e-module';
+import { FirestoreE2eModule } from './firestore-e2e-module';
 
 const collection = 'testcoll';
 
@@ -25,7 +25,7 @@ describe('FirestoreService (infrastructure)', () => {
   }
 
   beforeEach(async () => {
-    ({ firestoreService } = await TestingE2eModule.create());
+    ({ firestoreService } = await FirestoreE2eModule.create());
     const result = await firestoreService.findAll(collection, [], PaginatorTypeImp.empty(), OrderTypeImp.empty());
     for await (const item of result) {
       await firestoreService.delete(collection, item.id);

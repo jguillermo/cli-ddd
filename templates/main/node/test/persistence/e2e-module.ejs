@@ -1,9 +1,7 @@
-import { INestApplication } from '@nestjs/common';
-import { TestingE2eModule } from '../../testing-e2e-module';
-import { <%= classRepository %> } from '../../../src/<%= fileAggregate %>/domain/<%= fileRepository %>';
+import { TestingE2eModule } from '../testing-e2e-module';
+import { <%= classRepository %> } from '../../../src/context/<%= fileAggregate %>/domain/<%= fileRepository %>';
 
 export interface <%= testingInterface %> {
-  app: INestApplication;
   <%= propertieRepository %>: <%= classRepository %>;
 }
 
@@ -12,7 +10,6 @@ export class <%= classE2eModule %> extends TestingE2eModule {
     const module = new <%= classE2eModule %>();
     await module.init();
     return {
-      app: module.app,
       <%= propertieRepository %>: module.moduleFixture.get<<%= classRepository %>>(<%= classRepository %>),
     };
   }

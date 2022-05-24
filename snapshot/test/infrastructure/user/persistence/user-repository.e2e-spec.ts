@@ -1,11 +1,11 @@
 import { UserRepository } from '../../../../src/context/user/domain/user.repository';
 import { UserMother } from './user-object-mother';
-import { TestingE2eModule } from '../../testing-e2e-module';
+import { UserE2eModule } from '../user-e2e-module';
 
 describe('User persistence', () => {
   let repository: UserRepository;
   beforeEach(async () => {
-    ({ userRepository: repository } = await TestingE2eModule.create());
+    ({ userRepository: repository } = await UserE2eModule.create());
     const items = await repository.findAll();
     for await (const item of items) {
       await repository.deleteById(item.id);

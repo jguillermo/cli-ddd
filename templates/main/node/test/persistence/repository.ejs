@@ -1,11 +1,11 @@
 import { <%= classRepository %> } from '../../../../src/context/<%= aggregatePropertie %>/domain/<%= fileRepository %>';
 import { <%= classObjectMother %> } from './<%= fileObjectMother %>';
-import { TestingE2eModule } from '../../testing-e2e-module';
+import { <%= classE2eModule %> } from '../<%= fileE2eModule %>';
 
 describe('<%= aggregateName %> persistence', () => {
   let repository: <%= classRepository %>;
   beforeEach(async () => {
-    ({ <%= aggregatePropertieRepository %>: repository } = await TestingE2eModule.create());
+    ({ <%= aggregatePropertieRepository %>: repository } = await <%= classE2eModule %>.create());
     const items = await repository.findAll();
     for await (const item of items) {
       await repository.deleteById(item.id);
