@@ -1,7 +1,7 @@
-Feature: Delete User
-  In order to delete user
+Feature: find User by id
+  In order to find user by id
   As an user
-  I need to be able to delete User
+  I need to be able to find one User
 
   Background:
   Given I have the following data on collection "users"
@@ -9,18 +9,19 @@ Feature: Delete User
     [
       {
         "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "Name"
+        "name": "User A"
       }
     ]
     """
 
 
-  Scenario: delete one user
+  Scenario: find one user
     Given I make a request to graphql
     """
-    mutation{
-      userDelete(id:"daf673b7-b1ba-415e-ac5e-04848e5e2e5f"){
-        status
+    query{
+      user(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"){
+        id
+        name
       }
     }
     """
@@ -28,22 +29,23 @@ Feature: Delete User
     """
     {
       "data": {
-        "userDelete": {
-            "status": "ok"
+        "user": {
+            "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
+            "name": "User A"
          }
       }
     }
     """
     Then response should have a status 200
-    And I validate empty data on collection "users"
 
 
-  Scenario: delete user not exist
+  Scenario: find user not exist
     Given I make a request to graphql
     """
-    mutation{
-      userDelete(id:"daf673b7-b1ba-415e-ac5e-04848e5e2e6f"){
-        status
+    query{
+      user(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e6f"){
+        id
+        name
       }
     }
     """
@@ -51,9 +53,7 @@ Feature: Delete User
     """
     {
       "data": {
-        "userDelete": {
-            "status": "ok"
-         }
+        "user": null
       }
     }
     """

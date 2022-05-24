@@ -9,7 +9,7 @@ Feature: Persist User
     mutation{
       userPersist(
         id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"
-        name: "Name"
+        name: "User A"
       ){
         ...on Status{
           status
@@ -37,7 +37,7 @@ Feature: Persist User
     [
       {
         "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "Name"
+        "name": "User A"
       }
     ]
     """
@@ -48,7 +48,7 @@ Feature: Persist User
     mutation{
       userPersist(
         id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"
-        name: "Name"
+        name: "User A"
         showEntity: true
       ){
         ...on Status{
@@ -67,7 +67,7 @@ Feature: Persist User
       "data": {
         "userPersist": {
            "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-           "name": "Name"
+           "name": "User A"
          }
        }
     }
@@ -78,7 +78,7 @@ Feature: Persist User
     [
       {
         "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "Name"
+        "name": "User A"
       }
     ]
     """
@@ -89,7 +89,7 @@ Feature: Persist User
     [
       {
         "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "Name"
+        "name": "User A"
       }
     ]
     """
@@ -98,7 +98,7 @@ Feature: Persist User
     mutation{
       userPersist(
         id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"
-        name: "NameEdit"
+        name: "User B"
       ){
         ...on Status{
           status
@@ -126,7 +126,7 @@ Feature: Persist User
     [
       {
         "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "NameEdit"
+        "name": "User B"
       }
     ]
     """
