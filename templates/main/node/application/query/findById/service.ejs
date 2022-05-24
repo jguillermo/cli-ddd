@@ -1,0 +1,19 @@
+import { Injectable } from '@nestjs/common';
+import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
+import { <%= classResponse %> } from '../<%= fileResponse %>';
+<%_ properties.forEach(function(e){ _%>
+import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
+<%_ }); _%>
+
+@Injectable()
+export class <%= className %> {
+  constructor(private repository: <%= classRepository %>) {}
+
+  public async execute(<%= strVoProperties %>): Promise<<%= classResponse %> | null> {
+    const <%= aggregate.name.propertie %> = await this.repository.findById(id);
+    if (!<%= aggregate.name.propertie %>) {
+      return null;
+    }
+    return <%= classResponse %>.fromAggregate(<%= aggregate.name.propertie %>);
+  }
+}

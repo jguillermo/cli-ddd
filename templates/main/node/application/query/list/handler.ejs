@@ -1,13 +1,6 @@
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
-<%_ if (templateRender === "findById") { _%>
-import { <%= classResponse %> } from '../<%= fileResponse %>';
-<%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
-<%_ }); _%>
-<%_ }else{ _%>
 import { OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
 import { <%= classListResponse %> } from '../<%= fileListResponse %>';
-<%_ } _%>
 import { <%= classDto %> } from './<%= fileDto %>';
 import { <%= classService %> } from './<%= fileService %>';
 
@@ -15,19 +8,9 @@ import { <%= classService %> } from './<%= fileService %>';
 export class <%= className %> implements IQueryHandler<<%= classDto %>> {
   constructor(private service: <%= classService %>) {}
 
-<%_ if (templateRender === "findById") { _%>
-  async execute(dto: <%= classDto %>): Promise<<%= classResponse %>> {
-    <%_ properties.forEach(function(e){ _%>
-    const <%= e.propertie.name.value %> = new <%= e.propertie.className %>(dto.<%= e.propertie.name.value %>);
-    <%_ }); _%>
-
-    return await this.service.execute(<%= strProperties %>);
-  }
-<%_ }else{ _%>
   async execute(dto: <%= classDto %>): Promise<<%= classListResponse %>> {
     const paginator = PaginatorTypeImp.create(dto.paginator?.page, dto.paginator?.perPage);
     const order = OrderTypeImp.create(dto.order?.field, dto.order?.direction);
     return await this.service.execute(dto, paginator, order);
   }
-<%_ } _%>
 }

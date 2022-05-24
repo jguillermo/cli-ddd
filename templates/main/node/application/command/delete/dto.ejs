@@ -1,8 +1,4 @@
-<%_ if (templateRender==='persist') { _%>
-import { Validate, IsOptional } from 'class-validator';
-<%_ }else{ _%>
 import { Validate } from 'class-validator';
-<%_ } _%>
 import { ArgsType, Field } from '@nestjs/graphql';
 import { DomainValidator } from 'base-ddd';
 import { BaseDto } from '../../../share/application/base.dto';
@@ -21,10 +17,4 @@ export class <%= className %> extends BaseDto {
   @Field()
   <%= e.e.propertie.name.value %>: <%= e.ePrimitive %>;
   <%_ }); _%>
-  <%_ if (templateRender==='persist') { _%>
-
-  @IsOptional()
-  @Field({ nullable: true, defaultValue: false })
-  showEntity?: boolean;
-  <%_ } _%>
 }

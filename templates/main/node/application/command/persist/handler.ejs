@@ -1,0 +1,19 @@
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { <%= classService %> } from './<%= fileService %>';
+import { <%= classDto %> } from './<%= fileDto %>';
+<%_ properties.forEach(function(e){ _%>
+import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
+<%_ }); _%>
+
+@CommandHandler(<%= classDto %>)
+export class <%= className %> implements ICommandHandler<<%= classDto %>> {
+  constructor(private service: <%= classService %>) {}
+
+  async execute(dto: <%= classDto %>): Promise<void> {
+  <%_ properties.forEach(function(e){ _%>
+    const <%= e.propertie.name.value %> = new <%= e.propertie.className %>(dto.<%= e.propertie.name.value %>);
+  <%_ }); _%>
+
+    await this.service.execute(<%= strProperties %>);
+  }
+}

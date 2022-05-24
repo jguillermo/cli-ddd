@@ -1,0 +1,23 @@
+import { validate } from 'class-validator';
+import { <%= classDto %> } from './<%= fileDto %>';
+
+describe('<%= classDto %>', () => {
+  describe('ok', () => {
+    it('all correct', async () => {
+      const dto = new <%= classDto %>();
+      <%_ propertiesString.forEach(function(e){ _%>
+      dto.<%= e.name %> = <%- e.valuePrimitive %>;
+      <%_ }); _%>
+      const errors = await validate(dto);
+      expect(errors.length).toEqual(0);
+    });
+  });
+  describe('error', () => {
+    it('params null', async () => {
+      const dto = new <%= classDto %>();
+      const errors = await validate(dto);
+      expect(errors.length).toEqual(<%= propertiesString.length %>);
+      //console.log(errors);
+    });
+  });
+});

@@ -101,7 +101,7 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
   }
 
   get templatePath(): string {
-    return `${this.language.language()}/application/query/`;
+    return `${this.language.language()}/application/query`;
   }
 
   private renderDto(aggregate: Aggregate, properties: WPropertie[], queryName: string, templateRender: string, parentType: string[]) {
@@ -122,12 +122,11 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
     });
 
     Render.generate({
-      templateFile: `${this.templatePath}dto.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/dto.ejs`,
       templateData: {
         className,
         propertiesDto,
         properties,
-        templateRender,
         parentType,
       },
       generatefolder,
@@ -153,7 +152,7 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
     const generatefolder = this.folderPath(aggregate, [queryName]).application;
 
     Render.generate({
-      templateFile: `${this.templatePath}handler.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/handler.ejs`,
       templateData: {
         classDto,
         fileDto,
@@ -166,7 +165,6 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
         className,
         properties,
         aggregate,
-        templateRender,
         parentType,
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
       },
@@ -176,9 +174,6 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
   }
 
   private renderService(aggregate: Aggregate, properties: WPropertie[], queryName: string, templateRender: string, parentType: string[]) {
-    const classDto = this.language.className([aggregate.name.value, queryName, 'Dto']);
-    const fileDto = this.language.classFile([aggregate.name.value, queryName, 'Dto'], false);
-
     const classRepository = this.language.className([aggregate.name.value, 'repository']);
     const fileRepository = this.language.classFile([aggregate.name.value, 'repository'], false);
 
@@ -188,13 +183,18 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
     const classListResponse = this.language.className([aggregate.name.value, 'list', 'response']);
     const fileListResponse = this.language.classFile([aggregate.name.value, 'list', 'response'], false);
 
+    const classDto = this.language.className([aggregate.name.value, queryName, 'Dto']);
+    const fileDto = this.language.classFile([aggregate.name.value, queryName, 'Dto'], false);
+
     const className = this.language.className([aggregate.name.value, queryName, 'service']);
     const generateFile = this.language.classFile([aggregate.name.value, queryName, 'service']);
 
     const generatefolder = this.folderPath(aggregate, [queryName]).application;
 
+    const propertiesDates = properties.filter((e) => e.primitivePropertie.type.isDate);
+
     Render.generate({
-      templateFile: `${this.templatePath}service.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/service.ejs`,
       templateData: {
         classDto,
         fileDto,
@@ -204,11 +204,11 @@ export class ServiceMenuQueryRender extends AbstractServiceResponse {
         fileResponse,
         classListResponse,
         fileListResponse,
-        templateRender,
         className,
         aggregate,
         properties,
         parentType,
+        hasPropertieDate: propertiesDates.length > 0,
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
         strVoProperties: properties.map((e) => `${e.propertie.name.value}: ${e.propertie.className}`).join(', '),
       },

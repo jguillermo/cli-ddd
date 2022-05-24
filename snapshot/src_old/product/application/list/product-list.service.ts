@@ -2,24 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { ProductRepository } from '../../domain/product.repository';
 import { ProductResponse } from '../product.response';
 import { ListProductResponse } from '../list-product.response';
-import { FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
-import { DateTypeImp } from 'base-ddd/dist/ValueObject/Implement/DateTypeImp';
-import { NumberTypeImp } from 'base-ddd/dist/ValueObject/Implement/NumberTypeImp';
-import { StringTypeImp } from 'base-ddd/dist/ValueObject/Implement/StringTypeImp';
-import { UUIDTypeImp } from 'base-ddd/dist/ValueObject/Implement/UUIDTypeImp';
+import { DateTypeImp, FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
+import { ProductListDto } from './product-list.dto';
 
 @Injectable()
 export class ProductListService {
   constructor(private repository: ProductRepository) {}
 
   public async execute(
-    id: UUIDTypeImp,
-    name: StringTypeImp,
-    code: UUIDTypeImp,
-    description: StringTypeImp,
-    createAt: DateTypeImp,
-    price: NumberTypeImp,
-    category: StringTypeImp,
+    dto: ProductListDto,
     paginator: PaginatorTypeImp,
     order: OrderTypeImp,
   ): Promise<ListProductResponse> {
@@ -28,37 +19,37 @@ export class ProductListService {
         {
           field: 'id',
           opStr: FilterOpStr.EQUAL_TO,
-          value: id.value,
+          value: dto.id,
         },
         {
           field: 'name',
           opStr: FilterOpStr.EQUAL_TO,
-          value: name.value,
+          value: dto.name,
         },
         {
           field: 'code',
           opStr: FilterOpStr.EQUAL_TO,
-          value: code.value,
+          value: dto.code,
         },
         {
           field: 'description',
           opStr: FilterOpStr.EQUAL_TO,
-          value: description.value,
+          value: dto.description,
         },
         {
           field: 'createAt',
           opStr: FilterOpStr.EQUAL_TO,
-          value: createAt.toString,
+          value: dto.createAt ? DateTypeImp.create(dto.createAt).toString : null,
         },
         {
           field: 'price',
           opStr: FilterOpStr.EQUAL_TO,
-          value: price.toString,
+          value: dto.price,
         },
         {
           field: 'category',
           opStr: FilterOpStr.EQUAL_TO,
-          value: category.value,
+          value: dto.category,
         },
       ],
       paginator,

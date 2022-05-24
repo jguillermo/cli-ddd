@@ -84,7 +84,7 @@ export class ServiceMenuCommand extends AbstractService {
 
 export class ServiceMenuCommandRender extends AbstractServiceResponse {
   get templatePath(): string {
-    return `${this.language.language()}/application/command/`;
+    return `${this.language.language()}/application/command`;
   }
 
   async execute(aggregateName: string, options: { properties: string[]; commandName: string; templateRender: string }): Promise<void> {
@@ -98,7 +98,7 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
 
     this.renderDtoTest(aggregate, propertiesSelected, options.commandName, options.templateRender);
 
-    this.renderHandler(aggregate, propertiesSelected, options.commandName);
+    this.renderHandler(aggregate, propertiesSelected, options.commandName, options.templateRender);
 
     this.renderService(aggregate, propertiesSelected, options.commandName, options.templateRender);
 
@@ -124,12 +124,11 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
     });
 
     Render.generate({
-      templateFile: `${this.templatePath}dto.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/dto.ejs`,
       templateData: {
         className,
         properties,
         propertiesDto,
-        templateRender,
       },
       generatefolder,
       generateFile,
@@ -174,11 +173,10 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
     });
 
     Render.generate({
-      templateFile: `${this.templatePath}dto-test.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/dto-test.ejs`,
       templateData: {
         classDto,
         fileDto,
-        templateRender,
         propertiesString,
       },
       generatefolder,
@@ -186,7 +184,7 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
     });
   }
 
-  private renderHandler(aggregate: Aggregate, properties: WPropertie[], commandName: string) {
+  private renderHandler(aggregate: Aggregate, properties: WPropertie[], commandName: string, templateRender: string) {
     const classDto = this.language.className([aggregate.name.value, commandName, 'Dto']);
     const fileDto = this.language.classFile([aggregate.name.value, commandName, 'Dto'], false);
 
@@ -198,7 +196,7 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
     const generatefolder = this.folderPath(aggregate, [commandName]).application;
 
     Render.generate({
-      templateFile: `${this.templatePath}handler.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/handler.ejs`,
       templateData: {
         classDto,
         fileDto,
@@ -226,15 +224,15 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
     const propertiesWithoutId = properties.filter((e) => e.propertie.name.value !== 'id');
 
     Render.generate({
-      templateFile: `${this.templatePath}service.ejs`,
+      templateFile: `${this.templatePath}/${templateRender}/service.ejs`,
       templateData: {
         classRepository,
         fileRepository,
-        templateRender,
         className,
         aggregate,
         fileAggregate,
         properties,
+        templateRender,
         strProperties: properties.map((e) => e.propertie.name.value).join(', '),
         strPropertiesWitoutId: propertiesWithoutId.map((e) => e.propertie.name.value).join(', '),
         strVoProperties: properties.map((e) => `${e.propertie.name.value}: ${e.propertie.className}`).join(', '),

@@ -4,7 +4,7 @@ import { Validate } from 'class-validator';
 import { DomainValidator } from 'base-ddd';
 import { BaseDto } from '../../../share/application/base.dto';
 <%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
+  import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
 <%_ }); _%>
 <%_ }else{ _%>
 import { IsOptional, Validate } from 'class-validator';
@@ -15,37 +15,37 @@ import { BaseDto, OrderDto, PaginatorDto } from '../../../share/application/base
 @ArgsType()
 export class <%= className %> extends BaseDto {
 <%_ if (templateRender === "findById") { _%>
-  constructor(id: string) {
-    super();
-    this.id = id;
-  }
+constructor(id: string) {
+super();
+this.id = id;
+}
 <%_ }else{ _%>
-  constructor() {
-    super();
-  }
+constructor() {
+super();
+}
 <%_ } _%>
-  <%_ propertiesDto.forEach(function(e){ _%>
+<%_ propertiesDto.forEach(function(e){ _%>
 
-  <%_ if (templateRender === "findById") { _%>
+<%_ if (templateRender === "findById") { _%>
   @Validate(DomainValidator, [<%= e.e.propertie.className %>])
   @Field()
   <%= e.e.propertie.name.value %>: <%= e.ePrimitive %>;
-  <%_ }else{ _%>
+<%_ }else{ _%>
   @IsOptional()
   @Field({ nullable: true })
   <%= e.e.propertie.name.value %>?: <%= e.ePrimitive %>;
-  <%_ } _%>
-  <%_ }); _%>
-  <%_ if (templateRender !== "findById") { _%>
+<%_ } _%>
+<%_ }); _%>
+<%_ if (templateRender !== "findById") { _%>
 
-  @IsOptional()
-  @Validate(DomainValidator, [PaginatorTypeImp])
-  @Field(() => PaginatorDto, { nullable: true })
-  paginator?: PaginatorDto;
+@IsOptional()
+@Validate(DomainValidator, [PaginatorTypeImp])
+@Field(() => PaginatorDto, { nullable: true })
+paginator?: PaginatorDto;
 
-  @IsOptional()
-  @Validate(DomainValidator, [OrderTypeImp])
-  @Field(() => OrderDto, { nullable: true })
-  order?: OrderDto;
-  <%_ } _%>
+@IsOptional()
+@Validate(DomainValidator, [OrderTypeImp])
+@Field(() => OrderDto, { nullable: true })
+order?: OrderDto;
+<%_ } _%>
 }

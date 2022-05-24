@@ -4,18 +4,16 @@ import { DomainValidator, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
 import { BaseDto, OrderDto, PaginatorDto } from '../../../share/application/base.dto';
 
 @ArgsType()
-export class UserListDto extends BaseDto {
+export class <%= className %> extends BaseDto {
   constructor() {
     super();
   }
+  <%_ propertiesDto.forEach(function(e){ _%>
 
   @IsOptional()
   @Field({ nullable: true })
-  id?: string;
-
-  @IsOptional()
-  @Field({ nullable: true })
-  name?: string;
+  <%= e.e.propertie.name.value %>?: <%= e.ePrimitive %>;
+  <%_ }); _%>
 
   @IsOptional()
   @Validate(DomainValidator, [PaginatorTypeImp])

@@ -1,37 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
 import { <%= classResponse %> } from '../<%= fileResponse %>';
-<%_ if (templateRender === "findById") { _%>
-<%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
-<%_ }); _%>
-<%_ }else{ _%>
 import { <%= classListResponse %> } from '../<%= fileListResponse %>';
+<%_ if (hasPropertieDate) { _%>
+import { DateTypeImp, FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
+<%_ }else{ _%>
 import { FilterOpStr, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
-import { <%= classDto %> } from './<%= fileDto %>';
 <%_ } _%>
+import { <%= classDto %> } from './<%= fileDto %>';
 
 @Injectable()
 export class <%= className %> {
   constructor(private repository: <%= classRepository %>) {}
 
-  <%_ if (templateRender === "findById") { _%>
-  public async execute(<%= strVoProperties %>): Promise<<%= classResponse %> | null> {
-    const <%= aggregate.name.propertie %> = await this.repository.findById(id);
-    if (!<%= aggregate.name.propertie %>) {
-      return null;
-    }
-    return <%= classResponse %>.fromAggregate(<%= aggregate.name.propertie %>);
-  }
-  <%_ }else{ _%>
-  public async execute(dto: <%= classDto %>, paginator: PaginatorTypeImp, order: OrderTypeImp): Promise<<%= classListResponse %>> {
+  public async execute(
+    dto: <%= classDto %>,
+    paginator: PaginatorTypeImp,
+    order: OrderTypeImp,
+  ): Promise<<%= classListResponse %>> {
     const list<%= aggregate.name.value %> = await this.repository.findAll(
       [
         <%_ properties.forEach(function(e){ _%>
         {
           field: '<%= e.propertie.name.value %>',
           opStr: FilterOpStr.EQUAL_TO,
+          <%_ if (e.primitivePropertie.type.isDate) { _%>
+          value: dto.<%= e.propertie.name.value %> ? DateTypeImp.create(dto.<%= e.propertie.name.value %>).toString : null,
+        <%_ }else{ _%>
           value: dto.<%= e.propertie.name.value %>,
+          <%_ } _%>
         },
         <%_ }); _%>
       ],
@@ -44,5 +41,4 @@ export class <%= className %> {
       }),
     );
   }
-  <%_ } _%>
 }

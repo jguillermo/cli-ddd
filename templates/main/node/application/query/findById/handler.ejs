@@ -1,0 +1,20 @@
+import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { <%= classResponse %> } from '../<%= fileResponse %>';
+<%_ properties.forEach(function(e){ _%>
+import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
+<%_ }); _%>
+import { <%= classDto %> } from './<%= fileDto %>';
+import { <%= classService %> } from './<%= fileService %>';
+
+@QueryHandler(<%= classDto %>)
+export class <%= className %> implements IQueryHandler<<%= classDto %>> {
+  constructor(private service: <%= classService %>) {}
+
+  async execute(dto: <%= classDto %>): Promise<<%= classResponse %>> {
+    <%_ properties.forEach(function(e){ _%>
+    const <%= e.propertie.name.value %> = new <%= e.propertie.className %>(dto.<%= e.propertie.name.value %>);
+    <%_ }); _%>
+
+    return await this.service.execute(<%= strProperties %>);
+  }
+}
