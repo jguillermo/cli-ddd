@@ -1,5 +1,5 @@
-path: src/product
-pathTest: test/product
+path: product
+pathTest: product
 nameSpace: app.product
 name: Product
 properties:
