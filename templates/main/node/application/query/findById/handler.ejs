@@ -1,7 +1,7 @@
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
 import { <%= classResponse %> } from '../<%= fileResponse %>';
 <%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
 <%_ }); _%>
 import { <%= classDto %> } from './<%= fileDto %>';
 import { <%= classService %> } from './<%= fileService %>';

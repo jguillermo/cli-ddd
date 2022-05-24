@@ -1,6 +1,6 @@
 import { FilterItem, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
-import { <%= aggregate.name.value %> } from './<%= aggregate.name.propertie %>';
-import { <%= propertieId.propertie.className %> } from './<%= propertieId.file %>';
+import { <%= aggregate.name.value %> } from './aggregate/<%= aggregate.name.propertie %>';
+import { <%= propertieId.propertie.className %> } from './aggregate/<%= propertieId.file %>';
 
 export abstract class <%= className %> {
   abstract persist(<%= aggregate.name.propertie %>: <%= aggregate.name.value %>): Promise<void>;

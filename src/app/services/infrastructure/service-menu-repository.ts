@@ -37,7 +37,7 @@ export class ServiceMenuRepositoryRender extends AbstractServiceResponse {
   private renderDomainRepository(aggregate: Aggregate, propertieId: WPropertie) {
     const className = this.language.className([aggregate.name.value, 'Repository']);
     const generateFile = this.language.classFile([aggregate.name.value, 'Repository']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'domain']);
+    const generatefolder = this.folderPath(aggregate).domain;
 
     Render.generate({
       templateFile: `${this.templatePath}/domain/repository.ejs`,
@@ -54,7 +54,7 @@ export class ServiceMenuRepositoryRender extends AbstractServiceResponse {
   private renderInfratructureDao(aggregate: Aggregate, properties: WPropertie[]) {
     const className = this.language.className([aggregate.name.value, 'Dao']);
     const generateFile = this.language.classFile([aggregate.name.value, 'Dao']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'persistence']);
+    const generatefolder = this.folderPath(aggregate, ['persistence', 'firestore']).infrastructure;
 
     Render.generate({
       templateFile: `${this.templatePath}/infrastructure/persistence/firestore/dao.ejs`,
@@ -70,30 +70,18 @@ export class ServiceMenuRepositoryRender extends AbstractServiceResponse {
   }
 
   private renderInfratructureRepository(aggregate: Aggregate, propertieId: WPropertie) {
-    const classDao = this.language.className([aggregate.name.value, 'Dao']);
-    const fileDao = this.language.classFile([aggregate.name.value, 'Dao'], false);
+    const generatefolder = this.folderPath(aggregate, ['persistence', 'firestore']).infrastructure;
 
-    const classRepository = this.language.className([aggregate.name.value, 'Repository']);
-    const fileRepository = this.language.classFile([aggregate.name.value, 'Repository'], false);
-
-    const className = this.language.className([aggregate.name.value, 'firestore', 'repository']);
-    const generateFile = this.language.classFile([aggregate.name.value, 'firestore', 'repository']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'persistence']);
+    const resources = this.resources(aggregate);
 
     Render.generate({
       templateFile: `${this.templatePath}/infrastructure/persistence/firestore/firestore.ejs`,
       templateData: {
-        classRepository,
-        fileRepository,
-        classDao,
-        fileDao,
-        aggregate,
-        className,
+        ...resources,
         propertieId,
-        aggregatePlural: pluralize(aggregate.name.propertie),
       },
       generatefolder,
-      generateFile,
+      generateFile: resources.fileFirestoreRepositoryExt,
     });
   }
 }

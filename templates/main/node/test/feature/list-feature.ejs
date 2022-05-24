@@ -1,0 +1,71 @@
+Feature: List <%= aggregateName %>
+  In order to list <%= aggregatePropertie %>
+  As an user
+  I need to be able to list <%= aggregateName %>
+
+  Background:
+  Given I have the following data on collection "<%= aggregatePlural %>"
+  """
+    [
+      {
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
+      }
+    ]
+    """
+
+
+  Scenario: List <%= aggregateName %> whitout filter
+    Given I make a request to graphql
+    """
+    query{
+      <%= graphQlService %>{
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>
+        <%_ }); _%>
+      }
+    }
+    """
+    And I validate the response is
+    """
+    {
+      "data": {
+        "<%= graphQlService %>": [
+          {
+            <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+            "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+            <%_ }); _%>
+          }
+        ]
+      }
+    }
+    """
+    Then response should have a status 200
+
+  Scenario: List <%= aggregateName %> all filter
+    Given I make a request to graphql
+    """
+    query{
+      <%= graphQlService %>(id:"<%= aggregatePropertieUUID %>",paginator:{page:1, perPage:1},order:{field:"id", direction:"desc"}){
+      <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>
+      <%_ }); _%>
+      }
+    }
+    """
+    And I validate the response is
+    """
+    {
+      "data": {
+        "<%= graphQlService %>": [
+          {
+            <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+            "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+            <%_ }); _%>
+          }
+        ]
+      }
+    }
+    """
+    Then response should have a status 200

@@ -1,30 +1,51 @@
 import { ArgsType, Field } from '@nestjs/graphql';
+<%_ if (templateRender === "findById") { _%>
+import { Validate } from 'class-validator';
+import { DomainValidator } from 'base-ddd';
+import { BaseDto } from '../../../share/application/base.dto';
+<%_ properties.forEach(function(e){ _%>
+  import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
+<%_ }); _%>
+<%_ }else{ _%>
 import { IsOptional, Validate } from 'class-validator';
 import { DomainValidator, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
 import { BaseDto, OrderDto, PaginatorDto } from '../../../share/application/base.dto';
-<%_ parentType.forEach(function(type){ _%>
-import { <%= type %> } from 'base-ddd/dist/ValueObject/Implement/<%= type %>';
-<%_ }); _%>
+<%_ } _%>
 
 @ArgsType()
 export class <%= className %> extends BaseDto {
-  constructor() {
-    super();
-  }
-  <%_ propertiesDto.forEach(function(e){ _%>
+<%_ if (templateRender === "findById") { _%>
+constructor(id: string) {
+super();
+this.id = id;
+}
+<%_ }else{ _%>
+constructor() {
+super();
+}
+<%_ } _%>
+<%_ propertiesDto.forEach(function(e){ _%>
 
-  @Validate(DomainValidator, [<%= e.e.parentTypeImp %>])
+<%_ if (templateRender === "findById") { _%>
+  @Validate(DomainValidator, [<%= e.e.propertie.className %>])
+  @Field()
+  <%= e.e.propertie.name.value %>: <%= e.ePrimitive %>;
+<%_ }else{ _%>
+  @IsOptional()
   @Field({ nullable: true })
   <%= e.e.propertie.name.value %>?: <%= e.ePrimitive %>;
-  <%_ }); _%>
+<%_ } _%>
+<%_ }); _%>
+<%_ if (templateRender !== "findById") { _%>
 
-  @IsOptional()
-  @Validate(DomainValidator, [PaginatorTypeImp])
-  @Field(() => PaginatorDto, { nullable: true })
-  paginator?: PaginatorDto;
+@IsOptional()
+@Validate(DomainValidator, [PaginatorTypeImp])
+@Field(() => PaginatorDto, { nullable: true })
+paginator?: PaginatorDto;
 
-  @IsOptional()
-  @Validate(DomainValidator, [OrderTypeImp])
-  @Field(() => OrderDto, { nullable: true })
-  order?: OrderDto;
+@IsOptional()
+@Validate(DomainValidator, [OrderTypeImp])
+@Field(() => OrderDto, { nullable: true })
+order?: OrderDto;
+<%_ } _%>
 }

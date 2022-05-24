@@ -1,3 +1,0 @@
-import { ResourceOnUserCreated } from './resource-on-user-created';
-
-export const AppEvents = [ResourceOnUserCreated];

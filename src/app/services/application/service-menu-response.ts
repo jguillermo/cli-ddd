@@ -29,7 +29,7 @@ export class ServiceMenuResponseRender extends AbstractServiceResponse {
   private renderAggregate(aggregate: Aggregate, properties: WPropertie[]) {
     const className = this.language.className([aggregate.name.value, 'Response']);
     const generateFile = this.language.classFile([aggregate.name.value, 'Response']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application']);
+    const generatefolder = this.folderPath(aggregate).application;
 
     Render.generate({
       templateFile: `${this.templatePath}/aggregate.ejs`,
@@ -48,9 +48,9 @@ export class ServiceMenuResponseRender extends AbstractServiceResponse {
     const classAggregateResponse = this.language.className([aggregate.name.value, 'Response']);
     const fileAggregateResponse = this.language.classFile([aggregate.name.value, 'Response'], false);
 
-    const className = this.language.className(['list', aggregate.name.value, 'Response']);
-    const generateFile = this.language.classFile(['list', aggregate.name.value, 'Response']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'application']);
+    const className = this.language.className([aggregate.name.value, 'list', 'Response']);
+    const generateFile = this.language.classFile([aggregate.name.value, 'list', 'Response']);
+    const generatefolder = this.folderPath(aggregate).application;
 
     Render.generate({
       templateFile: `${this.templatePath}/list-aggregate.ejs`,

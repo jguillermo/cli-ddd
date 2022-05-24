@@ -38,6 +38,10 @@ test-e2e:
 	npm run test:e2e
 	@#docker run -it -w /app -v $(PWD)/ddd-commander:/app node:14.16.1-stretch npm run test:e2e
 
+cp-snapshot:
+	@cp -rp ${PWD}/../node-demo-my-project/src/ ${PWD}/snapshot
+	@cp -rp ${PWD}/../node-demo-my-project/test/ ${PWD}/snapshot
+
 .PHONY: test
 code:
 	@make format-fix

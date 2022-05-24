@@ -95,7 +95,7 @@ export class ServiceRenderDomainEvent extends AbstractServiceResponse {
   private renderEvent(aggregate: Aggregate, properties: WPropertie[], eventName: string, eventType: string) {
     const className = this.language.className([aggregate.name.value, eventName, 'event']);
     const generateFile = this.language.classFile([aggregate.name.value, eventName, 'event']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'domain']);
+    const generatefolder = this.folderPath(aggregate, ['event']).domain;
 
     const strVoUndescoreProperties = properties
       .map((e) => {

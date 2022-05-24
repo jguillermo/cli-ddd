@@ -1,8 +1,8 @@
-import { <%= aggregate.name.value %> } from '../../domain/<%= aggregate.name.propertie %>';
+import { <%= aggregate.name.value %> } from '../../../domain/aggregate/<%= aggregate.name.propertie %>';
 <%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+import { <%= e.propertie.className %> } from '../../../domain/aggregate/<%= e.file %>';
 <%_ }); _%>
-import { ItemDto } from '../../../share/infrastructure/firestore/firestore.service';
+import { ItemDto } from '../../../../share/infrastructure/firestore/firestore.service';
 
 export class <%= className %> {
   <%_ properties.forEach(function(e){ _%>

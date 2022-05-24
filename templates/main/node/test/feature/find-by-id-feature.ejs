@@ -1,0 +1,62 @@
+Feature: find <%= aggregateName %> by id
+  In order to find <%= aggregatePropertie %> by id
+  As an user
+  I need to be able to find one <%= aggregateName %>
+
+  Background:
+  Given I have the following data on collection "<%= aggregatePropertie %>s"
+  """
+    [
+      {
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
+      }
+    ]
+    """
+
+
+  Scenario: find one <%= aggregatePropertie %>
+    Given I make a request to graphql
+    """
+    query{
+      <%= graphQlService %>(id: "<%= aggregatePropertieUUID %>"){
+        id
+        name
+      }
+    }
+    """
+    And I validate the response is
+    """
+    {
+      "data": {
+        "<%= graphQlService %>": {
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+            "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+          <%_ }); _%>
+         }
+      }
+    }
+    """
+    Then response should have a status 200
+
+
+  Scenario: find <%= aggregatePropertie %> not exist
+    Given I make a request to graphql
+    """
+    query{
+      <%= graphQlService %>(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e6f"){
+        id
+        name
+      }
+    }
+    """
+    And I validate the response is
+    """
+    {
+      "data": {
+        "<%= graphQlService %>": null
+      }
+    }
+    """
+    Then response should have a status 200

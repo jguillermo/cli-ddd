@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { FilterItem, OrderTypeImp, PaginatorTypeImp } from 'base-ddd';
-import { <%= aggregate.name.value %> } from '../../domain/<%= aggregate.name.propertie %>';
-import { <%= propertieId.propertie.className %> } from '../../domain/<%= propertieId.file %>';
+import { <%= aggregate.name.value %> } from '../../../domain/aggregate/<%= aggregate.name.propertie %>';
+import { <%= propertieId.propertie.className %> } from '../../../domain/aggregate/<%= propertieId.file %>';
 import { <%= classDao %> } from './<%= fileDao %>';
-import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
-import { FirestoreService } from '../../../share/infrastructure/firestore/firestore.service';
+import { <%= classRepository %> } from '../../../domain/<%= fileRepository %>';
+import { FirestoreService } from '../../../../share/infrastructure/firestore/firestore.service';
 
 @Injectable()
-export class <%= className %> extends <%= classRepository %> {
+export class <%= classFirestoreRepository %> extends <%= classRepository %> {
   private _collection = '<%= aggregatePlural %>';
 
   constructor(private readonly firestore: FirestoreService) {

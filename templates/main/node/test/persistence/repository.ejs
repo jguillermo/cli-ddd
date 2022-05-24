@@ -1,0 +1,23 @@
+import { <%= classRepository %> } from '../../../../src/context/<%= aggregatePropertie %>/domain/<%= fileRepository %>';
+import { <%= classObjectMother %> } from './<%= fileObjectMother %>';
+import { <%= classE2eModule %> } from '../<%= fileE2eModule %>';
+
+describe('<%= aggregateName %> persistence', () => {
+  let repository: <%= classRepository %>;
+  beforeEach(async () => {
+    ({ <%= aggregatePropertieRepository %>: repository } = await <%= classE2eModule %>.create());
+    const items = await repository.findAll();
+    for await (const item of items) {
+      await repository.deleteById(item.id);
+    }
+  });
+
+  it('persist', async () => {
+    const <%= aggregatePropertie %> = <%= classObjectMother %>.create();
+    await repository.persist(<%= aggregatePropertie %>);
+    const <%= aggregatePropertieDb %> = await repository.findById(<%= aggregatePropertieId %>);
+    <%_ properties.forEach(function(e){ _%>
+      expect(<%= aggregatePropertieDb %>.<%= e.propertie.name.value %>).toEqual(<%= aggregatePropertie %>.<%= e.propertie.name.value %>);
+    <%_ }); _%>
+  });
+});

@@ -3,6 +3,9 @@ import { storage, WPropertie } from '../../in-memory-storage';
 import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
 import { Render } from '../../render';
 import { PropertieTypes } from '../../../modules/load-data/domain/propertie/propertieType';
+import { UUIDTypeImp } from 'base-ddd';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const s = require('underscore.string');
 
 export class ServiceMenuGraphQl extends AbstractService {
   serviceName(): string {
@@ -28,18 +31,26 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const aggregate = this._collectionAggregate.getAggregate(aggregateName);
     this.renderType(aggregate, properties);
     this.renderResolver(aggregate, properties);
-    this.renderTest(aggregate, properties, 'delete');
-    this.renderTest(aggregate, properties, 'findById');
-    this.renderTest(aggregate, properties, 'list');
-    this.renderTest(aggregate, properties, 'persist');
+
+    // this.renderTest(aggregate, properties, "delete");
+    // this.renderTest(aggregate, properties, "findById");
+    // this.renderTest(aggregate, properties, "list");
+    // this.renderTest(aggregate, properties, "persist");
+
+    this.renderFeature(aggregate, properties, 'delete');
+    this.renderFeature(aggregate, properties, 'findById');
+    this.renderFeature(aggregate, properties, 'list');
+    this.renderFeature(aggregate, properties, 'persist');
+
     this.renderObjectMother(aggregate, properties);
+    this.renderTestRepository(aggregate, properties);
     this.renderE2eModule(aggregate, properties);
   }
 
   private renderType(aggregate: Aggregate, properties: WPropertie[]) {
     const className = this.language.className([aggregate.name.value, 'type']);
     const generateFile = this.language.classFile([aggregate.name.value, 'type']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'graphQl']);
+    const generatefolder = this.folderPath(aggregate).appGraphQl;
 
     const enumProperties = properties.filter((e) => e.primitivePropertie.type.isEnum);
 
@@ -62,6 +73,8 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
   }
 
   private renderResolver(aggregate: Aggregate, properties: WPropertie[]) {
+    const { fileAggregate } = this.resources(aggregate);
+
     const classType = this.language.className([aggregate.name.value, 'type']);
     const fileType = this.language.classFile([aggregate.name.value, 'type'], false);
 
@@ -80,12 +93,12 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const classAggregateResponse = this.language.className([aggregate.name.value, 'Response']);
     const fileAggregateResponse = this.language.classFile([aggregate.name.value, 'Response'], false);
 
-    const classListAggregateResponse = this.language.className(['list', aggregate.name.value, 'Response']);
-    const fileListAggregateResponse = this.language.classFile(['list', aggregate.name.value, 'Response'], false);
+    const classListAggregateResponse = this.language.className([aggregate.name.value, 'list', 'Response']);
+    const fileListAggregateResponse = this.language.classFile([aggregate.name.value, 'list', 'Response'], false);
 
     const className = this.language.className([aggregate.name.value, 'Resolver']);
     const generateFile = this.language.classFile([aggregate.name.value, 'Resolver']);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'graphQl']);
+    const generatefolder = this.folderPath(aggregate).appGraphQl;
 
     Render.generate({
       templateFile: `${this.templatePath}/resolver.ejs`,
@@ -107,6 +120,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
         aggregate,
         className,
         properties,
+        fileAggregate,
         classResultPersist: `Result${aggregate.name.value}Persist`,
       },
       generatefolder,
@@ -124,7 +138,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const fileRepository = this.language.classFile([aggregate.name.value, 'Repository'], false);
 
     const generateFile = this.language.classFileTestWithOutType([aggregate.name.value, type]);
-    const generatefolder = this.language.folderPath([aggregate.pathTest.value, 'graphQl']);
+    const generatefolder = this.folderPath(aggregate).testInfrastructure;
 
     const aggregatePropertie = aggregate.name.propertie;
     const aggregatePropertieDb = `${aggregatePropertie}Db`;
@@ -158,13 +172,64 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     });
   }
 
+  private renderFeature(aggregate: Aggregate, properties: WPropertie[], type: string) {
+    const typeTest = this.language.className([type]);
+    const typeFile = this.language.classFileTestWithOutType([type], false);
+
+    const generateFile = this.language.classFileTestFeature([type]);
+    const generatefolder = this.folderPath(aggregate).testFeatures;
+
+    const resources = this.resources(aggregate);
+
+    let graphQlService = `${resources.aggregatePropertie}${typeTest}`;
+    if (typeTest === 'FindById') {
+      graphQlService = `${resources.aggregatePropertie}`;
+    }
+
+    const propertiesValues = properties.map((p) => {
+      let valuePropertie = '';
+      let valuePropertieUpdated = '';
+      switch (p.propertie.type.value) {
+        case PropertieTypes.ID: {
+          valuePropertie = resources.aggregatePropertieUUID;
+          valuePropertieUpdated = valuePropertie;
+          break;
+        }
+        case PropertieTypes.STRING: {
+          valuePropertie = s.capitalize(p.propertie.name.value);
+          valuePropertieUpdated = s.capitalize(`${p.propertie.name.value}Update`);
+          break;
+        }
+      }
+      return {
+        name: p.propertie.name.value,
+        value: valuePropertie,
+        valueUpdated: valuePropertieUpdated,
+      };
+    });
+
+    properties[0].propertie.name.value;
+
+    Render.generate({
+      templateFile: `${this.language.language()}/test/feature/${typeFile}-feature.ejs`,
+      templateData: {
+        ...resources,
+        graphQlService,
+        properties,
+        propertiesValues,
+      },
+      generatefolder,
+      generateFile,
+    });
+  }
+
   private renderE2eModule(aggregate: Aggregate, properties: WPropertie[]) {
     const generateFile = this.language.classFileWithOutType([aggregate.name.value, 'e2e', 'module']);
-    const generatefolder = this.language.folderPath([aggregate.pathTest.value, 'graphQl']);
+    const generatefolder = this.folderPath(aggregate).testInfrastructure;
 
     const testingInterface = this.language.className([aggregate.name.value, 'TestingInterface']);
     Render.generate({
-      templateFile: `${this.language.language()}/test/graph-ql/e2e-module.ejs`,
+      templateFile: `${this.language.language()}/test/persistence/e2e-module.ejs`,
       templateData: {
         testingInterface,
         properties,
@@ -179,7 +244,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const { classAggregate, fileObjectMother } = this.resources(aggregate);
 
     const generateFile = fileObjectMother + this.language.dotExt();
-    const generatefolder = this.language.folderPath([aggregate.pathTest.value]);
+    const generatefolder = this.folderPath(aggregate, ['persistence']).testInfrastructure;
 
     const propertiesMother = properties.map((e) => {
       let faker = 'faker.random.word';
@@ -208,13 +273,28 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const dataInterface = `${classAggregate}DataInterface`;
     const propertiesMotherStr = propertiesMother.map((e) => `${e.className}.create(data?.${e.propertie})`).join(', ');
     Render.generate({
-      templateFile: `${this.language.language()}/test/object-mother.ejs`,
+      templateFile: `${this.language.language()}/test/persistence/object-mother.ejs`,
       templateData: {
         dataInterface,
         properties,
         propertiesMother,
         propertiesMotherStr,
         ...this.resources(aggregate),
+      },
+      generatefolder,
+      generateFile,
+    });
+  }
+
+  private renderTestRepository(aggregate: Aggregate, properties: WPropertie[]) {
+    const generateFile = this.language.classFileTestWithOutType([aggregate.name.value, 'repository']);
+    const generatefolder = this.folderPath(aggregate, ['persistence']).testInfrastructure;
+    properties[0].propertie.name.value;
+    Render.generate({
+      templateFile: `${this.language.language()}/test/persistence/repository.ejs`,
+      templateData: {
+        ...this.resources(aggregate),
+        properties,
       },
       generatefolder,
       generateFile,

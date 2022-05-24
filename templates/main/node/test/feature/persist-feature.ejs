@@ -1,0 +1,143 @@
+Feature: Persist <%= aggregateName %>
+  In order to create <%= aggregatePropertie %>
+  As an user
+  I need to be able to persist <%= aggregateName %>
+
+  Scenario: Create <%= aggregateName %>
+    Given I make a request to graphql
+    """
+    mutation{
+      <%= graphQlService %>(
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>: "<%= e.value %>"
+        <%_ }); _%>
+      ){
+        ...on Status{
+          status
+        }
+        ...on <%= aggregateName %>{
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+          <%= e.name %>
+          <%_ }); _%>
+        }
+      }
+    }
+    """
+    And I validate the response is
+    """
+    {
+      "data": {
+        "<%= graphQlService %>": {
+            "status": "ok"
+         }
+       }
+    }
+    """
+    Then response should have a status 200
+    And I validate the following data exists on collection "<%= aggregatePlural %>"
+    """
+    [
+      {
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
+      }
+    ]
+    """
+
+  Scenario: Create <%= aggregateName %> show entity
+    Given I make a request to graphql
+    """
+    mutation{
+      <%= graphQlService %>(
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>: "<%= e.value %>"
+        <%_ }); _%>
+        showEntity: true
+      ){
+        ...on Status{
+          status
+        }
+        ...on <%= aggregateName %>{
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+          <%= e.name %>
+          <%_ }); _%>
+        }
+      }
+    }
+    """
+    And I validate the response is
+    """
+    {
+      "data": {
+        "<%= graphQlService %>": {
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+           "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+          <%_ }); _%>
+         }
+       }
+    }
+    """
+    Then response should have a status 200
+    And I validate the following data exists on collection "<%= aggregatePlural %>"
+    """
+    [
+      {
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
+      }
+    ]
+    """
+
+  Scenario: Update <%= aggregateName %>
+    Given I have the following data on collection "<%= aggregatePlural %>"
+    """
+    [
+      {
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
+      }
+    ]
+    """
+    And I make a request to graphql
+    """
+    mutation{
+      <%= graphQlService %>(
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>: "<%= e.valueUpdated %>"
+        <%_ }); _%>
+      ){
+        ...on Status{
+          status
+        }
+        ...on <%= aggregateName %>{
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+          <%= e.name %>
+          <%_ }); _%>
+        }
+      }
+    }
+    """
+    And I validate the response is
+    """
+    {
+      "data": {
+        "<%= graphQlService %>": {
+            "status": "ok"
+         }
+       }
+    }
+    """
+    Then response should have a status 200
+    And I validate the following data exists on collection "<%= aggregatePlural %>"
+    """
+    [
+      {
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.valueUpdated %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
+      }
+    ]
+    """

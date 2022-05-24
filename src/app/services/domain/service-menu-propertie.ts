@@ -54,7 +54,7 @@ export class ServiceMenuPropertieRender extends AbstractServiceResponse {
   private renderPropertie(aggregate: Aggregate, propertie: WPropertie) {
     const className = this.language.className([propertie.propertie.className]);
     const generateFile = this.language.classFileWithOutType([propertie.propertie.className]);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'domain']);
+    const generatefolder = this.folderPath(aggregate, ['aggregate']).domain;
 
     const enumValues = propertie.primitivePropertie.type.isEnum ? propertie.primitivePropertie.metadataEnum.values : [];
 

@@ -3,7 +3,7 @@ import { Validate } from 'class-validator';
 import { DomainValidator } from 'base-ddd';
 import { BaseDto } from '../../../share/application/base.dto';
 <%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
 <%_ }); _%>
 
 @ArgsType()

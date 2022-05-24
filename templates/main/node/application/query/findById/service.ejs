@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
 import { <%= classResponse %> } from '../<%= fileResponse %>';
 <%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
 <%_ }); _%>
 
 @Injectable()

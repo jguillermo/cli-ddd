@@ -1,23 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 import { <%= classRepository %> } from '../../domain/<%= fileRepository %>';
-import { <%= aggregate.name.value %> } from '../../domain/<%= fileAggregate %>';
+<%_ if (templateRender == "persist") { _%>
+  import { <%= aggregate.name.value %> } from '../../domain/aggregate/<%= fileAggregate %>';
+<%_ } _%>
 <%_ properties.forEach(function(e){ _%>
-import { <%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+  import { <%= e.propertie.className %> } from '../../domain/aggregate/<%= e.file %>';
 <%_ }); _%>
 
 @Injectable()
 export class <%= className %> {
-  constructor(private repository: <%= classRepository %>, private eventBus: EventBus) {}
+constructor(private repository: <%= classRepository %>, private eventBus: EventBus) {}
 
-  public async execute(<%= strVoProperties %>): Promise<void> {
+public async execute(<%= strVoProperties %>): Promise<void> {
+  <%_ if (templateRender == "persist") { _%>
     let <%= aggregate.name.propertie %> = await this.repository.findById(id);
     if (!<%= aggregate.name.propertie %>) {
-      <%= aggregate.name.propertie %> = <%= aggregate.name.value %>.create(<%= strProperties %>);
+    <%= aggregate.name.propertie %> = <%= aggregate.name.value %>.create(<%= strProperties %>);
     } else {
-      <%= aggregate.name.propertie %>.update(<%= strPropertiesWitoutId %>);
+    <%= aggregate.name.propertie %>.update(<%= strPropertiesWitoutId %>);
     }
     await this.repository.persist(<%= aggregate.name.propertie %>);
     this.eventBus.publishAll(<%= aggregate.name.propertie %>.pullDomainEvents());
+  <%_ } _%>
+  <%_ if (templateRender == "delete") { _%>
+    const <%= aggregate.name.propertie %> = await this.repository.findById(id);
+    if (<%= aggregate.name.propertie %>) {
+    <%= aggregate.name.propertie %>.delete();
+    await this.repository.deleteById(<%= aggregate.name.propertie %>.id);
+    this.eventBus.publishAll(<%= aggregate.name.propertie %>.pullDomainEvents());
+    }
+  <%_ } _%>
+  <%_ if (templateRender == "none") { _%>
+    const <%= aggregate.name.propertie %> = await this.repository.findById(id);
+    this.eventBus.publishAll(<%= aggregate.name.propertie %>.pullDomainEvents());
+  <%_ } _%>
   }
-}
+  }

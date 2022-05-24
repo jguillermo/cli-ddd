@@ -93,7 +93,7 @@ export class ServiceMenuInfrastructureEventRender extends AbstractServiceRespons
 
     const className = this.language.className([eventName, 'on', tempEventSelected]);
     const generateFile = this.language.classFileWithOutType([eventName, 'on', tempEventSelected]);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'infrastructure', 'event']);
+    const generatefolder = this.folderPath(aggregate, ['event']).infrastructure;
 
     Render.generate({
       templateFile: `${this.templatePath}/event.ejs`,

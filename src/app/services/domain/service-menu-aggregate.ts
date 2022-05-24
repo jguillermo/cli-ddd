@@ -84,7 +84,7 @@ export class ServiceMenuAggregateRender extends AbstractServiceResponse {
 
     const className = this.language.className([aggregate.name.value]);
     const generateFile = this.language.classFileWithOutType([aggregate.name.value]);
-    const generatefolder = this.language.folderPath([aggregate.path.value, 'domain']);
+    const generatefolder = this.folderPath(aggregate, ['aggregate']).domain;
 
     const propertiesWithOutId = properties.filter((e) => e.propertie.name.value !== 'id');
 
