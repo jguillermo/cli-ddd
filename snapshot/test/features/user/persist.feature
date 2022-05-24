@@ -8,7 +8,7 @@ Feature: Persist User
     """
     mutation{
       userPersist(
-        id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"
+        id: "9e556479-7003-5916-9cd6-33f4227cec9b"
         name: "Name"
       ){
         ...on Status{
@@ -36,7 +36,7 @@ Feature: Persist User
     """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
+        "id": "9e556479-7003-5916-9cd6-33f4227cec9b",
         "name": "Name"
       }
     ]
@@ -47,7 +47,7 @@ Feature: Persist User
     """
     mutation{
       userPersist(
-        id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"
+        id: "9e556479-7003-5916-9cd6-33f4227cec9b"
         name: "Name"
         showEntity: true
       ){
@@ -66,7 +66,7 @@ Feature: Persist User
     {
       "data": {
         "userPersist": {
-           "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
+           "id": "9e556479-7003-5916-9cd6-33f4227cec9b",
            "name": "Name"
          }
        }
@@ -77,7 +77,7 @@ Feature: Persist User
     """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
+        "id": "9e556479-7003-5916-9cd6-33f4227cec9b",
         "name": "Name"
       }
     ]
@@ -88,7 +88,7 @@ Feature: Persist User
     """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
+        "id": "9e556479-7003-5916-9cd6-33f4227cec9b",
         "name": "Name"
       }
     ]
@@ -97,8 +97,8 @@ Feature: Persist User
     """
     mutation{
       userPersist(
-        id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"
-        name: "NameEdit"
+        id: "9e556479-7003-5916-9cd6-33f4227cec9b"
+        name: "NameUpdate"
       ){
         ...on Status{
           status
@@ -125,8 +125,8 @@ Feature: Persist User
     """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "NameEdit"
+        "id": "9e556479-7003-5916-9cd6-33f4227cec9b",
+        "name": "NameUpdate"
       }
     ]
     """

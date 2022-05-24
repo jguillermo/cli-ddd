@@ -1,15 +1,16 @@
-Feature: Delete <%= aggregate.name.value %>
+Feature: Delete <%= aggregateName %>
   In order to delete <%= aggregatePropertie %>
   As an user
-  I need to be able to delete <%= aggregate.name.value %>
+  I need to be able to delete <%= aggregateName %>
 
   Background:
-  Given I have the following data on collection "companies"
+  Given I have the following data on collection "<%= aggregatePlural %>"
   """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "<%= aggregate.name.value %> A"
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
       }
     ]
     """
@@ -19,7 +20,7 @@ Feature: Delete <%= aggregate.name.value %>
     Given I make a request to graphql
     """
     mutation{
-      <%= graphQlService %>(id:"daf673b7-b1ba-415e-ac5e-04848e5e2e5f"){
+      <%= graphQlService %>(id:"<%= aggregatePropertieUUID %>"){
         status
       }
     }
@@ -35,6 +36,7 @@ Feature: Delete <%= aggregate.name.value %>
     }
     """
     Then response should have a status 200
+    And I validate empty data on collection "<%= aggregatePlural %>"
 
 
   Scenario: delete <%= aggregatePropertie %> not exist

@@ -8,7 +8,7 @@ Feature: find User by id
   """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
+        "id": "9e556479-7003-5916-9cd6-33f4227cec9b",
         "name": "Name"
       }
     ]
@@ -19,7 +19,7 @@ Feature: find User by id
     Given I make a request to graphql
     """
     query{
-      user(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"){
+      user(id: "9e556479-7003-5916-9cd6-33f4227cec9b"){
         id
         name
       }
@@ -30,7 +30,7 @@ Feature: find User by id
     {
       "data": {
         "user": {
-            "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
+            "id": "9e556479-7003-5916-9cd6-33f4227cec9b",
             "name": "Name"
          }
       }

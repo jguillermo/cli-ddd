@@ -81,11 +81,19 @@ describe(`${aggregate} CRUD`, () => {
     testCrud(`src/context/${aggregate}/${aggregate}.module.ts`);
   });
   describe('test', () => {
-    test('graph-ql features', async () => {
-      testCrud(`test/features/${aggregate}/delete.feature`);
-      testCrud(`test/features/${aggregate}/find-by-id.feature`);
-      testCrud(`test/features/${aggregate}/list.feature`);
-      testCrud(`test/features/${aggregate}/persist.feature`);
+    describe('graph-ql features', () => {
+      test('delete', async () => {
+        testCrud(`test/features/${aggregate}/delete.feature`);
+      });
+      test('find-by-id', async () => {
+        testCrud(`test/features/${aggregate}/find-by-id.feature`);
+      });
+      test('list', async () => {
+        testCrud(`test/features/${aggregate}/list.feature`);
+      });
+      test('persist', async () => {
+        testCrud(`test/features/${aggregate}/persist.feature`);
+      });
     });
 
     test.skip('infrastructure', async () => {

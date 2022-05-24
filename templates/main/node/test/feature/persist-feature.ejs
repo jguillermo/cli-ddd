@@ -1,22 +1,24 @@
-Feature: Persist User
-  In order to create user
+Feature: Persist <%= aggregateName %>
+  In order to create <%= aggregatePropertie %>
   As an user
-  I need to be able to persist User
+  I need to be able to persist <%= aggregateName %>
 
-  Scenario: Create User
+  Scenario: Create <%= aggregateName %>
     Given I make a request to graphql
     """
     mutation{
-      userPersist(
-        id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"
-        name: "User A"
+      <%= graphQlService %>(
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>: "<%= e.value %>"
+        <%_ }); _%>
       ){
         ...on Status{
           status
         }
-        ...on User{
-          id
-          name
+        ...on <%= aggregateName %>{
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+          <%= e.name %>
+          <%_ }); _%>
         }
       }
     }
@@ -25,38 +27,41 @@ Feature: Persist User
     """
     {
       "data": {
-        "userPersist": {
+        "<%= graphQlService %>": {
             "status": "ok"
          }
        }
     }
     """
     Then response should have a status 200
-    And I validate the following data exists on collection "users"
+    And I validate the following data exists on collection "<%= aggregatePlural %>"
     """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "User A"
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
       }
     ]
     """
 
-  Scenario: Create User show entity
+  Scenario: Create <%= aggregateName %> show entity
     Given I make a request to graphql
     """
     mutation{
-      userPersist(
-        id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"
-        name: "User A"
+      <%= graphQlService %>(
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>: "<%= e.value %>"
+        <%_ }); _%>
         showEntity: true
       ){
         ...on Status{
           status
         }
-        ...on User{
-          id
-          name
+        ...on <%= aggregateName %>{
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+          <%= e.name %>
+          <%_ }); _%>
         }
       }
     }
@@ -65,47 +70,52 @@ Feature: Persist User
     """
     {
       "data": {
-        "userPersist": {
-           "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-           "name": "User A"
+        "<%= graphQlService %>": {
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+           "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+          <%_ }); _%>
          }
        }
     }
     """
     Then response should have a status 200
-    And I validate the following data exists on collection "users"
+    And I validate the following data exists on collection "<%= aggregatePlural %>"
     """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "User A"
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
       }
     ]
     """
 
-  Scenario: Update User
-    Given I have the following data on collection "users"
+  Scenario: Update <%= aggregateName %>
+    Given I have the following data on collection "<%= aggregatePlural %>"
     """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "User A"
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
       }
     ]
     """
     And I make a request to graphql
     """
     mutation{
-      userPersist(
-        id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"
-        name: "User B"
+      <%= graphQlService %>(
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>: "<%= e.valueUpdated %>"
+        <%_ }); _%>
       ){
         ...on Status{
           status
         }
-        ...on User{
-          id
-          name
+        ...on <%= aggregateName %>{
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+          <%= e.name %>
+          <%_ }); _%>
         }
       }
     }
@@ -114,19 +124,20 @@ Feature: Persist User
     """
     {
       "data": {
-        "userPersist": {
+        "<%= graphQlService %>": {
             "status": "ok"
          }
        }
     }
     """
     Then response should have a status 200
-    And I validate the following data exists on collection "users"
+    And I validate the following data exists on collection "<%= aggregatePlural %>"
     """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "User B"
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.valueUpdated %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
       }
     ]
     """

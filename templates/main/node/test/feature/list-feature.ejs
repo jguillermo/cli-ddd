@@ -1,27 +1,29 @@
-Feature: List User
-  In order to list user
+Feature: List <%= aggregateName %>
+  In order to list <%= aggregatePropertie %>
   As an user
-  I need to be able to list User
+  I need to be able to list <%= aggregateName %>
 
   Background:
-  Given I have the following data on collection "users"
+  Given I have the following data on collection "<%= aggregatePlural %>"
   """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "User A"
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
       }
     ]
     """
 
 
-  Scenario: List User whitout filter
+  Scenario: List <%= aggregateName %> whitout filter
     Given I make a request to graphql
     """
     query{
-      userList{
-        id
-        name
+      <%= graphQlService %>{
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>
+        <%_ }); _%>
       }
     }
     """
@@ -29,10 +31,11 @@ Feature: List User
     """
     {
       "data": {
-        "userList": [
+        "<%= graphQlService %>": [
           {
-            "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-            "name": "User A"
+            <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+            "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+            <%_ }); _%>
           }
         ]
       }
@@ -40,13 +43,14 @@ Feature: List User
     """
     Then response should have a status 200
 
-  Scenario: List User all filter
+  Scenario: List <%= aggregateName %> all filter
     Given I make a request to graphql
     """
     query{
-      userList(id:"daf673b7-b1ba-415e-ac5e-04848e5e2e5f",paginator:{page:1, perPage:1},order:{field:"id", direction:"desc"}){
-        id
-        name
+      <%= graphQlService %>(id:"<%= aggregatePropertieUUID %>",paginator:{page:1, perPage:1},order:{field:"id", direction:"desc"}){
+      <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>
+      <%_ }); _%>
       }
     }
     """
@@ -54,10 +58,11 @@ Feature: List User
     """
     {
       "data": {
-        "userList": [
+        "<%= graphQlService %>": [
           {
-            "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-            "name": "User A"
+            <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+            "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+            <%_ }); _%>
           }
         ]
       }

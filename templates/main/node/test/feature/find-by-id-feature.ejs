@@ -1,15 +1,16 @@
-Feature: find <%= aggregate.name.value %> by id
+Feature: find <%= aggregateName %> by id
   In order to find <%= aggregatePropertie %> by id
-  As an utser
-  I need to be able to find one <%= aggregate.name.value %>
+  As an user
+  I need to be able to find one <%= aggregateName %>
 
   Background:
   Given I have the following data on collection "<%= aggregatePropertie %>s"
   """
     [
       {
-        "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-        "name": "<%= aggregate.name.value %> A"
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }); _%>
       }
     ]
     """
@@ -19,7 +20,7 @@ Feature: find <%= aggregate.name.value %> by id
     Given I make a request to graphql
     """
     query{
-      <%= graphQlService %>(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e5f"){
+      <%= graphQlService %>(id: "<%= aggregatePropertieUUID %>"){
         id
         name
       }
@@ -30,8 +31,9 @@ Feature: find <%= aggregate.name.value %> by id
     {
       "data": {
         "<%= graphQlService %>": {
-            "id": "daf673b7-b1ba-415e-ac5e-04848e5e2e5f",
-            "name": "<%= aggregate.name.value %> A"
+          <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+            "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+          <%_ }); _%>
          }
       }
     }
