@@ -32,10 +32,10 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     this.renderType(aggregate, properties);
     this.renderResolver(aggregate, properties);
 
-    this.renderTest(aggregate, properties, "delete");
-    this.renderTest(aggregate, properties, "findById");
-    this.renderTest(aggregate, properties, "list");
-    this.renderTest(aggregate, properties, "persist");
+    // this.renderTest(aggregate, properties, "delete");
+    // this.renderTest(aggregate, properties, "findById");
+    // this.renderTest(aggregate, properties, "list");
+    // this.renderTest(aggregate, properties, "persist");
 
     this.renderFeature(aggregate, properties, "delete");
     this.renderFeature(aggregate, properties, "findById");
@@ -43,7 +43,8 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     this.renderFeature(aggregate, properties, "persist");
 
     this.renderObjectMother(aggregate, properties);
-    this.renderE2eModule(aggregate, properties);
+    this.renderTestRepository(aggregate, properties);
+    //this.renderE2eModule(aggregate, properties);
   }
 
   private renderType(aggregate: Aggregate, properties: WPropertie[]) {
@@ -187,8 +188,8 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
 
 
     const propertiesValues = properties.map((p) => {
-      let valuePropertie = '';
-      let valuePropertieUpdated = '';
+      let valuePropertie = "";
+      let valuePropertieUpdated = "";
       switch (p.propertie.type.value) {
         case PropertieTypes.ID: {
           valuePropertie = resources.aggregatePropertieUUID;
@@ -204,7 +205,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
       return {
         name: p.propertie.name.value,
         value: valuePropertie,
-        valueUpdated: valuePropertieUpdated,
+        valueUpdated: valuePropertieUpdated
       };
     });
 
@@ -244,7 +245,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const { classAggregate, fileObjectMother } = this.resources(aggregate);
 
     const generateFile = fileObjectMother + this.language.dotExt();
-    const generatefolder = this.folderPath(aggregate).testInfrastructure;
+    const generatefolder = this.folderPath(aggregate, ["persistence"]).testInfrastructure;
 
     const propertiesMother = properties.map((e) => {
       let faker = "faker.random.word";
@@ -273,7 +274,7 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     const dataInterface = `${classAggregate}DataInterface`;
     const propertiesMotherStr = propertiesMother.map((e) => `${e.className}.create(data?.${e.propertie})`).join(", ");
     Render.generate({
-      templateFile: `${this.language.language()}/test/object-mother.ejs`,
+      templateFile: `${this.language.language()}/test/persistence/object-mother.ejs`,
       templateData: {
         dataInterface,
         properties,
@@ -285,4 +286,21 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
       generateFile
     });
   }
+
+
+  private renderTestRepository(aggregate: Aggregate, properties: WPropertie[]) {
+    const generateFile = this.language.classFileTestWithOutType([aggregate.name.value, "repository"]);
+    const generatefolder = this.folderPath(aggregate, ["persistence"]).testInfrastructure;
+    properties[0].propertie.name.value;
+    Render.generate({
+      templateFile: `${this.language.language()}/test/persistence/repository.ejs`,
+      templateData: {
+        ...this.resources(aggregate),
+        properties
+      },
+      generatefolder,
+      generateFile
+    });
+  }
+
 }

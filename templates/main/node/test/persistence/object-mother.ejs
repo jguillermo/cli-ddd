@@ -1,10 +1,10 @@
-import * as faker from 'faker';
-import { <%= classAggregate %> } from '../../src/<%= propertieAggregate %>/domain/<%= fileAggregate %>';
+import { faker } from '@faker-js/faker';
+import { <%= classAggregate %> } from '../../../../src/context/<%= propertieAggregate %>/domain/aggregate/<%= fileAggregate %>';
 <%_ properties.forEach(function(e){ _%>
 <%_ if (e.primitivePropertie.type.isEnum) { _%>
-import { Enum<%= e.propertie.className %>, <%= e.propertie.className %> } from '../../src/<%= propertieAggregate %>/domain/<%= e.file %>';
+import { Enum<%= e.propertie.className %>, <%= e.propertie.className %> } from '../../../../src/context/<%= propertieAggregate %>/domain/aggregate/<%= e.file %>';
 <%_ }else{ _%>
-import { <%= e.propertie.className %> } from '../../src/<%= propertieAggregate %>/domain/<%= e.file %>';
+import { <%= e.propertie.className %> } from '../../../../src/context/<%= propertieAggregate %>/domain/aggregate/<%= e.file %>';
 <%_ } _%>
 <%_ }); _%>
 

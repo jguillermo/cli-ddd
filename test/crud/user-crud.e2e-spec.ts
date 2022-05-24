@@ -96,9 +96,13 @@ describe(`${aggregate} CRUD`, () => {
       });
     });
 
-    test.skip('infrastructure', async () => {
-      testCrud(`test/infrastructure/${aggregate}/persistence/${aggregate}-object-mother.ts`);
-      testCrud(`test/infrastructure/${aggregate}/persistence/${aggregate}-repository.e2e-spec.ts`);
+    describe('infratructure', () => {
+      test('object Mother', async () => {
+        testCrud(`test/infrastructure/${aggregate}/persistence/${aggregate}-object-mother.ts`);
+      });
+      test('repository', async () => {
+        testCrud(`test/infrastructure/${aggregate}/persistence/${aggregate}-repository.e2e-spec.ts`);
+      });
       //testCrud(`test/infrastructure/testing-e2e-module.ts`);
     });
   });
