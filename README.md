@@ -1,6 +1,6 @@
 # GENERATE CODE
 
-## install
+## install cloen repositoru templeate
 
 ```bash
 npm install -g generate-code-ddd --production
