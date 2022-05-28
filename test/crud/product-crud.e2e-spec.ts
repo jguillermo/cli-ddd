@@ -88,7 +88,7 @@ describe(`${aggregate} CRUD`, () => {
       test('find-by-id', async () => {
         testCrud(`test/features/${aggregate}/find-by-id.feature`);
       });
-      test('list', async () => {
+      test.only('list', async () => {
         testCrud(`test/features/${aggregate}/list.feature`);
       });
       test.only('persist', async () => {
