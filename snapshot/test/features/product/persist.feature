@@ -141,9 +141,9 @@ Feature: Persist Product
         name: "NameUpdate"
         code: "decd739b-9f46-5fb7-abb8-086460a78493"
         description: "DescriptionUpdate"
-        createAt: "2018-03-23"
-        price: 12
-        category: "books"
+        createAt: "2018-03-24"
+        price: 15
+        category: "computers"
       ){
         ...on Status{
           status
@@ -179,9 +179,9 @@ Feature: Persist Product
         "name": "NameUpdate",
         "code": "decd739b-9f46-5fb7-abb8-086460a78493",
         "description": "DescriptionUpdate",
-        "createAt": "2018-03-23T00:00:00.000Z",
-        "price": 12,
-        "category": "books"
+        "createAt": "2018-03-24T00:00:00.000Z",
+        "price": 15,
+        "category": "computers"
       }
     ]
     """
