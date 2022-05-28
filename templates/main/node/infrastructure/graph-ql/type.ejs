@@ -5,7 +5,7 @@ import { createUnionType, Field, ObjectType } from '@nestjs/graphql';
 <%_ } _%>
 import { StatusType } from '../../../context/share/app/status.type';
 <%_ enumProperties.forEach(function(e){ _%>
-import { Enum<%= e.propertie.className %> } from '../../domain/<%= e.file %>';
+import { Enum<%= e.propertie.className %> } from '../../../context/<%= aggregate.name.propertie %>/domain/aggregate/<%= e.file %>';
 <%_ }); _%>
 
 @ObjectType('<%= aggregate.name.value %>')

@@ -50,6 +50,7 @@ export interface GenerateResourcesData {
   aggregatePropertieId: string;
   aggregatePropertieRepository: string;
   aggregatePropertieUUID: string;
+  aggregateUUIDs: string[];
   classResultPersist: string;
   classMother: string;
 }
@@ -112,6 +113,7 @@ export abstract class AbstractServiceResponse {
       aggregatePropertieId: `${aggregate.name.propertie}.id`,
       aggregatePropertieRepository: `${aggregate.name.propertie}Repository`,
       aggregatePropertieUUID: UUIDTypeImp.fromValue(aggregate.name.propertie),
+      aggregateUUIDs: Array.from(Array(3), (x, i) => i).map((number) => UUIDTypeImp.fromValue(`${aggregate.name.propertie}-${number}`)),
       classResultPersist: `Result${aggregate.name.value}Persist`,
       classMother: this.language.className([aggregate.name.value, 'Mother']),
     };

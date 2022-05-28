@@ -187,24 +187,58 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
     }
 
     const propertiesValues = properties.map((p) => {
-      let valuePropertie = '';
-      let valuePropertieUpdated = '';
+      let value: any = null;
+      let valueUpdated: any = null;
+      let completed = null;
+      let completeUpdated = null;
+      let valueFunction = null;
+      let hasQuote = true;
       switch (p.propertie.type.value) {
         case PropertieTypes.ID: {
-          valuePropertie = resources.aggregatePropertieUUID;
-          valuePropertieUpdated = valuePropertie;
+          value = resources.aggregatePropertieUUID;
           break;
         }
         case PropertieTypes.STRING: {
-          valuePropertie = s.capitalize(p.propertie.name.value);
-          valuePropertieUpdated = s.capitalize(`${p.propertie.name.value}Update`);
+          value = s.capitalize(p.propertie.name.value);
+          valueUpdated = s.capitalize(`${p.propertie.name.value}Update`);
+          break;
+        }
+        case PropertieTypes.UUID: {
+          value = resources.aggregateUUIDs[0];
+          valueUpdated = resources.aggregateUUIDs[1];
+          break;
+        }
+        case PropertieTypes.DATE: {
+          value = '2018-03-23';
+          completed = '2018-03-23T00:00:00.000Z';
+          valueFunction = 'Date(2018-03-23)';
+          valueUpdated = '2018-03-24';
+          completeUpdated = '2018-03-24T00:00:00.000Z';
+          break;
+        }
+        case PropertieTypes.ENUM: {
+          const enumValues = p.primitivePropertie.type.isEnum ? p.primitivePropertie.metadataEnum.values : [''];
+          value = enumValues[0];
+          valueUpdated = enumValues[1];
+          break;
+        }
+        case PropertieTypes.NUMBER: {
+          value = 12;
+          valueUpdated = 15;
+          hasQuote = false;
           break;
         }
       }
+
+      valueUpdated = valueUpdated === null ? value : valueUpdated;
       return {
         name: p.propertie.name.value,
-        value: valuePropertie,
-        valueUpdated: valuePropertieUpdated,
+        value,
+        valueFunction: valueFunction === null ? value : valueFunction,
+        completed: completed === null ? value : completed,
+        valueUpdated,
+        completeUpdated: completeUpdated === null ? valueUpdated : completeUpdated,
+        hasQuote,
       };
     });
 

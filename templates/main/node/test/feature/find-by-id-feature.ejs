@@ -9,7 +9,11 @@ Feature: find <%= aggregateName %> by id
     [
       {
         <%_ propertiesValues.forEach(function(e, idx, array){ _%>
-        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ if (e.hasQuote) { _%>
+        "<%= e.name %>": "<%= e.valueFunction %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }else{ _%>
+        "<%= e.name %>": <%= e.valueFunction %><% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ } _%>
         <%_ }); _%>
       }
     ]
@@ -21,8 +25,9 @@ Feature: find <%= aggregateName %> by id
     """
     query{
       <%= graphQlService %>(id: "<%= aggregatePropertieUUID %>"){
-        id
-        name
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>
+        <%_ }); _%>
       }
     }
     """
@@ -32,7 +37,11 @@ Feature: find <%= aggregateName %> by id
       "data": {
         "<%= graphQlService %>": {
           <%_ propertiesValues.forEach(function(e, idx, array){ _%>
-            "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+            <%_ if (e.hasQuote) { _%>
+            "<%= e.name %>": "<%= e.completed %>"<% if (idx !== array.length - 1) { %>,<% } %>
+            <%_ }else{ _%>
+            "<%= e.name %>": <%= e.completed %><% if (idx !== array.length - 1) { %>,<% } %>
+            <%_ } _%>
           <%_ }); _%>
          }
       }
@@ -46,8 +55,9 @@ Feature: find <%= aggregateName %> by id
     """
     query{
       <%= graphQlService %>(id: "daf673b7-b1ba-415e-ac5e-04848e5e2e6f"){
-        id
-        name
+        <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%= e.name %>
+        <%_ }); _%>
       }
     }
     """

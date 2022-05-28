@@ -20,7 +20,7 @@ export class <%= e.className %> {
     <%_ if (e.isEnum) { _%>
     const <%= e.propertie %> = value
       ? value
-      : faker.random.arrayElement(Object.keys(Enum<%= e.classPropertie %>).map((e) => Enum<%= e.classPropertie %>[e]));
+      : faker.helpers.arrayElement(Object.keys(Enum<%= e.classPropertie %>).map((e) => Enum<%= e.classPropertie %>[e]));
     <%_ }else{ _%>
     const <%= e.propertie %> = value ? value : <%= e.faker %>();
     <%_ } _%>

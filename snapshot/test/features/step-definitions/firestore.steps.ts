@@ -5,6 +5,7 @@ import { Firebase } from '../../../src/context/share/infrastructure/firebase';
 import { InternalServerErrorException } from '@nestjs/common';
 import { assert } from 'chai';
 import { toJson } from './tools/string-tools';
+import Timestamp = firestore.Timestamp;
 
 @binding()
 export class FirestoreSteps {
@@ -50,7 +51,13 @@ export class FirestoreSteps {
       const snapshot = await this.db.collection(collection).get();
       if (!snapshot.empty) {
         dataDb = snapshot.docChanges().map((item) => {
-          return item.doc.data();
+          const data = item.doc.data();
+          for (const clave in data) {
+            if (data[clave] instanceof Timestamp) {
+              data[clave] = data[clave].toDate().toISOString();
+            }
+          }
+          return data;
         });
       }
     } catch (e) {

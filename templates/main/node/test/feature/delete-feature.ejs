@@ -9,7 +9,11 @@ Feature: Delete <%= aggregateName %>
     [
       {
         <%_ propertiesValues.forEach(function(e, idx, array){ _%>
-        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ if (e.hasQuote) { _%>
+        "<%= e.name %>": "<%= e.valueFunction %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }else{ _%>
+        "<%= e.name %>": <%= e.valueFunction %><% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ } _%>
         <%_ }); _%>
       }
     ]

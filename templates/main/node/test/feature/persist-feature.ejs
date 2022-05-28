@@ -9,7 +9,11 @@ Feature: Persist <%= aggregateName %>
     mutation{
       <%= graphQlService %>(
         <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%_ if (e.hasQuote) { _%>
         <%= e.name %>: "<%= e.value %>"
+        <%_ }else{ _%>
+        <%= e.name %>: <%= e.value %>
+        <%_ } _%>
         <%_ }); _%>
       ){
         ...on Status{
@@ -39,7 +43,11 @@ Feature: Persist <%= aggregateName %>
     [
       {
         <%_ propertiesValues.forEach(function(e, idx, array){ _%>
-        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ if (e.hasQuote) { _%>
+        "<%= e.name %>": "<%= e.completed %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }else{ _%>
+        "<%= e.name %>": <%= e.completed %><% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ } _%>
         <%_ }); _%>
       }
     ]
@@ -51,7 +59,11 @@ Feature: Persist <%= aggregateName %>
     mutation{
       <%= graphQlService %>(
         <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%_ if (e.hasQuote) { _%>
         <%= e.name %>: "<%= e.value %>"
+        <%_ }else{ _%>
+        <%= e.name %>: <%= e.value %>
+        <%_ } _%>
         <%_ }); _%>
         showEntity: true
       ){
@@ -72,7 +84,11 @@ Feature: Persist <%= aggregateName %>
       "data": {
         "<%= graphQlService %>": {
           <%_ propertiesValues.forEach(function(e, idx, array){ _%>
-           "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+          <%_ if (e.hasQuote) { _%>
+           "<%= e.name %>": "<%= e.completed %>"<% if (idx !== array.length - 1) { %>,<% } %>
+          <%_ }else{ _%>
+           "<%= e.name %>": <%= e.completed %><% if (idx !== array.length - 1) { %>,<% } %>
+          <%_ } _%>
           <%_ }); _%>
          }
        }
@@ -84,7 +100,11 @@ Feature: Persist <%= aggregateName %>
     [
       {
         <%_ propertiesValues.forEach(function(e, idx, array){ _%>
-        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ if (e.hasQuote) { _%>
+        "<%= e.name %>": "<%= e.completed %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }else{ _%>
+        "<%= e.name %>": <%= e.completed %><% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ } _%>
         <%_ }); _%>
       }
     ]
@@ -96,7 +116,11 @@ Feature: Persist <%= aggregateName %>
     [
       {
         <%_ propertiesValues.forEach(function(e, idx, array){ _%>
-        "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ if (e.hasQuote) { _%>
+        "<%= e.name %>": "<%= e.valueFunction %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }else{ _%>
+        "<%= e.name %>": <%= e.valueFunction %><% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ } _%>
         <%_ }); _%>
       }
     ]
@@ -106,7 +130,11 @@ Feature: Persist <%= aggregateName %>
     mutation{
       <%= graphQlService %>(
         <%_ propertiesValues.forEach(function(e, idx, array){ _%>
+        <%_ if (e.hasQuote) { _%>
         <%= e.name %>: "<%= e.valueUpdated %>"
+        <%_ }else{ _%>
+        <%= e.name %>: <%= e.valueUpdated %>
+        <%_ } _%>
         <%_ }); _%>
       ){
         ...on Status{
@@ -136,7 +164,11 @@ Feature: Persist <%= aggregateName %>
     [
       {
         <%_ propertiesValues.forEach(function(e, idx, array){ _%>
-        "<%= e.name %>": "<%= e.valueUpdated %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ if (e.hasQuote) { _%>
+        "<%= e.name %>": "<%= e.completeUpdated %>"<% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ }else{ _%>
+        "<%= e.name %>": <%= e.completeUpdated %><% if (idx !== array.length - 1) { %>,<% } %>
+        <%_ } _%>
         <%_ }); _%>
       }
     ]
