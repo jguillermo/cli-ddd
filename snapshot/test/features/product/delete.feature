@@ -10,7 +10,7 @@ Feature: Delete Product
       {
         "id": "464120be-58e3-5723-abfe-6b9ac2ce98bf",
         "name": "Name",
-        "code": "f35fe446-7071-4909-8c24-2143164e5483",
+        "code": "4c25724a-e571-597a-9b09-436f356b4cd7",
         "description": "Description",
         "createAt": "Date(2018-03-23)",
         "price": 12,

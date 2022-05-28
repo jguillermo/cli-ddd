@@ -32,7 +32,7 @@ Feature: find <%= aggregateName %> by id
       "data": {
         "<%= graphQlService %>": {
           <%_ propertiesValues.forEach(function(e, idx, array){ _%>
-            "<%= e.name %>": "<%= e.value %>"<% if (idx !== array.length - 1) { %>,<% } %>
+            "<%= e.name %>": "<%= e.completed %>"<% if (idx !== array.length - 1) { %>,<% } %>
           <%_ }); _%>
          }
       }

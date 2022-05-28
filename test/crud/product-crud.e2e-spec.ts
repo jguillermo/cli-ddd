@@ -91,7 +91,7 @@ describe(`${aggregate} CRUD`, () => {
       test('list', async () => {
         testCrud(`test/features/${aggregate}/list.feature`);
       });
-      test('persist', async () => {
+      test.only('persist', async () => {
         testCrud(`test/features/${aggregate}/persist.feature`);
       });
     });
