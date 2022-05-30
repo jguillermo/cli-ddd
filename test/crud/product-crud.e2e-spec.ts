@@ -52,8 +52,14 @@ describe(`${aggregate} CRUD`, () => {
       testCrud(`src/context/${aggregate}/domain/event/${aggregate}-updated.event.ts`);
     });
     test('properties', async () => {
+      testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-category.ts`);
+      testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-code.ts`);
+      testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-create-at.ts`);
+      testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-description.ts`);
       testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-id.ts`);
+      testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-is-active.ts`);
       testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-name.ts`);
+      testCrud(`src/context/${aggregate}/domain/aggregate/${aggregate}-price.ts`);
     });
   });
 

@@ -3,7 +3,6 @@ import { storage, WPropertie } from '../../in-memory-storage';
 import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
 import { Render } from '../../render';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const pluralize = require('pluralize');
 
 export class ServiceMenuRepository extends AbstractService {
   serviceName(): string {
