@@ -1,3 +1,10 @@
 import { BooleanType } from 'base-ddd';
 
-export class <%= className %> extends BooleanType {}
+export class <%= className %> extends BooleanType {
+  isValid(): boolean {
+    if (this.isNull) {
+      throw new Error('is required.');
+    }
+    return true;
+  }
+}

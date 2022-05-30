@@ -3,7 +3,6 @@ import { storage, WPropertie } from '../../in-memory-storage';
 import { Aggregate } from '../../../modules/load-data/domain/Aggregate';
 import { Render } from '../../render';
 import { PropertieTypes } from '../../../modules/load-data/domain/propertie/propertieType';
-import { UUIDTypeImp } from 'base-ddd';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const s = require('underscore.string');
 
