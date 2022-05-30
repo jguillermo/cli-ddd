@@ -8,6 +8,7 @@ import { ProductCode } from '../../domain/aggregate/product-code';
 import { ProductDescription } from '../../domain/aggregate/product-description';
 import { ProductCreateAt } from '../../domain/aggregate/product-create-at';
 import { ProductPrice } from '../../domain/aggregate/product-price';
+import { ProductIsActive } from '../../domain/aggregate/product-is-active';
 import { ProductCategory } from '../../domain/aggregate/product-category';
 
 @Injectable()
@@ -21,13 +22,14 @@ export class ProductPersistService {
     description: ProductDescription,
     createAt: ProductCreateAt,
     price: ProductPrice,
+    isActive: ProductIsActive,
     category: ProductCategory,
   ): Promise<void> {
     let product = await this.repository.findById(id);
     if (!product) {
-      product = Product.create(id, name, code, description, createAt, price, category);
+      product = Product.create(id, name, code, description, createAt, price, isActive, category);
     } else {
-      product.update(name, code, description, createAt, price, category);
+      product.update(name, code, description, createAt, price, isActive, category);
     }
     await this.repository.persist(product);
     this.eventBus.publishAll(product.pullDomainEvents());

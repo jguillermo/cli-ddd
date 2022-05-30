@@ -9,4 +9,5 @@ properties:
   description: string
   createAt: date
   price: number
+  isActive: boolean
   category: [books, computers]

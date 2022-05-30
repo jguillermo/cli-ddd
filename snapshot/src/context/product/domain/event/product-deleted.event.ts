@@ -8,6 +8,7 @@ export class ProductDeletedEvent extends EventBase {
     private _description: string,
     private _createAt: string,
     private _price: number,
+    private _isActive: boolean,
     private _category: string,
   ) {
     super();
@@ -35,6 +36,10 @@ export class ProductDeletedEvent extends EventBase {
 
   get price(): number {
     return this._price;
+  }
+
+  get isActive(): boolean {
+    return this._isActive;
   }
 
   get category(): string {

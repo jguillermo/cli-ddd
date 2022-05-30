@@ -14,6 +14,7 @@ Feature: List Product
         "description": "Description",
         "createAt": "Date(2018-03-23)",
         "price": 12,
+        "isActive": true,
         "category": "books"
       }
     ]
@@ -31,6 +32,7 @@ Feature: List Product
         description
         createAt
         price
+        isActive
         category
       }
     }
@@ -47,6 +49,7 @@ Feature: List Product
             "description": "Description",
             "createAt": "2018-03-23T00:00:00.000Z",
             "price": 12,
+            "isActive": true,
             "category": "books"
           }
         ]
@@ -66,6 +69,7 @@ Feature: List Product
         description
         createAt
         price
+        isActive
         category
       }
     }
@@ -82,6 +86,7 @@ Feature: List Product
             "description": "Description",
             "createAt": "2018-03-23T00:00:00.000Z",
             "price": 12,
+            "isActive": true,
             "category": "books"
           }
         ]

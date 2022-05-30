@@ -14,6 +14,7 @@ Feature: find Product by id
         "description": "Description",
         "createAt": "Date(2018-03-23)",
         "price": 12,
+        "isActive": true,
         "category": "books"
       }
     ]
@@ -31,6 +32,7 @@ Feature: find Product by id
         description
         createAt
         price
+        isActive
         category
       }
     }
@@ -46,6 +48,7 @@ Feature: find Product by id
             "description": "Description",
             "createAt": "2018-03-23T00:00:00.000Z",
             "price": 12,
+            "isActive": true,
             "category": "books"
          }
       }
@@ -65,6 +68,7 @@ Feature: find Product by id
         description
         createAt
         price
+        isActive
         category
       }
     }

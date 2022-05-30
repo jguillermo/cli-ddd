@@ -22,6 +22,9 @@ export class ProductType {
   @Field()
   price: number;
 
+  @Field()
+  isActive: boolean;
+
   @Field(() => EnumProductCategory)
   category: EnumProductCategory;
 }

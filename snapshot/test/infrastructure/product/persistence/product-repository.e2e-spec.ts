@@ -22,6 +22,7 @@ describe('Product persistence', () => {
     expect(productDb.description).toEqual(product.description);
     expect(productDb.createAt).toEqual(product.createAt);
     expect(productDb.price).toEqual(product.price);
+    expect(productDb.isActive).toEqual(product.isActive);
     expect(productDb.category).toEqual(product.category);
   });
 });

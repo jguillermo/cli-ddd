@@ -8,6 +8,7 @@ export class ProductResponse {
     public description: string,
     public createAt: Date,
     public price: number,
+    public isActive: boolean,
     public category: string,
   ) {}
 
@@ -19,6 +20,7 @@ export class ProductResponse {
       product.description.value,
       product.createAt.value,
       product.price.value,
+      product.isActive.value,
       product.category.value,
     );
   }

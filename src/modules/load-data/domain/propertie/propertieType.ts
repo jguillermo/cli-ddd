@@ -39,6 +39,9 @@ export class PropertieType {
   get isEnum(): boolean {
     return this.value === PropertieTypes.ENUM;
   }
+  get isBoolean(): boolean {
+    return this.value === PropertieTypes.BOOLEAN;
+  }
 
   get primitiveTypeImp(): string | null {
     if (!this.isPrimitiveType) {

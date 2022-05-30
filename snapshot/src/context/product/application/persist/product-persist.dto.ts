@@ -8,6 +8,7 @@ import { ProductCode } from '../../domain/aggregate/product-code';
 import { ProductDescription } from '../../domain/aggregate/product-description';
 import { ProductCreateAt } from '../../domain/aggregate/product-create-at';
 import { ProductPrice } from '../../domain/aggregate/product-price';
+import { ProductIsActive } from '../../domain/aggregate/product-is-active';
 import { ProductCategory } from '../../domain/aggregate/product-category';
 
 @ArgsType()
@@ -39,6 +40,10 @@ export class ProductPersistDto extends BaseDto {
   @Validate(DomainValidator, [ProductPrice])
   @Field()
   price: number;
+
+  @Validate(DomainValidator, [ProductIsActive])
+  @Field()
+  isActive: boolean;
 
   @Validate(DomainValidator, [ProductCategory])
   @Field()

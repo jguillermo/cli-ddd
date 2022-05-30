@@ -47,6 +47,11 @@ export class ProductListService {
           value: dto.price,
         },
         {
+          field: 'isActive',
+          opStr: FilterOpStr.EQUAL_TO,
+          value: dto.isActive,
+        },
+        {
           field: 'category',
           opStr: FilterOpStr.EQUAL_TO,
           value: dto.category,

@@ -162,6 +162,9 @@ export class ServiceMenuCommandRender extends AbstractServiceResponse {
       if (e.primitivePropertie.type.isNumber) {
         valuePrimitive = 12.5;
       }
+      if (e.primitivePropertie.type.isBoolean) {
+        valuePrimitive = true;
+      }
       if (e.primitivePropertie.type.isEnum) {
         const firstValue = e.primitivePropertie.metadataEnum.values.length > 0 ? e.primitivePropertie.metadataEnum.values[0] : '';
         valuePrimitive = `'${firstValue}'`;

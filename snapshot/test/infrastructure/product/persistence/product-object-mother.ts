@@ -6,6 +6,7 @@ import { ProductCode } from '../../../../src/context/product/domain/aggregate/pr
 import { ProductDescription } from '../../../../src/context/product/domain/aggregate/product-description';
 import { ProductCreateAt } from '../../../../src/context/product/domain/aggregate/product-create-at';
 import { ProductPrice } from '../../../../src/context/product/domain/aggregate/product-price';
+import { ProductIsActive } from '../../../../src/context/product/domain/aggregate/product-is-active';
 import {
   EnumProductCategory,
   ProductCategory,
@@ -18,6 +19,7 @@ export interface ProductDataInterface {
   description?: string;
   createAt?: Date;
   price?: number;
+  isActive?: boolean;
   category?: string;
 }
 
@@ -63,6 +65,13 @@ export class ProductPriceMother {
   }
 }
 
+export class ProductIsActiveMother {
+  static create(value?: boolean): ProductIsActive {
+    const isActive = value ? value : faker.datatype.boolean();
+    return new ProductIsActive(isActive);
+  }
+}
+
 export class ProductCategoryMother {
   static create(value?: string): ProductCategory {
     const category = value
@@ -81,6 +90,7 @@ export class ProductMother {
       ProductDescriptionMother.create(data?.description),
       ProductCreateAtMother.create(data?.createAt),
       ProductPriceMother.create(data?.price),
+      ProductIsActiveMother.create(data?.isActive),
       ProductCategoryMother.create(data?.category),
     );
   }

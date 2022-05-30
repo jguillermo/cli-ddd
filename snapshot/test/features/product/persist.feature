@@ -14,6 +14,7 @@ Feature: Persist Product
         description: "Description"
         createAt: "2018-03-23"
         price: 12
+        isActive: true
         category: "books"
       ){
         ...on Status{
@@ -26,6 +27,7 @@ Feature: Persist Product
           description
           createAt
           price
+          isActive
           category
         }
       }
@@ -52,6 +54,7 @@ Feature: Persist Product
         "description": "Description",
         "createAt": "2018-03-23T00:00:00.000Z",
         "price": 12,
+        "isActive": true,
         "category": "books"
       }
     ]
@@ -68,6 +71,7 @@ Feature: Persist Product
         description: "Description"
         createAt: "2018-03-23"
         price: 12
+        isActive: true
         category: "books"
         showEntity: true
       ){
@@ -81,6 +85,7 @@ Feature: Persist Product
           description
           createAt
           price
+          isActive
           category
         }
       }
@@ -97,6 +102,7 @@ Feature: Persist Product
            "description": "Description",
            "createAt": "2018-03-23T00:00:00.000Z",
            "price": 12,
+           "isActive": true,
            "category": "books"
          }
        }
@@ -113,6 +119,7 @@ Feature: Persist Product
         "description": "Description",
         "createAt": "2018-03-23T00:00:00.000Z",
         "price": 12,
+        "isActive": true,
         "category": "books"
       }
     ]
@@ -129,6 +136,7 @@ Feature: Persist Product
         "description": "Description",
         "createAt": "Date(2018-03-23)",
         "price": 12,
+        "isActive": true,
         "category": "books"
       }
     ]
@@ -143,6 +151,7 @@ Feature: Persist Product
         description: "DescriptionUpdate"
         createAt: "2018-03-24"
         price: 15
+        isActive: false
         category: "computers"
       ){
         ...on Status{
@@ -155,6 +164,7 @@ Feature: Persist Product
           description
           createAt
           price
+          isActive
           category
         }
       }
@@ -181,6 +191,7 @@ Feature: Persist Product
         "description": "DescriptionUpdate",
         "createAt": "2018-03-24T00:00:00.000Z",
         "price": 15,
+        "isActive": false,
         "category": "computers"
       }
     ]
