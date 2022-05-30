@@ -5,6 +5,7 @@ import { ProductCode } from './product-code';
 import { ProductDescription } from './product-description';
 import { ProductCreateAt } from './product-create-at';
 import { ProductPrice } from './product-price';
+import { ProductIsActive } from './product-is-active';
 import { ProductCategory } from './product-category';
 import { ProductCreatedEvent } from '../event/product-created.event';
 import { ProductUpdatedEvent } from '../event/product-updated.event';
@@ -18,6 +19,7 @@ export class Product extends AggregateRoot {
     private _description: ProductDescription,
     private _createAt: ProductCreateAt,
     private _price: ProductPrice,
+    private _isActive: ProductIsActive,
     private _category: ProductCategory,
   ) {
     super();
@@ -30,9 +32,10 @@ export class Product extends AggregateRoot {
     description: ProductDescription,
     createAt: ProductCreateAt,
     price: ProductPrice,
+    isActive: ProductIsActive,
     category: ProductCategory,
   ): Product {
-    const product = new Product(id, name, code, description, createAt, price, category);
+    const product = new Product(id, name, code, description, createAt, price, isActive, category);
     product.record(
       new ProductCreatedEvent(
         id.value,
@@ -41,6 +44,7 @@ export class Product extends AggregateRoot {
         description.value,
         createAt.toString,
         price.value,
+        isActive.value,
         category.value,
       ),
     );
@@ -71,6 +75,10 @@ export class Product extends AggregateRoot {
     return this._price;
   }
 
+  get isActive(): ProductIsActive {
+    return this._isActive;
+  }
+
   get category(): ProductCategory {
     return this._category;
   }
@@ -81,6 +89,7 @@ export class Product extends AggregateRoot {
     description: ProductDescription,
     createAt: ProductCreateAt,
     price: ProductPrice,
+    isActive: ProductIsActive,
     category: ProductCategory,
   ): void {
     this._name = name;
@@ -88,6 +97,7 @@ export class Product extends AggregateRoot {
     this._description = description;
     this._createAt = createAt;
     this._price = price;
+    this._isActive = isActive;
     this._category = category;
     this.record(
       new ProductUpdatedEvent(
@@ -97,6 +107,7 @@ export class Product extends AggregateRoot {
         this.description.value,
         this.createAt.toString,
         this.price.value,
+        this.isActive.value,
         this.category.value,
       ),
     );
@@ -111,6 +122,7 @@ export class Product extends AggregateRoot {
         this.description.value,
         this.createAt.toString,
         this.price.value,
+        this.isActive.value,
         this.category.value,
       ),
     );

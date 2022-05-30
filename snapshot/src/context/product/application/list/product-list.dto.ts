@@ -35,6 +35,10 @@ export class ProductListDto extends BaseDto {
 
   @IsOptional()
   @Field({ nullable: true })
+  isActive?: boolean;
+
+  @IsOptional()
+  @Field({ nullable: true })
   category?: string;
 
   @IsOptional()

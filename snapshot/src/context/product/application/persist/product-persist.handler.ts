@@ -7,6 +7,7 @@ import { ProductCode } from '../../domain/aggregate/product-code';
 import { ProductDescription } from '../../domain/aggregate/product-description';
 import { ProductCreateAt } from '../../domain/aggregate/product-create-at';
 import { ProductPrice } from '../../domain/aggregate/product-price';
+import { ProductIsActive } from '../../domain/aggregate/product-is-active';
 import { ProductCategory } from '../../domain/aggregate/product-category';
 
 @CommandHandler(ProductPersistDto)
@@ -20,8 +21,9 @@ export class ProductPersistHandler implements ICommandHandler<ProductPersistDto>
     const description = new ProductDescription(dto.description);
     const createAt = new ProductCreateAt(dto.createAt);
     const price = new ProductPrice(dto.price);
+    const isActive = new ProductIsActive(dto.isActive);
     const category = new ProductCategory(dto.category);
 
-    await this.service.execute(id, name, code, description, createAt, price, category);
+    await this.service.execute(id, name, code, description, createAt, price, isActive, category);
   }
 }

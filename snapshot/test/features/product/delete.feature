@@ -14,6 +14,7 @@ Feature: Delete Product
         "description": "Description",
         "createAt": "Date(2018-03-23)",
         "price": 12,
+        "isActive": true,
         "category": "books"
       }
     ]

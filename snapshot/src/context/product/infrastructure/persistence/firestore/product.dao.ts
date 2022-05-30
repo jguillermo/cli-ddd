@@ -5,6 +5,7 @@ import { ProductCode } from '../../../domain/aggregate/product-code';
 import { ProductDescription } from '../../../domain/aggregate/product-description';
 import { ProductCreateAt } from '../../../domain/aggregate/product-create-at';
 import { ProductPrice } from '../../../domain/aggregate/product-price';
+import { ProductIsActive } from '../../../domain/aggregate/product-is-active';
 import { ProductCategory } from '../../../domain/aggregate/product-category';
 import { ItemDto } from '../../../../share/infrastructure/firestore/firestore.service';
 
@@ -15,6 +16,7 @@ export class ProductDao {
   description: string;
   createAt: Date;
   price: number;
+  isActive: boolean;
   category: string;
 
   static fromAggregate(product: Product): ProductDao {
@@ -25,6 +27,7 @@ export class ProductDao {
     dao.description = product.description.value;
     dao.createAt = product.createAt.value;
     dao.price = product.price.value;
+    dao.isActive = product.isActive.value;
     dao.category = product.category.value;
     return dao;
   }
@@ -38,6 +41,7 @@ export class ProductDao {
     dao.description = item.data.description;
     dao.createAt = item.data.createAt.toDate();
     dao.price = item.data.price;
+    dao.isActive = item.data.isActive;
     dao.category = item.data.category;
     return dao;
   }
@@ -50,6 +54,7 @@ export class ProductDao {
       description: this.description,
       createAt: this.createAt,
       price: this.price,
+      isActive: this.isActive,
       category: this.category,
     };
   }
@@ -62,6 +67,7 @@ export class ProductDao {
       new ProductDescription(this.description),
       new ProductCreateAt(this.createAt),
       new ProductPrice(this.price),
+      new ProductIsActive(this.isActive),
       new ProductCategory(this.category),
     );
   }

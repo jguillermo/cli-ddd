@@ -228,6 +228,12 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
           hasQuote = false;
           break;
         }
+        case PropertieTypes.BOOLEAN: {
+          value = true;
+          valueUpdated = false;
+          hasQuote = false;
+          break;
+        }
       }
 
       valueUpdated = valueUpdated === null ? value : valueUpdated;
@@ -290,6 +296,9 @@ export class ServiceMenuGraphQlRender extends AbstractServiceResponse {
       }
       if (e.primitivePropertie.type.isNumber) {
         faker = 'faker.datatype.number';
+      }
+      if (e.primitivePropertie.type.isBoolean) {
+        faker = 'faker.datatype.boolean';
       }
       if (e.propertie.name.value === 'name') {
         faker = 'faker.name.firstName';

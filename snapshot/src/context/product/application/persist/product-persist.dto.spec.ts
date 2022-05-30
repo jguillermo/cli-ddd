@@ -11,6 +11,7 @@ describe('ProductPersistDto', () => {
       dto.description = 'description';
       dto.createAt = '2018-03-23';
       dto.price = 12.5;
+      dto.isActive = true;
       dto.category = 'books';
       const errors = await validate(dto);
       expect(errors.length).toEqual(0);
@@ -20,7 +21,7 @@ describe('ProductPersistDto', () => {
     it('params null', async () => {
       const dto = new ProductPersistDto();
       const errors = await validate(dto);
-      expect(errors.length).toEqual(7);
+      expect(errors.length).toEqual(8);
       //console.log(errors);
     });
   });
